@@ -1,0 +1,47 @@
+{
+  "name": "shortqix",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev:prepare": "nuxt prepare",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
+  },
+  "pnpm": {
+    "neverBuiltDependencies": []
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "drizzle-orm": "^0.44.2",
+    "ecpair": "^3.0.0",
+    "jiti": "^2.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "nanoid": "^5.1.5",
+    "pg": "^8.16.3",
+    "postgres": "^3.4.7",
+    "qrcode": "^1.5.3",
+    "tiny-secp256k1": "^2.2.4"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.11.0",
+    "@types/bcryptjs": "^3.0.0",
+    "@types/bitcoinjs-lib": "^5.0.4",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/nodemailer": "^6.4.17",
+    "@types/pg": "^8.15.4",
+    "@types/qrcode": "^1.5.5",
+    "bitcoinjs-lib": "^6.1.7",
+    "dotenv": "^17.2.0",
+    "drizzle-kit": "^0.31.4",
+    "nodemailer": "^7.0.5",
+    "nuxt": "^3.17.7",
+    "ts-node": "^10.9.2",
+    "vue": "^3.5.17",
+    "vue-router": "^4.5.1"
+  }
+}
