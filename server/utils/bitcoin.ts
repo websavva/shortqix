@@ -40,7 +40,6 @@ export class BitcoinAddressGenerator {
     // Create a P2PKH address (Legacy)
     const keyPair = ECPair.makeRandom({ rng });
 
-    keyPair.
     const { address } = bitcoin.payments.p2pkh({ 
       pubkey: keyPair.publicKey,
       network: bitcoin.networks.bitcoin 

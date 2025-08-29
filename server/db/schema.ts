@@ -1,4 +1,4 @@
-import { pgTable, serial, varchar, text, timestamp, integer, boolean, decimal } from 'drizzle-orm/pg-core'
+import { pgTable, serial, varchar, text, timestamp, integer, boolean, decimal, uuid } from 'drizzle-orm/pg-core'
 
 export const shortenedUrls = pgTable('shortened_urls', {
   id: serial('id').primaryKey(),
@@ -20,7 +20,7 @@ export const users = pgTable('users', {
 })
 
 export const cryptoPayments = pgTable('crypto_payments', {
-  id: serial('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   userId: integer('user_id').references(() => users.id).notNull(),
   bitcoinAddress: varchar('bitcoin_address', { length: 100 }).notNull(),
   amount: decimal('amount', { precision: 18, scale: 8 }).notNull(),
