@@ -1,6 +1,7 @@
 {
   "extends": "../.nuxt/tsconfig.server.json",
   "compilerOptions": {
+    "noErrorTruncation": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,

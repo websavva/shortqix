@@ -35,6 +35,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/pg": "^8.15.4",
     "@types/qrcode": "^1.5.5",
+    "cron": "^4.3.3",
     "bitcoinjs-lib": "^6.1.7",
     "dotenv": "^17.2.0",
     "drizzle-kit": "^0.31.4",

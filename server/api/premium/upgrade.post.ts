@@ -1,93 +1,95 @@
 import {
   defineEventHandler,
+  readBody,
   createError,
-  getCookie,
 } from 'h3';
 import { db } from '../../db/database';
-import { cryptoPayments } from '../../db/schema';
-import { bitcoinAddressGenerator } from '../../utils/bitcoin';
-import { eq, and } from 'drizzle-orm';
-import jwt from 'jsonwebtoken';
+import {
+  users,
+  bitcoinAddresses,
+  payments,
+} from '../../db/entities';
+import { PaymentStatus } from '~/server/db/entities/enums';
+import { assertAuth } from '~/server/utils/validation';
+import {
+  PREMIUM_PLANS,
+  PremiumPlanId,
+  isValidPlanId,
+  getPremiumPlan,
+} from '~/shared/consts/premium-plans';
+
+import { createBitcoinAddress } from '~/server/utils/bitcoin';
 
 export default defineEventHandler(async (event) => {
-  const token = getCookie(event, 'auth-token');
-
-  if (!token) {
-    throw createError({
-      statusCode: 401,
-      message: 'Authentication required',
-    });
-  }
+  assertAuth(event);
 
   try {
-    const user = jwt.verify(
-      token,
-      process.env.AUTH_SECRET!,
-    ) as any;
-    const userId = user.id;
+    const { planId } = await readBody(event);
 
-    // Check if user already has a pending payment
-    const existingPayment = await db
-      .select()
-      .from(cryptoPayments)
-      .where(
-        and(
-          eq(cryptoPayments.userId, userId),
-          eq(cryptoPayments.status, 'pending'),
-        ),
-      )
-      .limit(1);
-
-    if (existingPayment.length > 0) {
-      return {
-        success: true,
-        message: 'Payment already exists',
-        payment: existingPayment[0],
-        redirectTo: '/premium',
-      };
+    if (!planId || !isValidPlanId(planId)) {
+      throw createError({
+        statusCode: 400,
+        message:
+          'Invalid plan. Choose from: 1month, 3months, 1year',
+      });
     }
 
-    // Generate new Bitcoin address
-    const index =
-      await bitcoinAddressGenerator.getNextIndex();
-    const bitcoinAddress =
-      bitcoinAddressGenerator.generateAddress(index);
+    const selectedPlan = getPremiumPlan(planId)!;
 
-    // Set payment amount (0.001 BTC = ~$40-50 depending on current price)
-    const amount = '0.001';
+    // Use transaction to ensure all operations succeed or fail together
+    const payment = await db.transaction(async (tx) => {
+      // Generate new Bitcoin address
+      const { address, privateKey, publicKey } =
+        createBitcoinAddress();
 
-    // Set expiration (30 minutes from now)
-    const expiresAt = new Date();
-    expiresAt.setMinutes(expiresAt.getMinutes() + 30);
+      // Create Bitcoin address record
+      await tx
+        .insert(bitcoinAddresses)
+        .values({
+          address,
+          privateKey,
+          publicKey,
+          network: 'testnet',
+          userId: event.user!.id,
+          isActive: true,
+          createdAt: new Date(),
+          lastUsedAt: new Date(),
+        })
+        .returning();
 
-    // Create payment record
-    const payment = await db
-      .insert(cryptoPayments)
-      .values({
-        userId,
-        bitcoinAddress,
-        amount,
-        status: 'pending',
-        expiresAt,
-      })
-      .returning();
+      // Create payment record
+      const [payment] = await tx
+        .insert(payments)
+        .values({
+          bitcoinAddress: address,
+          userId: event.user!.id,
+          plan: planId,
+          amountUsd: selectedPlan.priceUSD,
+          amountBtc: '0',
+          status: PaymentStatus.PROCESSING,
+          expiresAt: new Date(
+            Date.now() + 24 * 60 * 60 * 1000,
+          ), // 24 hours
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        })
+        .returning();
+
+      return payment;
+    });
 
     return {
-      success: true,
-      message: 'Payment request created',
-      payment: payment[0],
-      redirectTo: '/premium',
+      message: 'Premium upgrade initiated',
+      payment,
     };
   } catch (error: any) {
     if (error.statusCode) throw error;
 
-    console.error(
-      'Failed to create crypto payment:',
-      error,
-    );
+    console.error('Premium upgrade error:', error);
+
     throw createError({
       statusCode: 500,
-      message: 'Failed to create payment request',
+      message: 'Failed to initiate premium upgrade',
     });
   }
 });

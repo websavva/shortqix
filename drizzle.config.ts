@@ -3,8 +3,6 @@ import { config } from 'dotenv';
 
 config()
 
-debugger;
-
 export default {
   schema: './server/db/schema.ts',
   out: './server/db/migrations',
