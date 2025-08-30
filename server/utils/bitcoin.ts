@@ -25,3 +25,19 @@ export function createBitcoinAddress() {
     publicKey: toHex(keyPair.publicKey),
   };
 }
+
+export async function convertUsdToBtc(amount: number) {
+  const response = await fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd`,
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to convert USD to BTC');
+  }
+
+  const data = (await response.json()) as {
+    bitcoin: { usd: number };
+  };
+
+  return +(amount / data.bitcoin.usd).toFixed(8);
+}

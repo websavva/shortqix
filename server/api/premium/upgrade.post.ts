@@ -5,10 +5,10 @@ import {
 } from 'h3';
 import { db } from '../../db/database';
 import {
-  users,
   bitcoinAddresses,
   payments,
 } from '../../db/entities';
+import { convertUsdToBtc } from '~/server/utils/bitcoin';
 import { PaymentStatus } from '~/server/db/entities/enums';
 import { assertAuth } from '~/server/utils/validation';
 import {
@@ -57,6 +57,10 @@ export default defineEventHandler(async (event) => {
         })
         .returning();
 
+      const amountBtc = await convertUsdToBtc(
+        selectedPlan.priceUSD,
+      );
+
       // Create payment record
       const [payment] = await tx
         .insert(payments)
@@ -65,11 +69,9 @@ export default defineEventHandler(async (event) => {
           userId: event.user!.id,
           plan: planId,
           amountUsd: selectedPlan.priceUSD,
-          amountBtc: '0',
+          amountBtc: String(amountBtc),
           status: PaymentStatus.PROCESSING,
-          expiresAt: new Date(
-            Date.now() + 24 * 60 * 60 * 1000,
-          ), // 24 hours
+          expiresAt: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
           createdAt: new Date(),
           updatedAt: new Date(),
         })
