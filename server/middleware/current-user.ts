@@ -18,6 +18,7 @@ declare module 'h3' {
 
 export default defineEventHandler(
   async (event: H3Event) => {
+    useNitroApp();
     event.user = null;
 
     const token = getCookie(event, 'auth-token');
