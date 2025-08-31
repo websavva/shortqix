@@ -1,5 +1,5 @@
 {
-  "id": "458f86c3-0aa2-4a8e-a817-ee0a1d704cfe",
+  "id": "ac3519f8-81f4-4e39-9698-6b163bb3a6ff",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -154,7 +154,7 @@
         },
         "bitcoin_address_id": {
           "name": "bitcoin_address_id",
-          "type": "integer",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },

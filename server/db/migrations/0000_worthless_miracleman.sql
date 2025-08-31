@@ -22,7 +22,7 @@ CREATE TABLE "magic_links" (
 --> statement-breakpoint
 CREATE TABLE "payments" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"bitcoin_address_id" integer NOT NULL,
+	"bitcoin_address_id" varchar NOT NULL,
 	"user_id" integer NOT NULL,
 	"plan" varchar(20) NOT NULL,
 	"amount_usd" double precision NOT NULL,
