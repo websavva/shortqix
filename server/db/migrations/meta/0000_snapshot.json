@@ -1,5 +1,5 @@
 {
-  "id": "ac3519f8-81f4-4e39-9698-6b163bb3a6ff",
+  "id": "93ceda07-0b82-449c-90b4-2c2bde226c39",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -399,6 +399,7 @@
       "values": [
         "processing",
         "cancelled",
+        "expired",
         "confirmation-pending",
         "success"
       ]

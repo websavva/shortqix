@@ -1,4 +1,4 @@
-CREATE TYPE "public"."payment_status" AS ENUM('processing', 'cancelled', 'confirmation-pending', 'success');--> statement-breakpoint
+CREATE TYPE "public"."payment_status" AS ENUM('processing', 'cancelled', 'expired', 'confirmation-pending', 'success');--> statement-breakpoint
 CREATE TABLE "bitcoin_addresses" (
 	"address" varchar(100) PRIMARY KEY NOT NULL,
 	"private_key" text NOT NULL,

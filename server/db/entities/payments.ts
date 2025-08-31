@@ -8,7 +8,7 @@ import {
   doublePrecision,
 } from 'drizzle-orm/pg-core';
 
-import { PaymentStatus } from '~/shared/consts/payments';
+import { PaymentStatus } from '../../../shared/consts/payments';
 
 import { paymentStatusEnum } from './enums';
 import { users } from './users';
