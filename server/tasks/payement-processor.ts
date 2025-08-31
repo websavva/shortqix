@@ -8,7 +8,8 @@ import {
   type User,
   type Payment,
 } from '../db/entities';
-import { PaymentStatus } from '../db/entities/enums';
+import { PaymentStatus } from '~/shared/consts/payments';
+
 import { eq, and, sql, inArray } from 'drizzle-orm';
 import { getPremiumPlan } from '~/shared/consts/premium-plans';
 import { sleep } from '~/shared/utils/sleep';
@@ -38,6 +39,49 @@ export class PaymentProcessorTask implements Task {
     } catch (error) {
       console.error('❌ Payment processing failed:', error);
       throw error;
+    }
+  }
+
+  private static async updateExpiredPayments() {
+    console.log('⏰ Checking for expired payments...');
+
+    try {
+      const result = await db
+        .update(paymentsTable)
+        .set({
+          status: PaymentStatus.EXPIRED,
+        })
+        .where(
+          and(
+            inArray(paymentsTable.status, [
+              PaymentStatus.PROCESSING,
+              PaymentStatus.CONFIRMATION_PENDING,
+            ]),
+            sql`${
+              paymentsTable.expiresAt
+            } < ${new Date().toISOString()}`,
+          ),
+        )
+        .returning({
+          id: paymentsTable.id,
+          status: paymentsTable.status,
+        });
+
+      if (result.length > 0) {
+        console.log(
+          `⏰ Marked ${result.length} expired payments:`,
+          result.map((p) => p.id),
+        );
+      } else {
+        console.log('⏰ No expired payments found');
+      }
+
+      return result;
+    } catch (error) {
+      console.error(
+        '❌ Error updating expired payments:',
+        error,
+      );
     }
   }
 
@@ -181,7 +225,9 @@ export class PaymentProcessorTask implements Task {
 
   static isSequential = true;
 
-  static run() {
-    return this.processAllPayments();
+  static async run() {
+    await this.updateExpiredPayments();
+
+    await this.processAllPayments();
   }
 }

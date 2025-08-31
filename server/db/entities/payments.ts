@@ -7,6 +7,9 @@ import {
   timestamp,
   doublePrecision,
 } from 'drizzle-orm/pg-core';
+
+import { PaymentStatus } from '~/shared/consts/payments';
+
 import { paymentStatusEnum } from './enums';
 import { users } from './users';
 import { bitcoinAddresses } from './bitcoin-addresses';
@@ -26,7 +29,7 @@ export const payments = pgTable('payments', {
     scale: 8,
   }).notNull(),
   status: paymentStatusEnum('status')
-    .default('processing' as any)
+    .default(PaymentStatus.PROCESSING)
     .notNull(),
   expiresAt: timestamp('expires_at').notNull(),
   confirmedAt: timestamp('confirmed_at'),
