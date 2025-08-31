@@ -1,8 +1,5 @@
 import type { H3Event } from 'h3';
-import jwt, {
-  JsonWebTokenError,
-  TokenExpiredError,
-} from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 import { db } from '../db/database';
 import { users, type User } from '../db/schema';
@@ -15,6 +12,8 @@ declare module 'h3' {
     user: User | null;
   }
 }
+
+const { JsonWebTokenError, TokenExpiredError } = jwt;
 
 export default defineEventHandler(
   async (event: H3Event) => {

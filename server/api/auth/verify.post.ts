@@ -13,7 +13,7 @@ import { eq, and, gt } from 'drizzle-orm';
 import jwt from 'jsonwebtoken';
 
 export default defineEventHandler(async (event) => {
-  const { token } = getQuery(event);
+  const { token } = await readBody(event);
 
   if (!token || typeof token !== 'string') {
     throw createError({

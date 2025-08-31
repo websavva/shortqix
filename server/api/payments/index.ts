@@ -31,18 +31,8 @@ export default defineEventHandler(async (event) => {
 
     // Get paginated payments with Bitcoin address info
     const paymentItems = await db
-      .select({
-        payment: payments,
-        bitcoinAddress: bitcoinAddresses,
-      })
+      .select()
       .from(payments)
-      .innerJoin(
-        bitcoinAddresses,
-        eq(
-          payments.bitcoinAddress,
-          bitcoinAddresses.address,
-        ),
-      )
       .where(eq(payments.userId, event.user!.id))
       .orderBy(desc(payments.createdAt))
       .limit(limitNum)

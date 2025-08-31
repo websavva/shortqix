@@ -6,7 +6,7 @@ import {
 } from 'h3';
 import { db } from '../../db/database';
 import { users, magicLinks } from '../../db/schema';
-import { eq, and, gt } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { sendMagicLinkEmail } from '../../utils/email';
 

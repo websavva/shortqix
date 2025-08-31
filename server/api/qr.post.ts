@@ -4,10 +4,9 @@ import {
   createError,
   getCookie,
 } from 'h3';
-import { db } from '../../db/database';
-import { users, shortenedUrls } from '../../db/schema';
-import { eq, and, sql } from 'drizzle-orm';
-import jwt from 'jsonwebtoken';
+import { db } from '../db/database';
+import { shortenedUrls } from '../db/schema';
+import { eq, and } from 'drizzle-orm';
 import QRCode from 'qrcode';
 
 import {

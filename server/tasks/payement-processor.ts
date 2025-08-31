@@ -221,7 +221,7 @@ export class PaymentProcessorTask implements Task {
       .where(eq(usersTable.id, payment.userId));
   }
 
-  static cronExpression = '0 0 * * *';
+  static cronExpression = '*/1 * * * *';
 
   static isSequential = true;
 

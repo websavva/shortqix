@@ -3,16 +3,31 @@ import { smtpTransport } from '../services/smtp';
 
 import { setupTasks } from '../tasks';
 
-export default defineNitroPlugin(async (nitroApp) => {
-  const disconnectDatabase = await initializeDatabase();
-  
-  await smtpTransport.verify();
+export default defineNitroPlugin((nitroApp) => {
+  let disconnectDatabase: (() => Promise<any>) | undefined;
+  let stopTasks: (() => Promise<any>) | undefined;
 
-  const stopTasks = await setupTasks();
+  const setup = async () => {
+    console.log('⏳ Server not ready, waiting...');
+    
+    disconnectDatabase = await initializeDatabase();
+    
+    await smtpTransport.verify();
+    
+    stopTasks = await setupTasks();
+    
+    nitroApp.isReady = true;
 
-  return async () => {
-    await stopTasks();
-
-    await disconnectDatabase();
+    console.log('✅ Server is now ready');
   };
+
+  const teardown = async () => {
+    await stopTasks?.();
+
+    await disconnectDatabase?.();
+  };
+
+  setup();
+
+  nitroApp.hooks.hookOnce('close', teardown);
 });

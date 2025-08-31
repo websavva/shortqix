@@ -3,13 +3,10 @@ import {
   readBody,
   createError,
 } from 'h3';
-import { db } from '../../db/database';
-import {
-  bitcoinAddresses,
-  payments,
-} from '../../db/entities';
+import { db } from '../db/database';
+import { bitcoinAddresses, payments } from '../db/entities';
 import { convertUsdToBtc } from '~/server/utils/bitcoin';
-import { PaymentStatus } from '~/server/db/entities/enums';
+import { PaymentStatus } from '../../shared/consts/payments';
 import { assertAuth } from '~/server/utils/validation';
 import {
   PREMIUM_PLANS,

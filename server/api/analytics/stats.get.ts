@@ -4,59 +4,30 @@ import {
   createError,
 } from 'h3';
 import { db } from '../../db/database';
-import { users, shortenedUrls } from '../../db/schema';
-import { eq, and, sql } from 'drizzle-orm';
-import jwt from 'jsonwebtoken';
+import { shortenedUrls } from '../../db/schema';
+import { eq, sql } from 'drizzle-orm';
+
+import { assertAuth } from '~/server/utils/validation';
+import { assertPremium } from '~/server/utils/validation';
 
 export default defineEventHandler(async (event) => {
-  const token = getCookie(event, 'auth-token');
-
-  if (!token) {
-    throw createError({
-      statusCode: 401,
-      message: 'Authentication required',
-    });
-  }
+  assertAuth(event);
+  assertPremium(
+    event,
+    'Analytics require active premium subscription',
+  );
 
   try {
-    const decoded = jwt.verify(
-      token,
-      process.env.AUTH_SECRET!,
-    ) as any;
-
-    // Check premium status
-    const user = await db
-      .select()
-      .from(users)
-      .where(
-        and(
-          eq(users.id, decoded.id),
-          eq(users.isPremium, true),
-          sql`${
-            users.premiumExpiresAt
-          } > ${new Date().toISOString()}`,
-        ),
-      )
-      .limit(1);
-
-    if (!user[0]) {
-      throw createError({
-        statusCode: 403,
-        message:
-          'Analytics require active premium subscription',
-      });
-    }
-
     // Get aggregated stats using SQL aggregation
     const [{ totalUrls, totalClicks, averageClicks }] =
       await db
         .select({
           totalUrls: sql<number>`count(${shortenedUrls.id})`,
           totalClicks: sql<number>`coalesce(sum(${shortenedUrls.clicks}), 0)`,
-          averageClicks: sql<number>`coalesce(avg(${shortenedUrls.clicks}), 0)`,
+          averageClicks: sql<number>`coalesce(round(avg(${shortenedUrls.clicks}), 2), 0)`,
         })
         .from(shortenedUrls)
-        .where(eq(shortenedUrls.userId, decoded.id));
+        .where(eq(shortenedUrls.userId, event.user!.id));
 
     return {
       totalUrls,
