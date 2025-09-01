@@ -46,7 +46,6 @@ export default defineEventHandler(async (event) => {
           address,
           privateKey,
           publicKey,
-          network: 'testnet',
           userId: event.user!.id,
           isActive: true,
           createdAt: new Date(),

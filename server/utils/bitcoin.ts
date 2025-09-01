@@ -10,11 +10,9 @@ function toHex(buffer: Uint8Array<ArrayBufferLike>) {
 }
 
 export function createBitcoinAddress() {
-  const keyPair = ECPair.makeRandom({
-    rng: () => randomBytes(32),
-  });
+  const keyPair = ECPair.makeRandom();
 
-  const { address } = bitcoin.payments.p2pkh({
+  const { address } = bitcoin.payments.p2wpkh({
     pubkey: Buffer.from(keyPair.publicKey),
     network: bitcoin.networks.testnet,
   });

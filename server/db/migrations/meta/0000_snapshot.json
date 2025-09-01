@@ -1,5 +1,5 @@
 {
-  "id": "93ceda07-0b82-449c-90b4-2c2bde226c39",
+  "id": "f31874c6-ab8a-455e-a64f-029252c4389c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -25,13 +25,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "network": {
-          "name": "network",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'testnet'"
         },
         "user_id": {
           "name": "user_id",

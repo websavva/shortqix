@@ -4,10 +4,11 @@ import {
   createError,
   getRequestURL,
 } from 'h3';
-import { db } from '../../db/database';
-import { users, magicLinks } from '../../db/schema';
 import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
+
+import { db } from '../../db/database';
+import { users, magicLinks } from '../../db/schema';
 import { sendMagicLinkEmail } from '../../utils/email';
 
 export default defineEventHandler(async (event) => {
@@ -79,6 +80,10 @@ export default defineEventHandler(async (event) => {
 
     return {
       email,
+      token:
+        process.env.NODE_ENV === 'production'
+          ? undefined
+          : token,
     };
   } catch (error: any) {
     if (error.statusCode) throw error;

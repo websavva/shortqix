@@ -3,7 +3,6 @@ CREATE TABLE "bitcoin_addresses" (
 	"address" varchar(100) PRIMARY KEY NOT NULL,
 	"private_key" text NOT NULL,
 	"public_key" text NOT NULL,
-	"network" varchar(20) DEFAULT 'testnet' NOT NULL,
 	"user_id" integer,
 	"is_active" boolean DEFAULT true NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,

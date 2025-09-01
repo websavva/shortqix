@@ -123,13 +123,15 @@ export class PaymentProcessorTask implements Task {
         `📊 Address ${payment.bitcoinAddress}: Mempool ${pendingBalance} BTC, Chain ${confirmedBalance} BTC, Required ${payment.amountBtc} BTC`,
       );
 
-      const normalizedConfirmedBalance =
+      const normalizedRequiredAmount =
         normalizeBitcoinAmount(payment.amountBtc);
 
-      if (confirmedBalance >= normalizedConfirmedBalance) {
+      debugger;
+
+      if (confirmedBalance >= normalizedRequiredAmount) {
         await this.handleConfirmedPayment(payment, user);
       } else if (
-        pendingBalance >= normalizedConfirmedBalance
+        pendingBalance >= normalizedRequiredAmount
       ) {
         await this.handlePendingPayment(payment);
       } else {
@@ -224,7 +226,7 @@ export class PaymentProcessorTask implements Task {
   static cronExpression = '*/1 * * * *';
 
   static waitForCompletion = true;
-  
+
   static async run() {
     await this.updateExpiredPayments();
 

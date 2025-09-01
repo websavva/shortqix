@@ -17,9 +17,6 @@ export const bitcoinAddresses = pgTable(
       .notNull(),
     privateKey: text('private_key').notNull(), // Encrypted private key
     publicKey: text('public_key').notNull(),
-    network: varchar('network', { length: 20 })
-      .default('testnet')
-      .notNull(), // testnet or mainnet
     userId: integer('user_id').references(() => users.id),
     isActive: boolean('is_active').default(true).notNull(),
     createdAt: timestamp('created_at')
