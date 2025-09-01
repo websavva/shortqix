@@ -6,13 +6,13 @@ export const tasks = [PaymentProcessorTask];
 
 export async function setupTasks() {
   const jobs: CronJob[] = [];
-  
+
   for (const task of tasks) {
     const job = CronJob.from({
       cronTime: task.cronExpression,
       onTick: task.run.bind(task),
       start: true,
-      waitForCompletion: task.isSequential,
+      waitForCompletion: task.waitForCompletion,
     });
 
     jobs.push(job);

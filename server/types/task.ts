@@ -3,5 +3,5 @@ export abstract class Task {
 
   static cronExpression: string;
 
-  static isSequential?: boolean;
+  static waitForCompletion: boolean;
 }

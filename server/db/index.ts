@@ -2,6 +2,8 @@ import { db } from './database';
 import { shortenedUrls } from './schema';
 import { eq, sql } from 'drizzle-orm';
 
+export { db };
+
 // Initialize database connection
 export async function initializeDatabase() {
   try {

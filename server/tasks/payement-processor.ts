@@ -223,8 +223,8 @@ export class PaymentProcessorTask implements Task {
 
   static cronExpression = '*/1 * * * *';
 
-  static isSequential = true;
-
+  static waitForCompletion = true;
+  
   static async run() {
     await this.updateExpiredPayments();
 
