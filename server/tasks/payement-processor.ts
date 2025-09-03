@@ -11,10 +11,7 @@ import {
 import { PaymentStatus } from '~/shared/consts/payments';
 
 import { eq, and, sql, inArray } from 'drizzle-orm';
-import {
-  getPremiumPlan,
-  PremiumPlanId,
-} from '~/shared/consts/premium-plans';
+import { getPremiumPlan } from '~/shared/consts/premium-plans';
 import { sleep } from '~/shared/utils/sleep';
 import {
   checkBitcoinBalance,
