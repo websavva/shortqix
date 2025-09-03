@@ -1,9 +1,17 @@
-import type { H3Event } from 'h3';
+import {
+  type H3Event,
+  fromNodeMiddleware,
+  type NodeMiddleware,
+  defineEventHandler,
+  createError,
+  getCookie,
+  deleteCookie,
+} from 'h3';
 import jwt from 'jsonwebtoken';
-
-import { db } from '../db/database';
-import { users, type User } from '../db/schema';
 import { eq } from 'drizzle-orm';
+
+import { users, type User } from '../db/schema';
+import { db } from '../db/database';
 
 import type { AuthTokenPayload } from '~/server/types';
 
@@ -13,16 +21,31 @@ declare module 'h3' {
   }
 }
 
+declare module 'http' {
+  interface IncomingMessage {
+    user: User | null;
+  }
+}
+
 const { JsonWebTokenError, TokenExpiredError } = jwt;
 
-export default defineEventHandler(
-  async (event: H3Event) => {
-    useNitroApp();
-    event.user = null;
+export const CurrentUserNodeMiddleware: NodeMiddleware =
+  async (req, res, next) => {
+    const event = {
+      node: {
+        req,
+        res,
+      },
+    } as H3Event;
+
+    req.user = null;
 
     const token = getCookie(event, 'auth-token');
 
-    if (!token) return;
+    if (!token) {
+      next();
+      return;
+    }
 
     try {
       const decoded = jwt.verify(
@@ -30,10 +53,12 @@ export default defineEventHandler(
         process.env.AUTH_SECRET!,
       ) as AuthTokenPayload;
 
-      [event.user] = await db
+      [req.user] = await db
         .select()
         .from(users)
         .where(eq(users.id, decoded.id));
+
+      next();
     } catch (error) {
       console.error('Error getting current user:', error);
 
@@ -43,12 +68,32 @@ export default defineEventHandler(
       ) {
         deleteCookie(event, 'auth-token');
 
-        throw createError({
-          statusCode: 422,
-          message:
-            'Invalid or expired authentication token',
-        });
+        next(
+          createError({
+            statusCode: 422,
+            message:
+              'Invalid or expired authentication token',
+          }),
+        );
+      } else {
+        next(
+          createError({
+            statusCode: 500,
+            message: 'Failed to get current user',
+          }),
+        );
       }
     }
+  };
+
+export default defineEventHandler({
+  onRequest: (event) => {
+    event.user = null;
   },
-);
+
+  handler: fromNodeMiddleware(CurrentUserNodeMiddleware),
+
+  onBeforeResponse: (event) => {
+    event.user = event.node.req.user;
+  },
+});

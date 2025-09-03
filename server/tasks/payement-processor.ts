@@ -11,13 +11,18 @@ import {
 import { PaymentStatus } from '~/shared/consts/payments';
 
 import { eq, and, sql, inArray } from 'drizzle-orm';
-import { getPremiumPlan } from '~/shared/consts/premium-plans';
+import {
+  getPremiumPlan,
+  PremiumPlanId,
+} from '~/shared/consts/premium-plans';
 import { sleep } from '~/shared/utils/sleep';
 import {
   checkBitcoinBalance,
   normalizeBitcoinAmount,
 } from '~/server/utils/bitcoin';
 import type { Task } from '~/server/types/task';
+import { WebSocketService } from '../services/ws';
+import { WsEventTypes } from '~/shared/consts/ws-event-types';
 
 export class PaymentProcessorTask implements Task {
   static async processAllPayments() {
@@ -45,12 +50,15 @@ export class PaymentProcessorTask implements Task {
   private static async updateExpiredPayments() {
     console.log('⏰ Checking for expired payments...');
 
+    const updatedFields = {
+      status: PaymentStatus.EXPIRED,
+      updatedAt: new Date(),
+    };
+
     try {
-      const result = await db
+      const expiredPayments = await db
         .update(paymentsTable)
-        .set({
-          status: PaymentStatus.EXPIRED,
-        })
+        .set(updatedFields)
         .where(
           and(
             inArray(paymentsTable.status, [
@@ -65,18 +73,33 @@ export class PaymentProcessorTask implements Task {
         .returning({
           id: paymentsTable.id,
           status: paymentsTable.status,
+          userId: paymentsTable.userId,
         });
 
-      if (result.length > 0) {
+      if (expiredPayments.length > 0) {
         console.log(
-          `⏰ Marked ${result.length} expired payments:`,
-          result.map((p) => p.id),
+          `⏰ Marked ${expiredPayments.length} expired payments:`,
+          expiredPayments.map((p) => p.id),
         );
+
+        for (const { id, userId } of expiredPayments) {
+          const wsEventPayload = {
+            id,
+            confirmedAt: null,
+            ...updatedFields,
+          };
+
+          WebSocketService.sendUserEvent(
+            userId,
+            WsEventTypes.PAYMENT_UPDATE_STATUS,
+            wsEventPayload,
+          );
+        }
       } else {
         console.log('⏰ No expired payments found');
       }
 
-      return result;
+      return expiredPayments;
     } catch (error) {
       console.error(
         '❌ Error updating expired payments:',
@@ -126,8 +149,6 @@ export class PaymentProcessorTask implements Task {
       const normalizedRequiredAmount =
         normalizeBitcoinAmount(payment.amountBtc);
 
-      debugger;
-
       if (confirmedBalance >= normalizedRequiredAmount) {
         await this.handleConfirmedPayment(payment, user);
       } else if (
@@ -154,7 +175,7 @@ export class PaymentProcessorTask implements Task {
     await db.transaction(async (tx) => {
       await this.updatePaymentStatus(
         tx,
-        payment.id,
+        payment,
         PaymentStatus.SUCCESS,
       );
       await this.grantPremiumAccess(tx, payment, user);
@@ -170,7 +191,7 @@ export class PaymentProcessorTask implements Task {
   ) {
     await this.updatePaymentStatus(
       db,
-      payment.id,
+      payment,
       PaymentStatus.CONFIRMATION_PENDING,
     );
     console.log(
@@ -180,19 +201,33 @@ export class PaymentProcessorTask implements Task {
 
   private static async updatePaymentStatus(
     dbInstance: DbOrTransactionInstance,
-    paymentId: string,
+    payment: Payment,
     status: PaymentStatus,
   ) {
+    const updatedFields = {
+      status,
+      confirmedAt:
+        status === PaymentStatus.SUCCESS
+          ? new Date()
+          : null,
+      updatedAt: new Date(),
+    };
+
     await dbInstance
       .update(paymentsTable)
-      .set({
-        status,
-        ...(status === PaymentStatus.SUCCESS && {
-          confirmedAt: new Date(),
-        }),
-        updatedAt: new Date(),
-      })
-      .where(eq(paymentsTable.id, paymentId));
+      .set(updatedFields)
+      .where(eq(paymentsTable.id, payment.id));
+
+    const wsEventPayload = {
+      id: payment.id,
+      ...updatedFields,
+    };
+
+    WebSocketService.sendUserEvent(
+      payment.userId,
+      WsEventTypes.PAYMENT_UPDATE_STATUS,
+      wsEventPayload,
+    );
   }
 
   private static async grantPremiumAccess(
@@ -221,6 +256,15 @@ export class PaymentProcessorTask implements Task {
         premiumExpiresAt: newPremiumExpiresAt,
       })
       .where(eq(usersTable.id, payment.userId));
+
+    WebSocketService.sendUserEvent(
+      user.id,
+      WsEventTypes.PREMIUM_PURCHASE,
+      {
+        planId: payment.plan,
+        premiumExpiresAt: newPremiumExpiresAt,
+      },
+    );
   }
 
   static cronExpression = '*/1 * * * *';

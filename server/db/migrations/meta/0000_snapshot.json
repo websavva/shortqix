@@ -1,5 +1,5 @@
 {
-  "id": "f31874c6-ab8a-455e-a64f-029252c4389c",
+  "id": "0d231575-9472-4f42-9ec9-8d2d60151160",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -159,7 +159,8 @@
         },
         "plan": {
           "name": "plan",
-          "type": "varchar(20)",
+          "type": "premium_plan",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -395,6 +396,15 @@
         "expired",
         "confirmation-pending",
         "success"
+      ]
+    },
+    "public.premium_plan": {
+      "name": "premium_plan",
+      "schema": "public",
+      "values": [
+        "1month",
+        "3months",
+        "1year"
       ]
     }
   },

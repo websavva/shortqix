@@ -6,11 +6,15 @@ import {
   varchar,
   timestamp,
   doublePrecision,
+  pgEnum,
 } from 'drizzle-orm/pg-core';
 
 import { PaymentStatus } from '../../../shared/consts/payments';
 
-import { paymentStatusEnum } from './enums';
+import {
+  paymentStatusEnum,
+  premiumPlanEnum,
+} from './enums';
 import { users } from './users';
 import { bitcoinAddresses } from './bitcoin-addresses';
 
@@ -22,7 +26,7 @@ export const payments = pgTable('payments', {
   userId: integer('user_id')
     .references(() => users.id)
     .notNull(),
-  plan: varchar('plan', { length: 20 }).notNull(), // 1month, 3months, 1year
+  plan: premiumPlanEnum('plan').notNull(), // 1month, 3months, 1year
   amountUsd: doublePrecision('amount_usd').notNull(),
   amountBtc: decimal('amount_btc', {
     precision: 18,

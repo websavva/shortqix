@@ -1,4 +1,5 @@
 CREATE TYPE "public"."payment_status" AS ENUM('processing', 'cancelled', 'expired', 'confirmation-pending', 'success');--> statement-breakpoint
+CREATE TYPE "public"."premium_plan" AS ENUM('1month', '3months', '1year');--> statement-breakpoint
 CREATE TABLE "bitcoin_addresses" (
 	"address" varchar(100) PRIMARY KEY NOT NULL,
 	"private_key" text NOT NULL,
@@ -23,7 +24,7 @@ CREATE TABLE "payments" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"bitcoin_address_id" varchar NOT NULL,
 	"user_id" integer NOT NULL,
-	"plan" varchar(20) NOT NULL,
+	"plan" "premium_plan" NOT NULL,
 	"amount_usd" double precision NOT NULL,
 	"amount_btc" numeric(18, 8) NOT NULL,
 	"status" "payment_status" DEFAULT 'processing' NOT NULL,

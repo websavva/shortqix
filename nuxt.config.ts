@@ -15,6 +15,12 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    experimental: {
+      websocket: true,
+    },
+  },
+
   runtimeConfig: {
     public: {
       baseUrl: process.env.BASE_URL,

@@ -1,5 +1,4 @@
 import { defineEventHandler } from 'h3';
-import jwt from 'jsonwebtoken';
 
 const TIMEOUT = 30000;
 

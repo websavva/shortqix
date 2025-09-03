@@ -1,8 +1,12 @@
 import { CronJob } from 'cron';
 
 import { PaymentProcessorTask } from './payement-processor';
+import { PremiumExpirationTask } from './premium-expiration';
 
-export const tasks = [PaymentProcessorTask];
+export const tasks = [
+  PaymentProcessorTask,
+  PremiumExpirationTask,
+];
 
 export async function setupTasks() {
   const jobs: CronJob[] = [];
