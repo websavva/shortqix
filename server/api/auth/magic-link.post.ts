@@ -9,7 +9,7 @@ import { nanoid } from 'nanoid';
 
 import { db } from '../../db/database';
 import { users, magicLinks } from '../../db/schema';
-import { sendMagicLinkEmail } from '../../utils/email';
+import { MailService } from '../../services/mail';
 
 export default defineEventHandler(async (event) => {
   const { email } = await readBody(event);
@@ -60,23 +60,13 @@ export default defineEventHandler(async (event) => {
       return token;
     });
 
-    // Get base URL for magic link
-    const requestUrl = getRequestURL(event);
-    const baseUrl = `${requestUrl.protocol}//${requestUrl.host}`;
-
     // Send magic link email
-    const emailResult = await sendMagicLinkEmail(
-      email,
-      token,
-      baseUrl,
-    );
-
-    if (!emailResult.success) {
-      throw createError({
-        statusCode: 500,
-        message: 'Failed to send magic link email',
-      });
-    }
+    await MailService.sendMailTemplate('magic-link', {
+      to: email,
+      props: {
+        token,
+      },
+    });
 
     return {
       email,

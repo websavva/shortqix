@@ -1,3 +1,6 @@
+import { defineNuxtConfig } from 'nuxt/config';
+import vue from '@vitejs/plugin-vue';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss'],
@@ -16,6 +19,10 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    rollupConfig: {
+      plugins: [vue()],
+    },
+
     experimental: {
       websocket: true,
     },
