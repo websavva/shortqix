@@ -1,8 +1,4 @@
-import {
-  defineEventHandler,
-  getCookie,
-  createError,
-} from 'h3';
+import { defineEventHandler, createError } from 'h3';
 import { db } from '../../db/database';
 import { shortenedUrls } from '../../db/schema';
 import { eq, sql } from 'drizzle-orm';

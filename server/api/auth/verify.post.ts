@@ -10,7 +10,8 @@ import type { AuthTokenPayload } from '~/server/types';
 import { db } from '../../db/database';
 import { users, magicLinks } from '../../db/schema';
 import { eq, and, gt } from 'drizzle-orm';
-import jwt from 'jsonwebtoken';
+
+import { AuthJwtService } from '../../services/jwt';
 
 export default defineEventHandler(async (event) => {
   const { token } = await readBody(event);
@@ -83,18 +84,16 @@ export default defineEventHandler(async (event) => {
     };
 
     // Create JWT token
-    const jwtToken = jwt.sign(
-      payload,
-      process.env.AUTH_SECRET!,
-      { expiresIn: '7d' },
-    );
+    const jwtToken = AuthJwtService.sign(payload);
 
     // Set HTTP-only cookie
     setCookie(event, 'auth-token', jwtToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60, // 7 days
+      maxAge: Math.floor(
+        +process.env.AUTH_TOKEN_EXPIRES_IN_MS! / 1000,
+      ),
     });
 
     // Redirect to home page

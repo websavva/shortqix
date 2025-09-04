@@ -7,9 +7,8 @@ import {
 } from 'h3';
 import { createShortenedUrl } from '../db';
 import { db } from '../db/database';
-import { users, shortenedUrls } from '../db/schema';
-import { eq, and, sql } from 'drizzle-orm';
-import jwt from 'jsonwebtoken';
+import { shortenedUrls } from '../db/schema';
+import { eq } from 'drizzle-orm';
 
 import {
   assertAuth,

@@ -2,7 +2,6 @@ import {
   defineEventHandler,
   readBody,
   createError,
-  getRequestURL,
 } from 'h3';
 import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
@@ -46,8 +45,9 @@ export default defineEventHandler(async (event) => {
       // Generate magic link token
       const token = nanoid(32);
       const expiresAt = new Date(
-        Date.now() + 15 * 60 * 1000,
-      ); // 15 minutes
+        Date.now() +
+          +process.env.AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS!,
+      );
 
       // Save magic link to database
       await tx.insert(magicLinks).values({

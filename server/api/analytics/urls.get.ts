@@ -1,19 +1,16 @@
 import {
   defineEventHandler,
-  getCookie,
   getQuery,
   createError,
 } from 'h3';
-import { eq, and, sql, desc } from 'drizzle-orm';
-import jwt from 'jsonwebtoken';
+import { eq, sql, desc } from 'drizzle-orm';
 
 import { assertAuth } from '~/server/utils/validation';
 
 import { db } from '../../db/database';
-import { users, shortenedUrls } from '../../db/schema';
+import { shortenedUrls } from '../../db/schema';
 
 export default defineEventHandler(async (event) => {
-  const token = getCookie(event, 'auth-token');
   const { page = '1', limit = '20' } = getQuery(event);
 
   assertAuth(event);

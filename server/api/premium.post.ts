@@ -64,7 +64,10 @@ export default defineEventHandler(async (event) => {
           amountUsd: selectedPlan.priceUSD,
           amountBtc: String(amountBtc),
           status: PaymentStatus.PROCESSING,
-          expiresAt: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
+          expiresAt: new Date(
+            Date.now() +
+              +process.env.PAYMENT_EXPIRES_IN_MS!,
+          ),
           createdAt: new Date(),
           updatedAt: new Date(),
         })

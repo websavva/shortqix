@@ -7,7 +7,7 @@ import {
   getCookie,
   deleteCookie,
 } from 'h3';
-import jwt from 'jsonwebtoken';
+import { AuthJwtService } from '../services/jwt';
 import { eq } from 'drizzle-orm';
 
 import { users, type User } from '../db/schema';
@@ -26,8 +26,6 @@ declare module 'http' {
     user: User | null;
   }
 }
-
-const { JsonWebTokenError, TokenExpiredError } = jwt;
 
 export const CurrentUserNodeMiddleware: NodeMiddleware =
   async (req, res, next) => {
@@ -48,10 +46,7 @@ export const CurrentUserNodeMiddleware: NodeMiddleware =
     }
 
     try {
-      const decoded = jwt.verify(
-        token,
-        process.env.AUTH_SECRET!,
-      ) as AuthTokenPayload;
+      const decoded = AuthJwtService.verify(token);
 
       [req.user] = await db
         .select()
@@ -62,10 +57,7 @@ export const CurrentUserNodeMiddleware: NodeMiddleware =
     } catch (error) {
       console.error('Error getting current user:', error);
 
-      if (
-        error instanceof JsonWebTokenError ||
-        error instanceof TokenExpiredError
-      ) {
+      if (AuthJwtService.isAuthTokenError(error)) {
         deleteCookie(event, 'auth-token');
 
         next(
