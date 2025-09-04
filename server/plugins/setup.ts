@@ -1,16 +1,13 @@
-import { initializeDatabase } from '../db';
-
+import { DatabaseService } from '../services/db';
 import { TasksManager } from '../tasks';
 import { WebSocketService } from '../services/ws';
 import { MailService } from '../services/mail';
 
 export default defineNitroPlugin((nitroApp) => {
-  let disconnectDatabase: (() => Promise<any>) | undefined;
-
   const setup = async () => {
     console.log('⏳ Server not ready, waiting...');
 
-    disconnectDatabase = await initializeDatabase();
+    await DatabaseService.setup();
 
     await MailService.setup();
 
@@ -30,7 +27,7 @@ export default defineNitroPlugin((nitroApp) => {
 
     await MailService.cleanup();
 
-    await disconnectDatabase?.();
+    await DatabaseService.cleanup();
   };
 
   setup();

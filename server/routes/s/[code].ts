@@ -4,11 +4,10 @@ import {
   createError,
   sendRedirect,
 } from 'h3';
+import { eq, sql } from 'drizzle-orm';
 
-import {
-  getShortenedUrlByCode,
-  updateClickCount,
-} from '../../db';
+import { db } from '../../db';
+import { shortenedUrls } from '../../db/schema';
 
 export default defineEventHandler(async (event) => {
   const code = getRouterParam(event, 'code');
@@ -22,7 +21,11 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Find URL
-    const shortenedUrl = await getShortenedUrlByCode(code);
+    const [shortenedUrl] = await db
+      .select()
+      .from(shortenedUrls)
+      .where(eq(shortenedUrls.code, code))
+      .limit(1);
 
     if (!shortenedUrl) {
       throw createError({
@@ -32,7 +35,11 @@ export default defineEventHandler(async (event) => {
     }
 
     // Update click count
-    await updateClickCount(shortenedUrl.id);
+    await await db
+      .update(shortenedUrls)
+      .set({ clicks: sql`${shortenedUrls.clicks} + 1` })
+      .where(eq(shortenedUrls.id, shortenedUrl.id))
+      .returning();
 
     return sendRedirect(event, shortenedUrl.longUrl);
   } catch (error: any) {

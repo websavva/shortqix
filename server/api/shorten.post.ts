@@ -3,9 +3,7 @@ import {
   defineEventHandler,
   readBody,
   createError,
-  getRequestURL,
 } from 'h3';
-import { createShortenedUrl } from '../db';
 import { db } from '../db/database';
 import { shortenedUrls } from '../db/schema';
 import { eq } from 'drizzle-orm';
@@ -63,18 +61,18 @@ export default defineEventHandler(async (event) => {
       shortCode = customSlug;
     }
 
-    await createShortenedUrl({
-      code: shortCode,
-      customSlug: customSlug || null,
-      longUrl: url,
-      userId: event.user?.id,
-    });
-
-    const requestUrl = getRequestURL(event);
-    const baseUrl = `${requestUrl.protocol}//${requestUrl.host}`;
+    await db
+      .insert(shortenedUrls)
+      .values({
+        code: shortCode,
+        customSlug: customSlug || null,
+        longUrl: url,
+        userId: event.user?.id,
+      })
+      .returning();
 
     return {
-      shortUrl: `${baseUrl}/s/${shortCode}`,
+      shortUrl: `${process.env.BASE_URL}/s/${shortCode}`,
       shortCode,
     };
   } catch (error: any) {
