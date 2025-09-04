@@ -13,10 +13,7 @@ import { PaymentStatus } from '~/shared/consts/payments';
 import { eq, and, sql, inArray } from 'drizzle-orm';
 import { getPremiumPlan } from '~/shared/consts/premium-plans';
 import { sleep } from '~/shared/utils/sleep';
-import {
-  checkBitcoinBalance,
-  normalizeBitcoinAmount,
-} from '~/server/utils/bitcoin';
+import { BitcoinService } from '../services/bitcoin';
 import type { Task } from '~/server/types/task';
 import { WebSocketService } from '../services/ws';
 import { WsEventTypes } from '~/shared/consts/ws-event-types';
@@ -137,14 +134,16 @@ export class PaymentProcessorTask implements Task {
       console.log(`💰 Checking payment ${payment.id}...`);
 
       const { pendingBalance, confirmedBalance } =
-        await checkBitcoinBalance(payment.bitcoinAddress);
+        await BitcoinService.checkBalance(
+          payment.bitcoinAddress,
+        );
 
       console.log(
         `📊 Address ${payment.bitcoinAddress}: Mempool ${pendingBalance} BTC, Chain ${confirmedBalance} BTC, Required ${payment.amountBtc} BTC`,
       );
 
       const normalizedRequiredAmount =
-        normalizeBitcoinAmount(payment.amountBtc);
+        BitcoinService.normalizeAmount(payment.amountBtc);
 
       if (confirmedBalance >= normalizedRequiredAmount) {
         await this.handleConfirmedPayment(payment, user);

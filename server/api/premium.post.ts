@@ -5,17 +5,13 @@ import {
 } from 'h3';
 import { db } from '../db/database';
 import { bitcoinAddresses, payments } from '../db/entities';
-import { convertUsdToBtc } from '~/server/utils/bitcoin';
+import { BitcoinService } from '../services/bitcoin';
 import { PaymentStatus } from '../../shared/consts/payments';
 import { assertAuth } from '~/server/utils/validation';
 import {
-  PREMIUM_PLANS,
-  PremiumPlanId,
   isValidPlanId,
   getPremiumPlan,
 } from '~/shared/consts/premium-plans';
-
-import { createBitcoinAddress } from '~/server/utils/bitcoin';
 
 export default defineEventHandler(async (event) => {
   assertAuth(event);
@@ -37,7 +33,7 @@ export default defineEventHandler(async (event) => {
     const payment = await db.transaction(async (tx) => {
       // Generate new Bitcoin address
       const { address, privateKey, publicKey } =
-        createBitcoinAddress();
+        BitcoinService.createAddress();
 
       // Create Bitcoin address record
       await tx
@@ -53,9 +49,10 @@ export default defineEventHandler(async (event) => {
         })
         .returning();
 
-      const amountBtc = await convertUsdToBtc(
-        selectedPlan.priceUSD,
-      );
+      const amountBtc =
+        await BitcoinService.convertUsdToBtc(
+          selectedPlan.priceUSD,
+        );
 
       // Create payment record
       const [payment] = await tx
