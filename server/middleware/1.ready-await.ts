@@ -1,4 +1,5 @@
-import { defineEventHandler } from 'h3';
+import { defineEventHandler, createError } from 'h3';
+import { useNitroApp } from 'nitropack/runtime';
 
 const TIMEOUT = 30000;
 

@@ -1,20 +1,25 @@
 import {
   defineEventHandler,
-  getQuery,
   createError,
   setCookie,
-  sendRedirect,
 } from 'h3';
+import { eq, and, gt } from 'drizzle-orm';
+
 import type { AuthTokenPayload } from '~/server/types';
 
 import { db } from '../../db/database';
 import { users, magicLinks } from '../../db/schema';
-import { eq, and, gt } from 'drizzle-orm';
+
+import { readValidatedBody } from '../../utils/validation';
+import { VerifyMagicLinkDtSchema } from '../../../shared/dtos';
 
 import { AuthJwtService } from '../../services/jwt';
 
 export default defineEventHandler(async (event) => {
-  const { token } = await readBody(event);
+  const { token } = await readValidatedBody(
+    VerifyMagicLinkDtSchema,
+    event,
+  );
 
   if (!token || typeof token !== 'string') {
     throw createError({

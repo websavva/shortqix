@@ -8,24 +8,18 @@ import { bitcoinAddresses, payments } from '../db/entities';
 import { BitcoinService } from '../services/bitcoin';
 import { PaymentStatus } from '../../shared/consts/payments';
 import { assertAuth } from '~/server/utils/validation';
-import {
-  isValidPlanId,
-  getPremiumPlan,
-} from '~/shared/consts/premium-plans';
+import { getPremiumPlan } from '~/shared/consts/premium-plans';
+import { BuyPremiumDtSchema } from '~/shared/dtos';
+import { readValidatedBody } from '../utils/validation';
 
 export default defineEventHandler(async (event) => {
   assertAuth(event);
 
   try {
-    const { planId } = await readBody(event);
-
-    if (!planId || !isValidPlanId(planId)) {
-      throw createError({
-        statusCode: 400,
-        message:
-          'Invalid plan. Choose from: 1month, 3months, 1year',
-      });
-    }
+    const { planId } = await readValidatedBody(
+      BuyPremiumDtSchema,
+      event,
+    );
 
     const selectedPlan = getPremiumPlan(planId)!;
 

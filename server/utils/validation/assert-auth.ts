@@ -1,4 +1,4 @@
-import type { H3Event } from 'h3';
+import { type H3Event, createError } from 'h3';
 
 export function assertAuth(event: H3Event) {
   if (!event.user) {

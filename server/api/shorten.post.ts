@@ -1,9 +1,5 @@
 import { nanoid } from 'nanoid';
-import {
-  defineEventHandler,
-  readBody,
-  createError,
-} from 'h3';
+import { defineEventHandler, createError } from 'h3';
 import { db } from '../db/database';
 import { shortenedUrls } from '../db/schema';
 import { eq } from 'drizzle-orm';
@@ -12,68 +8,58 @@ import {
   assertAuth,
   assertPremium,
 } from '../utils/validation';
-
-function isValidUrl(urlString: string): boolean {
-  try {
-    const url = new URL(urlString);
-    return (
-      url.protocol === 'http:' || url.protocol === 'https:'
-    );
-  } catch {
-    return false;
-  }
-}
+import { readValidatedBody } from '../utils/validation';
+import { createShortUrl } from '../../shared/utils/create-short-url';
+import { CreateShortenedUrlDtSchema } from '../../shared/dtos';
 
 export default defineEventHandler(async (event) => {
-  const { url, customSlug } = await readBody(event);
-
-  if (!url || !isValidUrl(url)) {
-    throw createError({
-      statusCode: 400,
-      message: 'Please provide a valid HTTP/HTTPS URL',
-    });
-  }
+  const { url, code: customCode } = await readValidatedBody(
+    CreateShortenedUrlDtSchema,
+    event,
+  );
 
   try {
-    let shortCode = nanoid(6);
+    let code: string;
 
-    if (customSlug) {
+    if (customCode) {
       assertAuth(event);
       assertPremium(
         event,
-        'Custom slugs require active premium subscription',
+        'Custom codes require active premium subscription',
       );
 
       // Check if custom slug is available
-      const existing = await db
+      const [existingShortenedUrl] = await db
         .select()
         .from(shortenedUrls)
-        .where(eq(shortenedUrls.customSlug, customSlug))
+        .where(eq(shortenedUrls.code, customCode))
         .limit(1);
 
-      if (existing[0]) {
+      if (existingShortenedUrl) {
         throw createError({
           statusCode: 409,
           message: 'Custom slug already taken',
         });
       }
 
-      shortCode = customSlug;
+      code = customCode;
+    } else {
+      code = nanoid(6);
     }
 
     await db
       .insert(shortenedUrls)
       .values({
-        code: shortCode,
-        customSlug: customSlug || null,
+        code,
         longUrl: url,
+        isCustom: Boolean(customCode),
         userId: event.user?.id,
       })
       .returning();
 
     return {
-      shortUrl: `${process.env.BASE_URL}/s/${shortCode}`,
-      shortCode,
+      shortUrl: createShortUrl(code),
+      code,
     };
   } catch (error: any) {
     if (error.statusCode) throw error;

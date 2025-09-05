@@ -1,13 +1,21 @@
-import { defineEventHandler, getRouterParam } from 'h3';
+import { defineEventHandler, createError } from 'h3';
 import { eq, and, inArray } from 'drizzle-orm';
 
 import { payments } from '~/server/db/entities';
 import { db } from '~/server/db/database';
-import { assertAuth } from '~/server/utils/validation';
+import {
+  assertAuth,
+  getValidatedRouterParam,
+} from '~/server/utils/validation';
 import { PaymentStatus } from '~/shared/consts/payments';
+import { paymentId as paymentIdSchema } from '~/shared/dtos/common';
 
 export default defineEventHandler(async (event) => {
-  const id = getRouterParam(event, 'id')!;
+  const id = await getValidatedRouterParam(
+    paymentIdSchema(),
+    event,
+    'id',
+  );
 
   assertAuth(event);
 

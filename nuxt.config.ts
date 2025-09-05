@@ -5,6 +5,10 @@ import vue from '@vitejs/plugin-vue';
 export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss'],
 
+  imports: {
+    autoImport: false,
+  },
+
   app: {
     head: {
       title: 'Link Shortener',
@@ -19,6 +23,10 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    imports: {
+      autoImport: false,
+    },
+
     rollupConfig: {
       plugins: [vue()],
     },

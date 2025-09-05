@@ -1,7 +1,7 @@
 import {
   defineEventHandler,
-  readBody,
   createError,
+  getQuery,
 } from 'h3';
 import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
@@ -10,35 +10,35 @@ import { db } from '../../db/database';
 import { users, magicLinks } from '../../db/schema';
 import { MailService } from '../../services/mail';
 
-export default defineEventHandler(async (event) => {
-  const { email } = await readBody(event);
+import { readValidatedBody } from '../../utils/validation';
+import { CreateMagicLinkDtSchema } from '../../../shared/dtos';
 
-  if (!email) {
-    throw createError({
-      statusCode: 400,
-      message: 'Email is required',
-    });
-  }
+export default defineEventHandler(async (event) => {
+  const { email } = await readValidatedBody(
+    CreateMagicLinkDtSchema,
+    event,
+  );
 
   try {
     // Use transaction to ensure both operations succeed or fail together
     const token = await db.transaction(async (tx) => {
       // Check if user exists, create if not
-      let user = await tx
+      let [user] = await tx
         .select()
         .from(users)
         .where(eq(users.email, email))
         .limit(1);
 
-      if (!user[0]) {
+      if (!user) {
         // Create new user
-        const newUser = await tx
+        const [newUser] = await tx
           .insert(users)
           .values({
             email,
             isVerified: false,
           })
           .returning();
+
         user = newUser;
       }
 

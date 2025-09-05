@@ -1,9 +1,4 @@
-import {
-  defineEventHandler,
-  readBody,
-  createError,
-  getCookie,
-} from 'h3';
+import { defineEventHandler, createError } from 'h3';
 import { db } from '../db/database';
 import { shortenedUrls } from '../db/schema';
 import { eq, and } from 'drizzle-orm';
@@ -14,8 +9,15 @@ import {
   assertPremium,
 } from '~/server/utils/validation';
 
+import { readValidatedBody } from '../utils/validation';
+import { CreateQrDtSchema } from '../../shared/dtos';
+import { createShortUrl } from '~/shared/utils/create-short-url';
+
 export default defineEventHandler(async (event) => {
-  const { shortCode } = await readBody(event);
+  const { code } = await readValidatedBody(
+    CreateQrDtSchema,
+    event,
+  );
 
   assertAuth(event);
   assertPremium(
@@ -23,29 +25,20 @@ export default defineEventHandler(async (event) => {
     'QR code generation requires active premium subscription',
   );
 
-  const token = getCookie(event, 'auth-token');
-
-  if (!shortCode) {
-    throw createError({
-      statusCode: 400,
-      message: 'Short code is required',
-    });
-  }
-
   try {
     // Get the shortened URL
-    const shortenedUrl = await db
+    const [shortenedUrl] = await db
       .select()
       .from(shortenedUrls)
       .where(
         and(
-          eq(shortenedUrls.code, shortCode),
+          eq(shortenedUrls.code, code),
           eq(shortenedUrls.userId, event.user!.id),
         ),
       )
       .limit(1);
 
-    if (!shortenedUrl[0]) {
+    if (!shortenedUrl) {
       throw createError({
         statusCode: 404,
         message: 'Shortened URL not found',
@@ -53,9 +46,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Generate QR code
-    const requestUrl = getRequestURL(event);
-    const baseUrl = `${requestUrl.protocol}//${requestUrl.host}`;
-    const fullShortUrl = `${baseUrl}/s/${shortCode}`;
+    const fullShortUrl = createShortUrl(shortenedUrl.code);
 
     const qrCodeDataUrl = await QRCode.toDataURL(
       fullShortUrl,
@@ -70,7 +61,6 @@ export default defineEventHandler(async (event) => {
     );
 
     return {
-      success: true,
       qrCode: qrCodeDataUrl,
       shortUrl: fullShortUrl,
     };

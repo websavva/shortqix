@@ -1,38 +1,34 @@
-import {
-  defineEventHandler,
-  getQuery,
-  createError,
-} from 'h3';
+import { defineEventHandler, createError } from 'h3';
 import { eq, sql, desc } from 'drizzle-orm';
 
-import { assertAuth } from '~/server/utils/validation';
+import {
+  assertAuth,
+  getValidatedQuery,
+} from '~/server/utils/validation';
+
+import { PaginationParamsSchema } from '~/shared/dtos';
 
 import { db } from '../../db/database';
 import { shortenedUrls } from '../../db/schema';
 
 export default defineEventHandler(async (event) => {
-  const { page = '1', limit = '20' } = getQuery(event);
+  const { page, limit } = await getValidatedQuery(
+    PaginationParamsSchema(),
+    event,
+  );
 
   assertAuth(event);
 
   try {
     // Parse pagination parameters
-    const pageNum = Math.max(
-      1,
-      parseInt(page as string) || 1,
-    );
-    const limitNum = Math.min(
-      100,
-      Math.max(1, parseInt(limit as string) || 20),
-    );
-    const offset = (pageNum - 1) * limitNum;
+    const offset = (page - 1) * limit;
 
     // Get paginated URLs with click data
     const urls = await db
       .select({
         id: shortenedUrls.id,
         code: shortenedUrls.code,
-        customSlug: shortenedUrls.customSlug,
+        isCustom: shortenedUrls.isCustom,
         longUrl: shortenedUrls.longUrl,
         clicks: shortenedUrls.clicks,
         createdAt: shortenedUrls.createdAt,
@@ -42,7 +38,7 @@ export default defineEventHandler(async (event) => {
       .where(eq(shortenedUrls.userId, event.user!.id))
       .orderBy(desc(shortenedUrls.createdAt))
       .offset(offset)
-      .limit(limitNum);
+      .limit(limit);
 
     // Get total count for pagination metadata
     const totalCount = await db
@@ -53,17 +49,16 @@ export default defineEventHandler(async (event) => {
       .where(eq(shortenedUrls.userId, event.user!.id));
 
     const totalUrls = Number(totalCount[0].count);
-    const totalPages = Math.ceil(totalUrls / limitNum);
+    const totalPages = Math.ceil(totalUrls / limit);
 
     return {
       urls,
       pagination: {
-        page: pageNum,
-        limit: limitNum,
+        page,
         totalUrls,
         totalPages,
-        hasNext: pageNum < totalPages,
-        hasPrev: pageNum > 1,
+        hasNext: page < totalPages,
+        hasPrev: page > 1,
       },
     };
   } catch (error: any) {

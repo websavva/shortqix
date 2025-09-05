@@ -1,4 +1,5 @@
-import { defineEventHandler } from 'h3';
+import { defineEventHandler, createError } from 'h3';
+import { useNitroApp } from 'nitropack/runtime';
 
 declare module 'nitropack/types' {
   interface NitroApp {

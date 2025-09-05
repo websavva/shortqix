@@ -1,5 +1,5 @@
 {
-  "id": "0d231575-9472-4f42-9ec9-8d2d60151160",
+  "id": "9d371c57-cd9d-4b18-943b-2863ba30b3cb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -258,21 +258,22 @@
         },
         "code": {
           "name": "code",
-          "type": "varchar(10)",
+          "type": "varchar(32)",
           "primaryKey": false,
           "notNull": true
-        },
-        "custom_slug": {
-          "name": "custom_slug",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false
         },
         "long_url": {
           "name": "long_url",
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "is_custom": {
+          "name": "is_custom",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         },
         "created_at": {
           "name": "created_at",

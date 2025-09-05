@@ -36,9 +36,9 @@ CREATE TABLE "payments" (
 --> statement-breakpoint
 CREATE TABLE "shortened_urls" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"code" varchar(10) NOT NULL,
-	"custom_slug" varchar(20),
+	"code" varchar(32) NOT NULL,
 	"long_url" text NOT NULL,
+	"is_custom" boolean DEFAULT false NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"clicks" integer DEFAULT 0 NOT NULL,
 	"user_id" integer,

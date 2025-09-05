@@ -3,7 +3,6 @@ import {
   type Transporter,
   type SendMailOptions,
 } from 'nodemailer';
-import type { ExtractComponentProps } from '@vue-email/render';
 
 import {
   mailTemplates,

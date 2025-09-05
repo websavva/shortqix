@@ -41,6 +41,7 @@
     "@vue-email/render": "^0.0.9",
     "bitcoinjs-lib": "^6.1.7",
     "cron": "^4.3.3",
+    "zod": "^4.1.5",
     "dotenv": "^17.2.0",
     "drizzle-kit": "^0.31.4",
     "engine.io": "^6.6.4",

@@ -34,12 +34,3 @@ export function getPremiumPlan(
 ): PremiumPlan | null {
   return PREMIUM_PLANS[planId as PremiumPlanId] || null;
 }
-
-// Helper function to validate plan ID
-export function isValidPlanId(
-  planId: string,
-): planId is PremiumPlanId {
-  return Object.values(PremiumPlanId).includes(
-    planId as PremiumPlanId,
-  );
-}

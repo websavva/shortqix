@@ -1,33 +1,25 @@
-import {
-  defineEventHandler,
-  getQuery,
-  createError,
-} from 'h3';
+import { defineEventHandler, createError } from 'h3';
 import { eq, and, desc, sql } from 'drizzle-orm';
 
-import {
-  payments,
-  bitcoinAddresses,
-} from '~/server/db/entities';
+import { payments } from '~/server/db/entities';
 import { db } from '~/server/db/database';
-import { assertAuth } from '~/server/utils/validation';
+import {
+  assertAuth,
+  getValidatedQuery,
+} from '~/server/utils/validation';
+import { PaginationParamsSchema } from '~/shared/dtos';
 
 export default defineEventHandler(async (event) => {
   assertAuth(event);
 
-  const { page = '1', limit = '20' } = getQuery(event);
+  const { page, limit } = await getValidatedQuery(
+    PaginationParamsSchema(),
+    event,
+  );
 
   try {
     // Parse pagination parameters
-    const pageNum = Math.max(
-      1,
-      parseInt(page as string) || 1,
-    );
-    const limitNum = Math.min(
-      100,
-      Math.max(1, parseInt(limit as string) || 20),
-    );
-    const offset = (pageNum - 1) * limitNum;
+    const offset = (page - 1) * limit;
 
     // Get paginated payments with Bitcoin address info
     const paymentItems = await db
@@ -35,7 +27,7 @@ export default defineEventHandler(async (event) => {
       .from(payments)
       .where(eq(payments.userId, event.user!.id))
       .orderBy(desc(payments.createdAt))
-      .limit(limitNum)
+      .limit(limit)
       .offset(offset);
 
     // Get total count for pagination metadata
@@ -45,18 +37,18 @@ export default defineEventHandler(async (event) => {
       .where(eq(payments.userId, event.user!.id));
 
     const totalPayments = Number(totalCount[0].count);
-    const totalPages = Math.ceil(totalPayments / limitNum);
+    const totalPages = Math.ceil(totalPayments / limit);
 
     return {
       payments: paymentItems,
 
       pagination: {
-        page: pageNum,
-        limit: limitNum,
+        page,
+        limit,
         totalPayments,
         totalPages,
-        hasNext: pageNum < totalPages,
-        hasPrev: pageNum > 1,
+        hasNext: page < totalPages,
+        hasPrev: page > 1,
       },
     };
   } catch (error: any) {
