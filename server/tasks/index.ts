@@ -1,6 +1,6 @@
 import { CronJob } from 'cron';
 
-import { PaymentProcessorTask } from './payement-processor';
+import { PaymentProcessorTask } from './payment-processor';
 import { PremiumExpirationTask } from './premium-expiration';
 
 export class TasksManager {
