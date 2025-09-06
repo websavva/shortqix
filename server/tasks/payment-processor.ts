@@ -5,6 +5,7 @@ import { getPremiumPlan } from '@/shared/consts/premium-plans';
 import { sleep } from '@/shared/utils/sleep';
 import { WsEventTypes } from '@/shared/consts/ws-event-types';
 import type { Task } from '#server/types/task';
+import type { WsEvent } from '#server/types/ws';
 
 import { BitcoinService } from '../services/bitcoin';
 import { WebSocketService } from '../services/ws';
@@ -18,7 +19,6 @@ import {
   db,
   type DbOrTransactionInstance,
 } from '../db/database';
-
 
 export class PaymentProcessorTask implements Task {
   static async processAllPayments() {
@@ -170,13 +170,38 @@ export class PaymentProcessorTask implements Task {
     payment: Payment,
     user: User,
   ) {
+    const events: WsEvent[] = [];
+
     await db.transaction(async (tx) => {
-      await this.updatePaymentStatus(
+      const updatedPayment = await this.updatePaymentStatus(
         tx,
         payment,
         PaymentStatus.SUCCESS,
       );
-      await this.grantPremiumAccess(tx, payment, user);
+
+      const updatedUser = await this.grantPremiumAccess(
+        tx,
+        payment,
+        user,
+      );
+
+      events.push(
+        {
+          userId: payment.userId,
+          type: WsEventTypes.PAYMENT_UPDATE_STATUS,
+          payload: updatedPayment,
+        },
+        {
+          userId: user.id,
+          type: WsEventTypes.PREMIUM_PURCHASE,
+          payload: {
+            planId: payment.plan,
+            premiumExpiresAt: updatedUser.premiumExpiresAt!,
+          },
+        },
+      );
+
+      await this.sendWsEvents(events);
     });
 
     console.log(
@@ -184,14 +209,31 @@ export class PaymentProcessorTask implements Task {
     );
   }
 
+  private static async sendWsEvents(events: WsEvent[]) {
+    for (const event of events) {
+      await WebSocketService.sendUserEvent(
+        event.userId,
+        event.type,
+        event.payload,
+      );
+    }
+  }
+
   private static async handlePendingPayment(
     payment: Payment,
   ) {
-    await this.updatePaymentStatus(
+    const updatedPayment = await this.updatePaymentStatus(
       db,
       payment,
       PaymentStatus.CONFIRMATION_PENDING,
     );
+
+    WebSocketService.sendUserEvent(
+      payment.userId,
+      WsEventTypes.PAYMENT_UPDATE_STATUS,
+      updatedPayment,
+    );
+
     console.log(
       `⏳ Payment ${payment.id} in mempool, waiting for confirmation`,
     );
@@ -211,21 +253,13 @@ export class PaymentProcessorTask implements Task {
       updatedAt: new Date(),
     };
 
-    await dbInstance
+    const [updatedPayment] = await dbInstance
       .update(paymentsTable)
       .set(updatedFields)
-      .where(eq(paymentsTable.id, payment.id));
+      .where(eq(paymentsTable.id, payment.id))
+      .returning();
 
-    const wsEventPayload = {
-      id: payment.id,
-      ...updatedFields,
-    };
-
-    WebSocketService.sendUserEvent(
-      payment.userId,
-      WsEventTypes.PAYMENT_UPDATE_STATUS,
-      wsEventPayload,
-    );
+    return updatedPayment;
   }
 
   private static async grantPremiumAccess(
@@ -247,22 +281,16 @@ export class PaymentProcessorTask implements Task {
       currentExpiresAt.getTime() + planDurationInMS,
     );
 
-    await dbInstance
+    const [updatedUser] = await dbInstance
       .update(usersTable)
       .set({
         isPremium: true,
         premiumExpiresAt: newPremiumExpiresAt,
       })
-      .where(eq(usersTable.id, payment.userId));
+      .where(eq(usersTable.id, payment.userId))
+      .returning();
 
-    WebSocketService.sendUserEvent(
-      user.id,
-      WsEventTypes.PREMIUM_PURCHASE,
-      {
-        planId: payment.plan,
-        premiumExpiresAt: newPremiumExpiresAt,
-      },
-    );
+    return updatedUser;
   }
 
   static cronExpression = '*/1 * * * *';
