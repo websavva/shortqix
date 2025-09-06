@@ -7,6 +7,7 @@ import {
   integer,
   boolean,
 } from 'drizzle-orm/pg-core';
+
 import { users } from './users';
 
 export const shortenedUrls = pgTable('shortened_urls', {

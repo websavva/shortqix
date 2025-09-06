@@ -4,7 +4,7 @@ import Component from './Component.vue';
 
 export const MagicLinkMailTemplate = defineMailTemplate(
   Component,
-  (props) => {
+  (_) => {
     return `Magic Link`;
   },
 );

@@ -9,7 +9,6 @@ import { nanoid } from 'nanoid';
 import { db } from '../../db/database';
 import { users, magicLinks } from '../../db/schema';
 import { MailService } from '../../services/mail';
-
 import { readValidatedBody } from '../../utils/validation';
 import { CreateMagicLinkDtSchema } from '../../../shared/dtos';
 

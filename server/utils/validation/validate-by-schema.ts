@@ -1,5 +1,6 @@
 import { createError } from 'h3';
-import { flattenError, z } from 'zod';
+import type { z } from 'zod';
+import { flattenError } from 'zod';
 
 export function normalizeZodError(error: z.ZodError) {
   const flattenedError = flattenError(error);

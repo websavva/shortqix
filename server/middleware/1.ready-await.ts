@@ -3,7 +3,7 @@ import { useNitroApp } from 'nitropack/runtime';
 
 const TIMEOUT = 30000;
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
   const nitroApp = useNitroApp();
 
   if (!nitroApp.isReady) {
@@ -16,7 +16,10 @@ export default defineEventHandler(async (event) => {
       );
       console.log('✅ Server is now ready');
     } catch (error) {
-      console.error('❌ Server readiness timeout exceeded');
+      console.error(
+        '❌ Server readiness timeout exceeded',
+        error,
+      );
 
       throw createError({
         statusCode: 503,

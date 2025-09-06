@@ -1,12 +1,19 @@
 import { defineNuxtConfig } from 'nuxt/config';
+import { createResolver } from '@nuxt/kit';
 import vue from '@vitejs/plugin-vue';
+
+const { resolve } = createResolver(import.meta.url);
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/eslint'],
 
   imports: {
     autoImport: false,
+  },
+
+  alias: {
+    '#server': resolve('./server'),
   },
 
   app: {

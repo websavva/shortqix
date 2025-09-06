@@ -1,14 +1,13 @@
 import { nanoid } from 'nanoid';
 import { defineEventHandler, createError } from 'h3';
-import { db } from '../db/database';
-import { shortenedUrls } from '../db/schema';
 import { eq } from 'drizzle-orm';
 
+import { db } from '../db/database';
+import { shortenedUrls } from '../db/schema';
 import {
   assertAuth,
-  assertPremium,
+  assertPremium, readValidatedBody 
 } from '../utils/validation';
-import { readValidatedBody } from '../utils/validation';
 import { createShortUrl } from '../../shared/utils/create-short-url';
 import { CreateShortenedUrlDtSchema } from '../../shared/dtos';
 

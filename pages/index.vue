@@ -29,9 +29,9 @@
         </div>
 
         <button
-          @click="shortenUrl"
           :disabled="isLoading"
           class="w-full bg-blue-500 text-white p-3 rounded hover:bg-blue-600 transition disabled:opacity-50"
+          @click="shortenUrl"
         >
           {{ isLoading ? 'Shortening...' : 'Shorten URL' }}
         </button>
@@ -49,16 +49,16 @@
               class="flex-1 p-2 border rounded"
             />
             <button
-              @click="copyUrl"
               class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+              @click="copyUrl"
             >
               Copy
             </button>
             <button
               v-if="isAuthenticated && user?.isPremium"
-              @click="generateQR"
               :disabled="isGeneratingQR"
               class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+              @click="generateQR"
             >
               {{
                 isGeneratingQR ? 'Generating...' : 'QR Code'
@@ -80,8 +80,8 @@
               class="mx-auto border rounded"
             />
             <button
-              @click="downloadQR"
               class="mt-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+              @click="downloadQR"
             >
               Download QR Code
             </button>
@@ -123,9 +123,9 @@
 
         <div v-if="!isAuthenticated || !user?.isPremium">
           <button
-            @click="upgradeToPremium"
             :disabled="isUpgrading"
             class="mt-4 w-full bg-green-500 text-white p-3 rounded hover:bg-green-600 transition disabled:opacity-50"
+            @click="upgradeToPremium"
           >
             {{
               isUpgrading

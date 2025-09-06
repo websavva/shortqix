@@ -1,15 +1,15 @@
 import { defineEventHandler, createError } from 'h3';
 import { eq, sql, desc } from 'drizzle-orm';
 
+import { PaginationParamsSchema } from '@/shared/dtos';
 import {
   assertAuth,
   getValidatedQuery,
-} from '~/server/utils/validation';
-
-import { PaginationParamsSchema } from '~/shared/dtos';
+} from '#server/utils/validation';
 
 import { db } from '../../db/database';
 import { shortenedUrls } from '../../db/schema';
+
 
 export default defineEventHandler(async (event) => {
   const { page, limit } = await getValidatedQuery(

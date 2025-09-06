@@ -7,13 +7,11 @@ import {
   getCookie,
   deleteCookie,
 } from 'h3';
-import { AuthJwtService } from '../services/jwt';
 import { eq } from 'drizzle-orm';
 
+import { AuthJwtService } from '../services/jwt';
 import { users, type User } from '../db/schema';
 import { db } from '../db/database';
-
-import type { AuthTokenPayload } from '~/server/types';
 
 declare module 'h3' {
   interface H3Event {

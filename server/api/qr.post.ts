@@ -1,17 +1,19 @@
 import { defineEventHandler, createError } from 'h3';
-import { db } from '../db/database';
-import { shortenedUrls } from '../db/schema';
 import { eq, and } from 'drizzle-orm';
 import QRCode from 'qrcode';
 
+import { createShortUrl } from '@/shared/utils/create-short-url';
 import {
   assertAuth,
   assertPremium,
-} from '~/server/utils/validation';
+} from '#server/utils/validation';
 
+import { db } from '../db/database';
+import { shortenedUrls } from '../db/schema';
 import { readValidatedBody } from '../utils/validation';
 import { CreateQrDtSchema } from '../../shared/dtos';
-import { createShortUrl } from '~/shared/utils/create-short-url';
+
+
 
 export default defineEventHandler(async (event) => {
   const { code } = await readValidatedBody(

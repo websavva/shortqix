@@ -4,7 +4,7 @@
       <div class="bg-white rounded-xl shadow-xl p-12">
         <h2 class="text-4xl font-bold text-center text-gray-900 mb-8">Sign In</h2>
         
-        <form @submit.prevent="handleLogin" class="space-y-8">
+        <form class="space-y-8" @submit.prevent="handleLogin">
           <div>
             <label for="email" class="block text-lg font-medium text-gray-700 mb-3">
               Email

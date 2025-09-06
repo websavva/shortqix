@@ -1,16 +1,18 @@
 import {
   defineEventHandler,
-  readBody,
   createError,
 } from 'h3';
+
+import { getPremiumPlan } from '@/shared/consts/premium-plans';
+import { BuyPremiumDtSchema } from '@/shared/dtos';
+import { assertAuth } from '#server/utils/validation';
+
 import { db } from '../db/database';
 import { bitcoinAddresses, payments } from '../db/entities';
 import { BitcoinService } from '../services/bitcoin';
 import { PaymentStatus } from '../../shared/consts/payments';
-import { assertAuth } from '~/server/utils/validation';
-import { getPremiumPlan } from '~/shared/consts/premium-plans';
-import { BuyPremiumDtSchema } from '~/shared/dtos';
 import { readValidatedBody } from '../utils/validation';
+
 
 export default defineEventHandler(async (event) => {
   assertAuth(event);

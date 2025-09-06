@@ -2,7 +2,7 @@ import {
   type H3Event,
   getValidatedQuery as _getValidatedQuery,
 } from 'h3';
-import { z } from 'zod';
+import type { z } from 'zod';
 
 import { validateBySchema } from './validate-by-schema';
 

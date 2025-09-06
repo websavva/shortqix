@@ -1,13 +1,13 @@
 import { defineEventHandler, createError } from 'h3';
-import { eq, and, desc, sql } from 'drizzle-orm';
+import { eq, desc, sql } from 'drizzle-orm';
 
-import { payments } from '~/server/db/entities';
-import { db } from '~/server/db/database';
+import { PaginationParamsSchema } from '@/shared/dtos';
+import { payments } from '#server/db/entities';
+import { db } from '#server/db/database';
 import {
   assertAuth,
   getValidatedQuery,
-} from '~/server/utils/validation';
-import { PaginationParamsSchema } from '~/shared/dtos';
+} from '#server/utils/validation';
 
 export default defineEventHandler(async (event) => {
   assertAuth(event);

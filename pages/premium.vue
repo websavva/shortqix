@@ -68,9 +68,9 @@
             <p class="text-blue-600 text-sm">Payment expires in 30 minutes</p>
           </div>
           <button 
-            @click="createPayment"
             :disabled="isCreating"
             class="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-3 px-8 rounded-lg transition-colors"
+            @click="createPayment"
           >
             <span v-if="isCreating">Creating Payment...</span>
             <span v-else>Pay with Bitcoin</span>
@@ -87,7 +87,7 @@
           <!-- QR Code -->
           <div class="flex justify-center">
             <div class="bg-white border border-gray-300 rounded-lg p-4">
-              <div v-if="qrCode" v-html="qrCode" class="w-48 h-48"></div>
+              <div v-if="qrCode" class="w-48 h-48" v-html="qrCode"></div>
               <div v-else class="w-48 h-48 bg-gray-100 flex items-center justify-center">
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
               </div>
@@ -104,8 +104,8 @@
                 class="flex-1 bg-white border border-gray-300 rounded-md px-3 py-2 text-sm font-mono"
               />
               <button 
-                @click="copyAddress"
                 class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm transition-colors"
+                @click="copyAddress"
               >
                 Copy
               </button>
@@ -121,8 +121,8 @@
             <div v-else-if="paymentStatus === 'paid'" class="bg-green-50 border border-green-200 rounded-lg p-4">
               <p class="text-green-700 font-medium">Payment received! Your account has been upgraded to premium.</p>
               <button 
-                @click="goToAnalytics"
                 class="mt-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors"
+                @click="goToAnalytics"
               >
                 Go to Analytics
               </button>
@@ -130,8 +130,8 @@
             <div v-else-if="paymentStatus === 'expired'" class="bg-red-50 border border-red-200 rounded-lg p-4">
               <p class="text-red-700">Payment expired. Please create a new payment request.</p>
               <button 
-                @click="resetPayment"
                 class="mt-2 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors"
+                @click="resetPayment"
               >
                 Try Again
               </button>

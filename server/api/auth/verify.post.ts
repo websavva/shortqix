@@ -5,15 +5,15 @@ import {
 } from 'h3';
 import { eq, and, gt } from 'drizzle-orm';
 
-import type { AuthTokenPayload } from '~/server/types';
+
+import type { AuthTokenPayload } from '#server/types';
 
 import { db } from '../../db/database';
 import { users, magicLinks } from '../../db/schema';
-
 import { readValidatedBody } from '../../utils/validation';
 import { VerifyMagicLinkDtSchema } from '../../../shared/dtos';
-
 import { AuthJwtService } from '../../services/jwt';
+
 
 export default defineEventHandler(async (event) => {
   const { token } = await readValidatedBody(

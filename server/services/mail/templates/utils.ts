@@ -1,7 +1,7 @@
-import {
-  type Component,
-  type VNodeProps,
-  type AllowedComponentProps,
+import type {
+  Component,
+  VNodeProps,
+  AllowedComponentProps,
 } from 'vue';
 import { render } from '@vue-email/render';
 

@@ -1,10 +1,13 @@
 import { defineEventHandler, createError } from 'h3';
-import { db } from '../../db/database';
-import { shortenedUrls } from '../../db/schema';
 import { eq, sql } from 'drizzle-orm';
 
-import { assertAuth } from '~/server/utils/validation';
-import { assertPremium } from '~/server/utils/validation';
+
+import { assertAuth, assertPremium  } from '#server/utils/validation';
+
+import { db } from '../../db/database';
+import { shortenedUrls } from '../../db/schema';
+
+
 
 export default defineEventHandler(async (event) => {
   assertAuth(event);

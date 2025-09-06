@@ -1,4 +1,10 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+import {
+  useAuth,
+  defineNuxtRouteMiddleware,
+  createError,
+} from '#imports';
+
+export default defineNuxtRouteMiddleware(() => {
   const { isPremium } = useAuth();
 
   if (!isPremium.value) {

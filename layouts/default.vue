@@ -17,22 +17,22 @@
           </div>
           <button
             v-if="user?.isPremium"
-            @click="goAnalytics"
             class="px-4 py-2 bg-green-600 text-white text-base font-medium rounded hover:bg-green-700 transition-colors"
+            @click="goAnalytics"
           >
             Analytics
           </button>
           <button
-            @click="handleLogout"
             class="px-4 py-2 border border-red-600 text-red-600 text-base font-medium rounded hover:bg-red-600 hover:text-white transition-colors"
+            @click="handleLogout"
           >
             Logout
           </button>
         </div>
         <div v-else>
           <button
-            @click="goLogin"
             class="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded hover:bg-blue-700 transition-colors"
+            @click="goLogin"
           >
             Sign In
           </button>

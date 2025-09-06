@@ -1,22 +1,24 @@
-import {
-  db,
-  type DbOrTransactionInstance,
-} from '../db/database';
+import { eq, and, sql, inArray } from 'drizzle-orm';
+
+import { PaymentStatus } from '@/shared/consts/payments';
+import { getPremiumPlan } from '@/shared/consts/premium-plans';
+import { sleep } from '@/shared/utils/sleep';
+import { WsEventTypes } from '@/shared/consts/ws-event-types';
+import type { Task } from '#server/types/task';
+
+import { BitcoinService } from '../services/bitcoin';
+import { WebSocketService } from '../services/ws';
 import {
   payments as paymentsTable,
   users as usersTable,
   type User,
   type Payment,
 } from '../db/entities';
-import { PaymentStatus } from '~/shared/consts/payments';
+import {
+  db,
+  type DbOrTransactionInstance,
+} from '../db/database';
 
-import { eq, and, sql, inArray } from 'drizzle-orm';
-import { getPremiumPlan } from '~/shared/consts/premium-plans';
-import { sleep } from '~/shared/utils/sleep';
-import { BitcoinService } from '../services/bitcoin';
-import type { Task } from '~/server/types/task';
-import { WebSocketService } from '../services/ws';
-import { WsEventTypes } from '~/shared/consts/ws-event-types';
 
 export class PaymentProcessorTask implements Task {
   static async processAllPayments() {

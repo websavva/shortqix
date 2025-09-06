@@ -1,7 +1,8 @@
+import { randomBytes } from 'node:crypto';
+
 import * as bitcoin from 'bitcoinjs-lib';
 import ECPairFactory from 'ecpair';
 import * as ecc from 'tiny-secp256k1';
-import { randomBytes } from 'node:crypto';
 
 const ECPair = ECPairFactory(ecc);
 

@@ -1,15 +1,17 @@
 import type { ServerResponse } from 'node:http';
+
 import type { NitroApp } from 'nitropack';
 import { Server as Engine } from 'engine.io';
-import { Server } from 'socket.io';
+import { Server, type Socket } from 'socket.io';
 import { defineEventHandler, createError } from 'h3';
 import { createAdapter } from '@socket.io/postgres-adapter';
 import pg from 'pg';
-import { CurrentUserNodeMiddleware } from '~/server/middleware/2.current-user';
-import {
+
+import type {
   WsEventTypes,
-  type WsEvents,
-} from '~/shared/consts/ws-event-types';
+  WsEvents,
+} from '@/shared/consts/ws-event-types';
+import { CurrentUserNodeMiddleware } from '#server/middleware/2.current-user';
 
 export class WebSocketService {
   static wsServer: Server;
@@ -59,7 +61,7 @@ export class WebSocketService {
       }, 3000);
     });
 
-    this.wsServer.on('disconnect', (socket) => {
+    this.wsServer.on('disconnect', (_) => {
       console.log('a user disconnected');
     });
 
@@ -71,8 +73,8 @@ export class WebSocketService {
   }
 
   private static authMiddleware = (
-    socket: any,
-    next: any,
+    socket: Socket,
+    next: (err?: Error) => void,
   ) => {
     const {
       client: { request: req },
@@ -88,8 +90,8 @@ export class WebSocketService {
   };
 
   private static userValidationMiddleware = (
-    socket: any,
-    next: any,
+    socket: Socket,
+    next: (err?: Error) => void,
   ) => {
     if (!socket.client.request.user) {
       next(
@@ -104,8 +106,8 @@ export class WebSocketService {
   };
 
   private static userIdMiddleware = (
-    socket: any,
-    next: any,
+    socket: Socket,
+    next: (err?: Error) => void,
   ) => {
     const requiredUserId = +socket.nsp.name
       .split('/')

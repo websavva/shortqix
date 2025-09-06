@@ -1,14 +1,21 @@
+import {
+  useRequestFetch,
+  useFetch,
+  useRouter,
+  computed,
+  readonly,
+} from '#imports';
+
 export const useAuth = () => {
   const localFetch = useRequestFetch();
 
   const {
     data: user,
     execute: checkAuth,
-    error,
     pending: isLoading,
   } = useFetch('/api/auth/me', {
     immediate: false,
-    transform: ({ user }: any) => user,
+    transform: ({ user }) => user,
   });
 
   const router = useRouter();

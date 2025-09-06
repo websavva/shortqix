@@ -2,7 +2,7 @@ import {
   readValidatedBody as _readValidatedBody,
   type H3Event,
 } from 'h3';
-import { z } from 'zod';
+import type { z } from 'zod';
 
 import { validateBySchema } from './validate-by-schema';
 
