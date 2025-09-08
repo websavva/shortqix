@@ -14,7 +14,7 @@
     --popover: hsl(0 0% 9%);
     --popover-foreground: hsl(0 0% 95%);
 
-    --primary: hsl(142.1 70.6% 45.3%);
+    --primary: hsl(185, 100%, 49%);
     --primary-foreground: hsl(144.9 80.4% 10%);
 
     --secondary: hsl(240 3.7% 15.9%);
@@ -31,7 +31,7 @@
 
     --border: hsl(240 3.7% 15.9%);
     --input: hsl(240 3.7% 15.9%);
-    --ring: hsl(142.4 71.8% 29.2%);
+    --ring: hsl(185, 100%, 37%);
     --radius: 0.75rem;
   }
 }
@@ -114,4 +114,10 @@
 @theme {
   --font-display: "Inter", "sans-serif";
   --font-sans: "Inter", "sans-serif";
+}
+@layer base {
+  svg {
+    width: 1em;
+    height: 1em;
+  }
 }

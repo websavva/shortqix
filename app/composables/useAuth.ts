@@ -21,7 +21,7 @@ export const useAuth = () => {
   const router = useRouter();
 
   const isAuthenticated = computed(
-    () => user.value !== null,
+    () => user.value != null,
   );
 
   const isPremium = computed(() => {

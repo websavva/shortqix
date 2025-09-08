@@ -23,8 +23,20 @@ export default withNuxt(
           'newlines-between': 'always',
           pathGroups: [
             {
-              pattern: '#server/**',
-              group: 'internal',
+              pattern: '#**',
+              patternOptions: {
+                dot: true,
+                nocomment: true,
+              },
+              group: 'external',
+            },
+            {
+              pattern: '#*/**',
+              patternOptions: {
+                dot: true,
+                nocomment: true,
+              },
+              group: 'external',
             },
             {
               pattern: '~/**',

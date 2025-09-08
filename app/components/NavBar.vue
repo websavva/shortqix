@@ -8,8 +8,8 @@
 
     <div class="flex items-center gap-4">
       <NuxtLink to="/login">Login</NuxtLink>
-
-      <Button as="a" href="/premium">
+      
+      <Button as="NuxtLink" href="/premium">
         Premium +
       </Button>
     </div>
@@ -17,8 +17,8 @@
 </template>
 
 <script setup lang="ts">
+import { NuxtLink } from '#components';
+
 import LogoBox from './LogoBox.vue';
 import Button from './ui/Button.vue';
-
-import { NuxtLink } from '#components';
 </script>
