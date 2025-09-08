@@ -6,10 +6,30 @@ const { resolve } = createResolver(import.meta.url);
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/eslint'],
+  modules: [
+    '@nuxt/eslint',
+    '@nuxt/fonts',
+    '@nuxtjs/tailwindcss',
+  ],
 
-  imports: {
-    autoImport: false,
+  fonts: {
+    families: [
+      {
+        name: 'Inter',
+        global: true,
+        preload: true,
+        weights: [400, 500, 600, 700],
+        provider: 'google',
+      },
+    ],
+  },
+
+  // imports: {
+  //   autoImport: true,
+  // },
+
+  tailwindcss: {
+    cssPath: '~/assets/css/tailwind.css',
   },
 
   alias: {

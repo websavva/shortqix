@@ -3,8 +3,8 @@ import {
   createError,
 } from 'h3';
 
-import { getPremiumPlan } from '@/shared/consts/premium-plans';
-import { BuyPremiumDtSchema } from '@/shared/dtos';
+import { getPremiumPlan } from '#shared/consts/premium-plans';
+import { BuyPremiumDtSchema } from '#shared/dtos';
 import { assertAuth } from '#server/utils/validation';
 
 import { db } from '../db/database';

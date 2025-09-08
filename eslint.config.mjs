@@ -7,6 +7,7 @@ export default withNuxt(
       '@typescript-eslint/no-extraneous-class': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
+      'vue/multi-word-component-names': 'off',
 
       'import/order': [
         'error',

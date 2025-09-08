@@ -1,7 +1,7 @@
 import { defineEventHandler, createError } from 'h3';
 import { eq, desc, sql } from 'drizzle-orm';
 
-import { PaginationParamsSchema } from '@/shared/dtos';
+import { PaginationParamsSchema } from '#shared/dtos';
 import { payments } from '#server/db/entities';
 import { db } from '#server/db/database';
 import {

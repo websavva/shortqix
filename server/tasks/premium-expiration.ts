@@ -1,6 +1,6 @@
 import { lt, sql  } from 'drizzle-orm';
 
-import { WsEventTypes } from '@/shared/consts/ws-event-types';
+import { WsEventTypes } from '#shared/consts/ws-event-types';
 
 import type { Task } from '../types/task';
 import { db } from '../db';

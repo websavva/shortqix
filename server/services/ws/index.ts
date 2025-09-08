@@ -10,7 +10,7 @@ import pg from 'pg';
 import type {
   WsEventTypes,
   WsEvents,
-} from '@/shared/consts/ws-event-types';
+} from '#shared/consts/ws-event-types';
 import { CurrentUserNodeMiddleware } from '#server/middleware/2.current-user';
 
 export class WebSocketService {

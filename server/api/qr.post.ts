@@ -2,7 +2,7 @@ import { defineEventHandler, createError } from 'h3';
 import { eq, and } from 'drizzle-orm';
 import QRCode from 'qrcode';
 
-import { createShortUrl } from '@/shared/utils/create-short-url';
+import { createShortUrl } from '#shared/utils/create-short-url';
 import {
   assertAuth,
   assertPremium,

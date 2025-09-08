@@ -1,9 +1,9 @@
 import { eq, and, sql, inArray } from 'drizzle-orm';
 
-import { PaymentStatus } from '@/shared/consts/payments';
-import { getPremiumPlan } from '@/shared/consts/premium-plans';
-import { sleep } from '@/shared/utils/sleep';
-import { WsEventTypes } from '@/shared/consts/ws-event-types';
+import { PaymentStatus } from '#shared/consts/payments';
+import { getPremiumPlan } from '#shared/consts/premium-plans';
+import { sleep } from '#shared/utils/sleep';
+import { WsEventTypes } from '#shared/consts/ws-event-types';
 import type { Task } from '#server/types/task';
 import type { WsEvent } from '#server/types/ws';
 

@@ -1,8 +1,8 @@
 import { defineEventHandler, createError } from 'h3';
 import { eq, and, inArray } from 'drizzle-orm';
 
-import { PaymentStatus } from '@/shared/consts/payments';
-import { paymentId as paymentIdSchema } from '@/shared/dtos/common';
+import { PaymentStatus } from '#shared/consts/payments';
+import { paymentId as paymentIdSchema } from '#shared/dtos/common';
 import { payments } from '#server/db/entities';
 import { db } from '#server/db/database';
 import {

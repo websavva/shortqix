@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { PremiumPlanId } from '@/shared/consts/premium-plans';
+import { PremiumPlanId } from '#shared/consts/premium-plans';
 
 export const BuyPremiumDtSchema = z.object({
   planId: z.enum(PremiumPlanId, { error: 'Invalid plan' }),

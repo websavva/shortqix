@@ -1,7 +1,7 @@
 import { defineEventHandler, createError } from 'h3';
 import { eq, sql, desc } from 'drizzle-orm';
 
-import { PaginationParamsSchema } from '@/shared/dtos';
+import { PaginationParamsSchema } from '#shared/dtos';
 import {
   assertAuth,
   getValidatedQuery,
