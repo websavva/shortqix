@@ -8,7 +8,7 @@
       :key="label"
       class="flex flex-col items-center"
     >
-      <Component :is="Icon" class="size-7 mb-2"/>
+      <Component :is="Icon" class="size-7 mb-3"/>
 
       <span class="text-sm text-foreground/50 max-w-32 text-center">
         {{ label }}

@@ -5,6 +5,8 @@
     </Container>
 
     <NuxtPage class="min-h-[calc(100vh-23*var(--spacing))] mt-24" />
+
+    <Footer />
   </div>
 </template>
 
@@ -13,6 +15,7 @@ import { useHead } from '#imports';
 
 import NavBar from '~/components/NavBar.vue';
 import Container from '~/components/ui/Container.vue';
+import Footer from '~/components/Footer.vue';
 
 useHead({
     htmlAttrs: {

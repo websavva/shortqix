@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="relative bg-[linear-gradient(0deg,#7eefff24_-10%,transparent_35%)]">
+    <div class="relative bg-gradient-to-t from-primary/5 from-10% to-transparent to-35%">
       <Container class="flex flex-col items-center pt-20 pb-20">
 
         <LogoBox class="text-primary bg-primary/10 size-18 p-3" />
