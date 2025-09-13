@@ -7,7 +7,9 @@ export const CreateShortenedUrlDtoSchema = z.object({
     error: 'Invalid URL',
     protocol: /^https?$/,
   }),
-  code: z.optional(shortUrlCode()).nullable(),
+  code: z
+    .optional(shortUrlCode().optional().or(z.literal('')))
+    .nullable(),
 });
 
 export type CreateShortenedUrlDto = z.infer<

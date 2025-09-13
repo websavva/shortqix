@@ -51,6 +51,67 @@
 
         <FormMessage />
       </FormField>
+
+      <!-- Custom Code Input for Premium Users -->
+      <SizeTransition
+        singular
+        concurrent
+        :fade-config="{ duration: 150 }"
+        :size-config="{ duration: 250 }"
+      >
+        <div v-if="isCodeVisible">
+          <FormField
+            v-slot="{ componentField }"
+            name="code"
+          >
+            <FormItem class="space-y-2 pt-3">
+              <FormControl>
+                <Input
+                  v-bind="componentField"
+                  placeholder="Enter custom code"
+                  class="rounded-lg border border-2 border-input focus-within:ring-2 focus-within:ring-ring transition-all duration-200 overflow-hidden shadow-sm hover:shadow-md h-13"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+        </div>
+      </SizeTransition>
+
+      <!-- Toggle Button for Custom Code -->
+      <div
+        v-if="!isPremium"
+        class="flex items-center justify-between"
+      >
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          class="text-muted-foreground hover:text-foreground"
+          @click="onCodeToggle"
+        >
+          <template #icon>
+            <PlusIcon
+              v-if="!isCodeVisible"
+              class="size-4"
+            />
+
+            <MinusIcon
+              v-else
+              class="size-4"
+            />
+          </template>
+
+          Code
+        </Button>
+
+        <div
+          v-if="isCodeVisible"
+          class="text-xs text-muted-foreground"
+        >
+          Premium feature
+        </div>
+      </div>
     </form>
 
     <!-- Result Display -->
@@ -69,10 +130,16 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowRightIcon, TrashIcon } from 'lucide-vue-next';
+import {
+  ArrowRightIcon,
+  TrashIcon,
+  PlusIcon,
+  MinusIcon,
+} from 'lucide-vue-next';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import { Slot } from 'reka-ui';
+import { useAuth } from '#imports';
 
 import { CreateShortenedUrlDtoSchema } from '#shared/dtos';
 import {
@@ -87,6 +154,8 @@ import ShortenedLinkBox from '@/components/ShortenedLinkBox.vue';
 import SizeTransition from '@/components/ui/SizeTransition.vue';
 import { useToast } from '@/components/ui/toast';
 
+const { isPremium } = useAuth();
+
 const $toast = useToast();
 
 const formSchema = toTypedSchema(
@@ -98,33 +167,46 @@ const form = useForm({
   validationSchema: formSchema,
   initialValues: {
     url: '',
+    code: null,
   },
 });
 
 const pending = computed(() => form.isSubmitting.value);
 const shortenedUrl = ref('');
+const isCodeVisible = ref(false);
+
+const onSubmit = form.handleSubmit(
+  async ({ url, code }) => {
+    try {
+      const response = await $fetch('/api/shorten', {
+        method: 'POST',
+        body: {
+          url,
+          code: code || null,
+        },
+
+        credentials: 'include',
+      });
+
+      shortenedUrl.value = response.shortUrl;
+    } catch (error: any) {
+      $toast.toast({
+        title: 'Failed to shorten link',
+        description:
+          error?.data?.message ||
+          'Please try again with a valid URL.',
+      });
+    }
+  },
+);
 
 const onReset = () => {
   shortenedUrl.value = '';
-
+  isCodeVisible.value = false;
   form.resetForm();
 };
 
-const onSubmit = form.handleSubmit(async (values) => {
-  try {
-    const response = await $fetch('/api/shorten', {
-      method: 'POST',
-      body: { url: values.url },
-    });
-
-    shortenedUrl.value = response.shortUrl;
-  } catch (error: any) {
-    $toast.toast({
-      title: 'Failed to shorten link',
-      description:
-        error?.message ||
-        'Please try again with a valid URL.',
-    });
-  }
-});
+const onCodeToggle = () => {
+  isCodeVisible.value = !isCodeVisible.value;
+};
 </script>

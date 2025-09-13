@@ -34,7 +34,7 @@ const ADVANTAGES = [
     Icon: PackageOpen,
   },
   {
-    label: 'Custom slugs',
+    label: 'Custom codes',
     Icon: SquareMousePointer,
   },
   {

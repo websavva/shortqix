@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
         'Custom codes require active premium subscription',
       );
 
-      // Check if custom slug is available
+      // Check if custom code is available
       const [existingShortenedUrl] = await db
         .select()
         .from(shortenedUrls)
@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
       if (existingShortenedUrl) {
         throw createError({
           statusCode: 409,
-          message: 'Custom slug already taken',
+          message: 'Custom code already taken',
         });
       }
 

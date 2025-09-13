@@ -45,10 +45,10 @@ export const useAuth = () => {
 
     const { isPremium, premiumExpiresAt } = user.value;
 
-    return (
+    return Boolean(
       isPremium &&
-      premiumExpiresAt &&
-      new Date(premiumExpiresAt) > new Date()
+        premiumExpiresAt &&
+        new Date(premiumExpiresAt) > new Date(),
     );
   });
 
@@ -61,7 +61,7 @@ export const useAuth = () => {
       await localFetch('/api/auth/logout', {
         method: 'POST',
       });
-  
+
       if (redirectTo) router.push(redirectTo);
 
       resetUser();

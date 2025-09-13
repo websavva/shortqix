@@ -20,8 +20,6 @@ export default defineNuxtConfig({
     },
   },
 
-  features: {},
-
   fonts: {
     families: [
       {
