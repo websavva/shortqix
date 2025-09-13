@@ -12,6 +12,16 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
   ],
 
+  app: {
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in',
+      appear: true,
+    },
+  },
+
+  features: {},
+
   fonts: {
     families: [
       {

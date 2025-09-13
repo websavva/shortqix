@@ -4,6 +4,9 @@
     :class="
       cn(
         buttonVariants({ variant, size }),
+        {
+          ['flex-row-reverse']: isIconPositionRight,
+        },
         $attrs.class ?? '',
       )
     "
@@ -13,7 +16,7 @@
       v-if="$slots.icon || pending"
       class="flex items-center text-[1em]"
       :class="{
-        ['mr-2']: $slots.default,
+        [isIconPositionRight ? 'ml-2' : 'mr-2']: $slots.default,
       }"
     >
       <LoaderCircle
@@ -33,11 +36,12 @@
 <script setup lang="ts">
 import { LoaderCircle } from 'lucide-vue-next';
 import { cva } from 'class-variance-authority';
+import { computed } from '#imports';
 
 import { cn } from '@/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-80 disabled:cursor-not-allowed font-bold',
+  'inline-flex items-center justify-center cursor-pointer rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-80 disabled:cursor-not-allowed font-bold',
   {
     variants: {
       variant: {
@@ -76,10 +80,16 @@ interface Props {
   >['size'];
   as?: string;
   pending?: boolean;
+  iconPosition?: 'right' | 'left';
 }
 
 // eslint-disable-next-line vue/define-macros-order
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   as: 'button',
+  iconPosition: 'left',
 });
+
+const isIconPositionRight = computed(
+  () => props.iconPosition === 'right',
+);
 </script>

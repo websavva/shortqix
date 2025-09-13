@@ -9,11 +9,11 @@ import {
   assertPremium, readValidatedBody 
 } from '../utils/validation';
 import { createShortUrl } from '../../shared/utils/create-short-url';
-import { CreateShortenedUrlDtSchema } from '../../shared/dtos';
+import { CreateShortenedUrlDtoSchema } from '../../shared/dtos';
 
 export default defineEventHandler(async (event) => {
   const { url, code: customCode } = await readValidatedBody(
-    CreateShortenedUrlDtSchema,
+    CreateShortenedUrlDtoSchema,
     event,
   );
 

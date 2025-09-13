@@ -1,10 +1,7 @@
-import { useAuth } from '@/composables/useAuth';
-
-import { defineNuxtPlugin } from '#app';
-
+import { defineNuxtPlugin, useAuth } from '#imports';
 
 export default defineNuxtPlugin(async () => {
-  const { checkAuth } = useAuth();
+  const { fetchUser } = useAuth();
 
-  await checkAuth();
+  await fetchUser();
 });

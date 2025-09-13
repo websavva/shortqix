@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { shortUrlCode } from '../common';
 
-export const CreateShortenedUrlDtSchema = z.object({
+export const CreateShortenedUrlDtoSchema = z.object({
   url: z.url({
     error: 'Invalid URL',
     protocol: /^https?$/,
@@ -11,5 +11,5 @@ export const CreateShortenedUrlDtSchema = z.object({
 });
 
 export type CreateShortenedUrlDto = z.infer<
-  typeof CreateShortenedUrlDtSchema
+  typeof CreateShortenedUrlDtoSchema
 >;

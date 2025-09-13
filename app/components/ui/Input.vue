@@ -3,7 +3,7 @@
     v-model="modelValue"
     :class="
       cn(
-        'flex h-10 w-full rounded-md border border-input border-2 bg-background p-5 ring-offset-background file:border-0 file:bg-transparent file:text-foreground file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+        'flex w-full rounded-xl border border-input border-2 bg-background px-5 py-3 ring-offset-background file:border-0 file:bg-transparent file:text-foreground file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
         $attrs.class ?? '',
       )
     "
