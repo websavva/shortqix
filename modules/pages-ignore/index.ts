@@ -43,17 +43,6 @@ export default defineNuxtModule({
 
   setup(_, nuxt) {
     nuxt.hook('modules:done', () => {
-      nuxt.options.app.pageTransition = {
-        name: 'page',
-        mode: 'out-in',
-        appear: true,
-      };
-      nuxt.options.app.layoutTransition = {
-        name: 'page',
-        mode: 'out-in',
-        appear: true,
-      };
-
       nuxt.hook('pages:resolved', removeIgnoredPages);
     });
   },

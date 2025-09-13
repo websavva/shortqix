@@ -12,14 +12,6 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
   ],
 
-  app: {
-    pageTransition: {
-      name: 'page',
-      mode: 'out-in',
-      appear: true,
-    },
-  },
-
   fonts: {
     families: [
       {
@@ -45,6 +37,12 @@ export default defineNuxtConfig({
   },
 
   app: {
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in',
+      appear: true,
+    },
+
     head: {
       title: 'Link Shortener',
       meta: [
@@ -74,6 +72,12 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseUrl: process.env.BASE_URL,
+    },
+  },
+
+  vue: {
+    compilerOptions: {
+      comments: false,
     },
   },
 });
