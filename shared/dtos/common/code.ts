@@ -8,8 +8,4 @@ export const shortUrlCode = () =>
     .regex(
       /^[a-zA-Z0-9-_]+$/,
       'Code can only contain letters and numbers',
-    )
-    .regex(
-      /^(?!.*\bapp\b).*$/i,
-      'This word is not allowed',
     );
