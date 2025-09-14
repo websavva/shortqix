@@ -8,9 +8,14 @@
       :key="label"
       class="flex flex-col items-center"
     >
-      <Component :is="Icon" class="size-7 mb-3"/>
+      <Component
+        :is="Icon"
+        class="size-7 mb-3"
+      />
 
-      <span class="text-sm text-foreground/50 max-w-32 text-center">
+      <span
+        class="text-sm text-foreground/50 max-w-32 text-center"
+      >
         {{ label }}
       </span>
     </li>
@@ -23,10 +28,10 @@ import {
   SquareMousePointer,
   Gauge,
   ExternalLink,
-  ShieldCheck
+  Bitcoin,
 } from 'lucide-vue-next';
 
-import Container from '~/components/ui/Container.vue'
+import Container from '~/components/ui/Container.vue';
 
 const ADVANTAGES = [
   {
@@ -46,8 +51,8 @@ const ADVANTAGES = [
     Icon: ExternalLink,
   },
   {
-    label: 'Data protection',
-    Icon: ShieldCheck,
-  }
+    label: 'BTC payments',
+    Icon: Bitcoin,
+  },
 ];
 </script>
