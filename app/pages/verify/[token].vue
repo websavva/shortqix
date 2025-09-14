@@ -206,11 +206,13 @@
 
               <div class="space-y-4 pt-4">
                 <Button
+                  as="NuxtLink"
+                  href="/login"
                   class="w-full h-14 text-lg"
-                  @click="$router.push('/login')"
                 >
                   Back to Sign In
                 </Button>
+
                 <Button
                   variant="outline"
                   class="w-full h-12"
@@ -252,7 +254,6 @@ definePageMeta({
 
 const $route = useRoute();
 const $toast = useToast();
-const $router = useRouter();
 
 const token = computed(() => $route.params.token);
 
