@@ -56,13 +56,14 @@ export const useAuth = () => {
     try {
       pending.value = true;
 
-      await sleep(3e3);
+      await Promise.all([
+        localFetch('/api/auth/logout', {
+          method: 'POST',
+        }),
+        sleep(1e3),
+      ]);
 
-      await localFetch('/api/auth/logout', {
-        method: 'POST',
-      });
-
-      if (redirectTo) router.push(redirectTo);
+      if (redirectTo) await router.push(redirectTo);
 
       resetUser();
     } finally {

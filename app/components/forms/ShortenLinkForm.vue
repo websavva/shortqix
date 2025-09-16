@@ -25,7 +25,7 @@
           </FormItem>
 
           <Slot
-            class="rounded-none h-full border-0 shadow-none cursor-pointer text-xl"
+            class="rounded-none h-full border-0 w-13 shadow-none cursor-pointer text-xl"
           >
             <Button
               v-if="!shortenedUrl"
@@ -80,7 +80,7 @@
 
       <!-- Toggle Button for Custom Code -->
       <div
-        v-if="!isPremium"
+        v-if="isPremium"
         class="flex items-center justify-between"
       >
         <Button
@@ -171,13 +171,16 @@ const form = useForm({
   },
 });
 
-const pending = computed(() => form.isSubmitting.value);
+const pending = ref(false);
 const shortenedUrl = ref('');
 const isCodeVisible = ref(false);
 
 const onSubmit = form.handleSubmit(
   async ({ url, code }) => {
     try {
+      pending.value = true;
+
+
       const response = await $fetch('/api/shorten', {
         method: 'POST',
         body: {

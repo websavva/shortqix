@@ -23,7 +23,7 @@
       </Container>
     </div>
     
-    <div class="flex flex-col items-center pt-20 h-[400px] bg-background">
+    <div class="flex flex-col items-center pt-20 pb-30 bg-background">
       <span class="bg-foreground/10 text-foreground/80 rounded-lg px-4 py-2 text-sm block uppercase">
         Feature
       </span>
@@ -33,15 +33,17 @@
           Premium Subscription
         </span>
       </h2>
-      
+
+      <PremiumPlanShowcase class="mt-10 w-6xl" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import LogoBox from '~/components/LogoBox.vue';
-import Container from '~/components/ui/Container.vue';
-import ShortenLinkForm from '~/components/forms/ShortenLinkForm.vue';
+import LogoBox from '@/components/LogoBox.vue';
+import Container from '@/components/ui/Container.vue';
+import ShortenLinkForm from '@/components/forms/ShortenLinkForm.vue';
+import PremiumPlanShowcase from '@/components/PremiumPlanShowcase.vue';
 
-import Advantages from './-index/advantages/index.vue'
+import Advantages from './-index/advantages/index.vue';
 </script>

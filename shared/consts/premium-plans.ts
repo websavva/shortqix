@@ -11,16 +11,25 @@ export const PREMIUM_PLANS = {
     id: PremiumPlanId.ONE_MONTH,
     duration: 30,
     priceUSD: 9.99,
+    title: 'Monthly',
+    description: 'Try premium features',
+    durationText: 'month',
   },
   [PremiumPlanId.THREE_MONTHS]: {
     id: PremiumPlanId.THREE_MONTHS,
     duration: 90,
     priceUSD: 24.99,
+    title: 'Quarterly',
+    description: 'Great value choice',
+    durationText: '3 months',
   },
   [PremiumPlanId.ONE_YEAR]: {
     id: PremiumPlanId.ONE_YEAR,
     duration: 365,
     priceUSD: 89.99,
+    title: 'Yearly',
+    description: 'Best long-term value',
+    durationText: 'year',
   },
 } as const;
 
