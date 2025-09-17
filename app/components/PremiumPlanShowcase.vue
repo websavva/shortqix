@@ -1,50 +1,72 @@
 <template>
-  <ul :class="cn('flex gap-8 *:flex-1', props.class ?? '')">
-    <li
-      v-for="plan in PREMIUM_PLANS"
-      :key="plan.id"
+  <div
+    :class="
+      cn('flex flex-col items-center', props.class ?? '')
+    "
+  >
+    <span
+      class="bg-foreground/10 text-foreground/80 rounded-lg px-4 py-2 text-sm block uppercase"
     >
-      <PremiumPlanCard
-        :plan-id="plan.id"
-        :is-popular="plan.id === PremiumPlanId.ONE_YEAR"
-        class="h-full"
-        @select="onSelect"
-      />
-    </li>
+      Feature
+    </span>
 
-    <ClientOnly>
-      <Dialog
-        :open="isModalOpened"
-        @update:open="onModalOpenedUpdate"
+    <h2
+      class="text-3xl mt-5 flex flex-col items-center font-bold text-center"
+    >
+      <span> Premium Subscription </span>
+    </h2>
+
+    <ul
+      class="w-full flex gap-[var(--premium-plan-showcase-gap,_calc(var(--spacing)_*_8))] *:flex-1 mt-10"
+    >
+      <li
+        v-for="plan in PREMIUM_PLANS"
+        :key="plan.id"
       >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Premium Plan Purchase</DialogTitle>
+        <PremiumPlanCard
+          :plan-id="plan.id"
+          :is-popular="plan.id === PremiumPlanId.ONE_YEAR"
+          class="h-full"
+          @select="onSelect"
+        />
+      </li>
 
-            <DialogDescription class="mt-5">
-              Do you want to purchase a premium plan?
-            </DialogDescription>
-          </DialogHeader>
+      <ClientOnly>
+        <Dialog
+          :open="isModalOpened"
+          @update:open="onModalOpenedUpdate"
+        >
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle
+                >Premium Plan Purchase</DialogTitle
+              >
 
-          <DialogFooter class="mt-5">
-            <Button
-              :pending
-              @click="onPurchase"
-            >
-              Purchase
-            </Button>
+              <DialogDescription class="mt-5">
+                Do you want to purchase a premium plan?
+              </DialogDescription>
+            </DialogHeader>
 
-            <Button
-              variant="outline"
-              :disabled="pending"
-              @click="onCancel"
-              >Cancel</Button
-            >
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </ClientOnly>
-  </ul>
+            <DialogFooter class="mt-5">
+              <Button
+                :pending
+                @click="onPurchase"
+              >
+                Purchase
+              </Button>
+
+              <Button
+                variant="outline"
+                :disabled="pending"
+                @click="onCancel"
+                >Cancel</Button
+              >
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </ClientOnly>
+    </ul>
+  </div>
 </template>
 
 <script setup lang="ts">

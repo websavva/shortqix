@@ -17,7 +17,7 @@
               <Input
                 type="text"
                 v-bind="componentField"
-                :disabled="form.isSubmitting.value"
+                :disabled="Boolean(form.isSubmitting.value || shortenedUrl)"
                 placeholder="Enter your long URL here"
                 class="border-0 rounded-none focus-visible:ring-0 bg-transparent min-h-full"
               />
@@ -180,7 +180,6 @@ const onSubmit = form.handleSubmit(
     try {
       pending.value = true;
 
-
       const response = await $fetch('/api/shorten', {
         method: 'POST',
         body: {
@@ -199,6 +198,8 @@ const onSubmit = form.handleSubmit(
           error?.data?.message ||
           'Please try again with a valid URL.',
       });
+    } finally {
+      pending.value = false;
     }
   },
 );
