@@ -151,7 +151,7 @@ import {
 import Input from '@/components/ui/Input.vue';
 import Button from '@/components/ui/Button.vue';
 import ShortenedLinkBox from '@/components/ShortenedLinkBox.vue';
-import SizeTransition from '@/components/ui/SizeTransition.vue';
+import SizeTransition from '@/components/ui/SizeTransition';
 import { useToast } from '@/components/ui/toast';
 
 const { isPremium } = useAuth();

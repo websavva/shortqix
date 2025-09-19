@@ -18,7 +18,7 @@ export interface WsEvents {
 
   [WsEventTypes.PREMIUM_PURCHASE]: Pick<
     User,
-    'premiumExpiresAt'
+    'premiumExpiresAt' | 'isPremium'
   > & {
     planId: PremiumPlanId;
   };

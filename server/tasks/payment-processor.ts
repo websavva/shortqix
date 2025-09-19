@@ -195,8 +195,9 @@ export class PaymentProcessorTask implements Task {
           userId: user.id,
           type: WsEventTypes.PREMIUM_PURCHASE,
           payload: {
-            planId: payment.plan,
+            isPremium: true,
             premiumExpiresAt: updatedUser.premiumExpiresAt!,
+            planId: payment.plan,
           },
         },
       );

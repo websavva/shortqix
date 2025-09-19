@@ -37,10 +37,34 @@
 
       <Button
         as="NuxtLink"
-        href="/premium"
+        to="/premium"
+        icon-position="right"
         class="mx-4"
       >
-        Premium +
+        Premium
+
+        <template #icon>
+          <SizeTransition
+            singular
+            concurrent
+            :fade-config="{ duration: 250 }"
+            :size-config="{ duration: 250 }"
+          >
+            <span
+              v-if="!isPremium"
+              class="-translate-y-[1px] block"
+            >
+              +
+            </span>
+
+            <span
+              v-else
+              class="block"
+            >
+              <Zap />
+            </span>
+          </SizeTransition>
+        </template>
       </Button>
 
       <SizeTransition
@@ -69,12 +93,11 @@
 <script setup lang="ts">
 import { NuxtLink } from '#components';
 import { useAuth } from '#imports';
-import { LogOut } from 'lucide-vue-next';
+import { LogOut, Zap } from 'lucide-vue-next';
 
 import LogoBox from './LogoBox.vue';
-import SizeTransition from './ui/SizeTransition.vue';
+import SizeTransition from './ui/SizeTransition';
 import Button from './ui/Button.vue';
 
-const { isGuest, logout, pending } = useAuth();
-
+const { isGuest, isPremium, logout, pending } = useAuth();
 </script>

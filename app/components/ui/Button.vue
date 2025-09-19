@@ -59,7 +59,7 @@ import { computed } from '#imports';
 
 import { cn } from '@/utils';
 
-import SizeTransition from './SizeTransition.vue';
+import SizeTransition from './SizeTransition';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center cursor-pointer rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-80 disabled:cursor-not-allowed font-bold',

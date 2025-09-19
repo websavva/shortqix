@@ -243,7 +243,7 @@ import {
 } from '#imports';
 
 import { cn } from '@/utils';
-import SizeTransition from '@/components/ui/SizeTransition.vue';
+import SizeTransition from '@/components/ui/SizeTransition';
 import Container from '@/components/ui/Container.vue';
 import { useToast } from '@/components/ui/toast';
 import Button from '@/components/ui/Button.vue';

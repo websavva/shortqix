@@ -8,7 +8,7 @@
       >
         <div class="text-center space-y-4">
           <div
-            class="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto"
+            class="size-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto"
           ></div>
 
           <p class="text-muted-foreground">
@@ -104,11 +104,7 @@
 
           <!-- Payment Progress (for processing payments) -->
           <div
-            v-if="
-              payment.status === PaymentStatus.PROCESSING ||
-              payment.status ===
-                PaymentStatus.CONFIRMATION_PENDING
-            "
+            v-if="isCurrentPaymentWaitingForConfirmation"
             class="mb-6"
           >
             <div
@@ -214,11 +210,7 @@
 
         <!-- Bitcoin Payment Details (for processing payments) -->
         <div
-          v-if="
-            payment.status === PaymentStatus.PROCESSING ||
-            payment.status ===
-              PaymentStatus.CONFIRMATION_PENDING
-          "
+          v-if="isCurrentPaymentWaitingForConfirmation"
           class="bg-gradient-to-b from-primary/0 from-20% to-primary/20 rounded-xl border border-border p-6"
         >
           <div class="flex items-center gap-3 mb-4">
@@ -383,6 +375,7 @@ import {
   onMounted,
   onUnmounted,
   watch,
+  onWsEvent,
 } from '#imports';
 import {
   Clock,
@@ -401,11 +394,13 @@ import { useTimestamp, useCssVar } from '@vueuse/core';
 import { toString as renderQRCode } from 'qrcode';
 
 import type { Payment } from '#server/db/entities';
+import { WsEventTypes } from '#shared/consts/ws-event-types';
 import { PaymentStatus } from '#shared/consts/payments';
 import { getPremiumPlan } from '#shared/consts/premium-plans';
 import Button from '@/components/ui/Button.vue';
 import Container from '@/components/ui/Container.vue';
 import { useToast } from '@/components/ui/toast';
+import { hslToHex } from '@/utils';
 
 definePageMeta({
   middleware: 'auth',
@@ -428,8 +423,8 @@ const {
 
 const {
   timestamp,
-  pause: pauseTimestamp,
-  resume: resumeTimestamp,
+  pause: stopCountdown,
+  resume: startCountdown,
 } = useTimestamp({
   immediate: false,
   controls: true,
@@ -442,25 +437,6 @@ const qrCode = ref('');
 const qrCodeBgColor = useCssVar('--background');
 const qrCodeFgColor = useCssVar('--primary');
 
-function hslToHex(hslString: string) {
-  let [h = 0, s = 0, l = 0] = hslString
-    .match(/\d+/g)!
-    .map(Number);
-
-  l /= 100;
-  const a = (s * Math.min(l, 1 - l)) / 100;
-
-  const f = (n: number) => {
-    const k = (n + h / 30) % 12;
-    const color =
-      l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-    return Math.round(255 * color)
-      .toString(16)
-      .padStart(2, '0'); // convert to Hex and prefix "0" if needed
-  };
-  return `#${f(0)}${f(8)}${f(4)}`;
-}
-
 async function generateQRCode(newBitcoinAddress?: string) {
   if (!newBitcoinAddress) return;
 
@@ -472,8 +448,6 @@ async function generateQRCode(newBitcoinAddress?: string) {
       dark: hslToHex(qrCodeFgColor.value!),
     },
   });
-
-  console.log(qrCode.value);
 }
 
 watch(
@@ -595,16 +569,32 @@ const formatedRemainingTime = computed(() => {
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 });
 
+const isCurrentPaymentWaitingForConfirmation = computed(
+  () => {
+    return isPaymentWaitingForConfirmation(
+      payment.value?.status,
+    );
+  },
+);
+
+function isPaymentWaitingForConfirmation(
+  paymentStatus?: PaymentStatus,
+) {
+  if (!paymentStatus) return false;
+
+  return (
+    paymentStatus === PaymentStatus.PROCESSING ||
+    paymentStatus === PaymentStatus.CONFIRMATION_PENDING
+  );
+}
+
 watch(remainingTimeInMilliseconds, () => {
   if (remainingTimeInMilliseconds.value <= 0) {
     stopCountdown();
 
-    if (
-      payment.value?.status === PaymentStatus.PROCESSING ||
-      payment.value?.status ===
-        PaymentStatus.CONFIRMATION_PENDING
-    ) {
-      payment.value.status = PaymentStatus.EXPIRED;
+    if (isCurrentPaymentWaitingForConfirmation.value) {
+      payment.value!.status = PaymentStatus.EXPIRED;
+      payment.value!.updatedAt = new Date();
     }
   }
 });
@@ -660,28 +650,45 @@ const checkPaymentStatus = async () => {
   }
 };
 
-// Timer for processing payments
-const startCountdown = () => {
-  if (
-    !payment.value ||
-    !(
-      payment.value.status === PaymentStatus.PROCESSING ||
-      payment.value.status ===
-        PaymentStatus.CONFIRMATION_PENDING
-    )
-  )
-    return;
+watch(
+  () => payment.value?.status,
+  (newStatus, oldStatus) => {
+    const isNewPaymentWaitingForConfirmation =
+      isPaymentWaitingForConfirmation(newStatus);
+    const isOldPaymentWaitingForConfirmation =
+      isPaymentWaitingForConfirmation(oldStatus);
 
-  resumeTimestamp();
-};
+    if (
+      isNewPaymentWaitingForConfirmation &&
+      !isOldPaymentWaitingForConfirmation
+    ) {
+      startCountdown();
+    } else if (
+      !isNewPaymentWaitingForConfirmation &&
+      isOldPaymentWaitingForConfirmation
+    ) {
+      stopCountdown();
+    }
+  },
+);
 
-const stopCountdown = () => {
-  pauseTimestamp();
-};
+onWsEvent(
+  WsEventTypes.PAYMENT_UPDATE_STATUS,
+  (updatedPayment) => {
+    if (updatedPayment.id === payment.value?.id) {
+      payment.value = {
+        ...payment.value,
+        ...updatedPayment,
+      };
+    }
+  },
+);
 
 // Lifecycle
 onMounted(() => {
-  startCountdown();
+  if (isCurrentPaymentWaitingForConfirmation.value) {
+    startCountdown();
+  }
 
   generateQRCode(payment.value?.bitcoinAddress);
 });

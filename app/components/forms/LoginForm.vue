@@ -168,7 +168,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import SizeTransition from '@/components/ui/SizeTransition.vue';
+import SizeTransition from '@/components/ui/SizeTransition';
 import Input from '@/components/ui/Input.vue';
 import Button from '@/components/ui/Button.vue';
 import Logo from '@/components/Logo.vue';
