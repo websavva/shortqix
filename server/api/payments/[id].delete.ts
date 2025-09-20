@@ -33,7 +33,8 @@ export default defineEventHandler(async (event) => {
           PaymentStatus.CONFIRMATION_PENDING,
         ]),
       ),
-    );
+    )
+    .returning();
 
   if (!payment) {
     throw createError({

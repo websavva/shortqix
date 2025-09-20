@@ -67,6 +67,7 @@
           v-model:payment="payment"
           :pending="isBeingRefreshed"
           @refresh="onRefresh"
+          @cancel="onCancel"
         />
       </div>
     </Container>
@@ -77,7 +78,6 @@
 import { onWsEvent, ref } from '#imports';
 import { XCircle, ArrowLeft } from 'lucide-vue-next';
 
-import type { Payment } from '#server/db/entities';
 import { WsEventTypes } from '#shared/consts/ws-event-types';
 import Button from '@/components/ui/Button.vue';
 import Container from '@/components/ui/Container.vue';
@@ -98,13 +98,11 @@ const {
   data: payment,
   pending,
   error,
-} = await useFetch<Payment>(
-  `/api/payments/${$route.params.id}`,
-  {
-    credentials: 'include',
-    deep: true,
-  },
-);
+} = await useFetch(`/api/payments/${$route.params.id}`, {
+  method: 'get',
+  credentials: 'include',
+  deep: true,
+});
 
 // Check payment status
 async function onRefresh() {
@@ -113,9 +111,10 @@ async function onRefresh() {
   isBeingRefreshed.value = true;
 
   try {
-    const updatedPayment = await $fetch<Payment>(
+    const updatedPayment = await $fetch(
       `/api/payments/${$route.params.id}`,
       {
+        method: 'get',
         credentials: 'include',
       },
     );
@@ -127,7 +126,32 @@ async function onRefresh() {
       description:
         err?.data?.message ||
         'Failed to check payment status',
-      variant: 'destructive',
+    });
+  } finally {
+    isBeingRefreshed.value = false;
+  }
+}
+
+async function onCancel() {
+  if (!payment.value || isBeingRefreshed.value) return;
+
+  isBeingRefreshed.value = true;
+
+  try {
+    const updatedPayment = await $fetch(
+      `/api/payments/${$route.params.id}`,
+      {
+        method: 'delete',
+        credentials: 'include',
+      },
+    );
+
+    payment.value = updatedPayment;
+  } catch (err: any) {
+    $toast.toast({
+      title: 'Failed to cancel payment',
+      description:
+        err?.data?.message || 'Failed to cancel payment',
     });
   } finally {
     isBeingRefreshed.value = false;
@@ -138,6 +162,7 @@ onWsEvent(
   WsEventTypes.PAYMENT_UPDATE_STATUS,
   (updatedPayment) => {
     if (updatedPayment.id === payment.value?.id) {
+      // @ts-expect-error serializable date issue
       payment.value = {
         ...payment.value,
         ...updatedPayment,

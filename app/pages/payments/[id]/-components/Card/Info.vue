@@ -84,6 +84,7 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
+import type { Serialize } from 'nitropack';
 
 import { PREMIUM_PLANS } from '#shared/consts/premium-plans';
 import type { Payment } from '#server/db/entities';
@@ -91,7 +92,7 @@ import { cn } from '@/utils';
 
 const props = defineProps<{
   class?: HTMLAttributes['class'];
-  payment: Payment;
+  payment: Payment | Serialize<Payment>;
 }>();
 
 const planTitle = computed(() => {

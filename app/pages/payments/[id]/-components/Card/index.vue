@@ -47,12 +47,14 @@
       :pending="props.pending"
       class="mt-6"
       @refresh="emit('refresh')"
+      @cancel="emit('cancel')"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { Serialize } from 'nitropack';
 
 import type { Payment } from '#server/db/entities';
 import {
@@ -68,13 +70,14 @@ import BitcoinAddressBox from './BitcoinAddressBox.vue';
 import ProgressBar from './ProgressBar.vue';
 
 const props = defineProps<{
-  payment: Payment;
+  payment: Payment | Serialize<Payment>;
   pending: boolean;
 }>();
 
 const emit = defineEmits<{
   refresh: [];
-  'update:payment': [Payment];
+  cancel: [];
+  'update:payment': [Payment | Serialize<Payment>];
 }>();
 
 const isCurrentPaymentWaitingForConfirmation = computed(

@@ -3,17 +3,13 @@
     <!-- Action Buttons -->
     <FadeTransition>
       <Button
-        v-if="
-          props.status === PaymentStatus.PROCESSING ||
-          props.status ===
-            PaymentStatus.CONFIRMATION_PENDING
-        "
+        v-if="isPaymentWaitingForConfirmation"
         :disabled="props.pending"
         size="lg"
         @click="emit('refresh')"
       >
         <template #icon>
-          <ArrowRight class="w-4 h-4" />
+          <ArrowRight />
         </template>
         Check Status
       </Button>
@@ -26,7 +22,7 @@
         size="lg"
       >
         <template #icon>
-          <ArrowRight class="w-4 h-4" />
+          <ArrowRight />
         </template>
         Go to Dashboard
       </Button>
@@ -41,7 +37,7 @@
         size="lg"
       >
         <template #icon>
-          <Plus class="w-4 h-4" />
+          <Plus />
         </template>
 
         Create New Payment
@@ -55,22 +51,42 @@
         size="lg"
       >
         <template #icon>
-          <ArrowLeft class="w-4 h-4" />
+          <ArrowLeft />
         </template>
 
         Back to Plans
       </Button>
     </FadeTransition>
 
-    <!-- Payment History Link -->
+    <SizeTransition
+      v-if="isPaymentWaitingForConfirmation"
+      singular
+      concurrent
+      :pending="props.pending"
+      :fade-config="{ duration: 200 }"
+      :size-config="{ duration: 200 }"
+      @click="emit('cancel')"
+    >
+      <Button
+        size="lg"
+        variant="secondary"
+      >
+        <template #icon>
+          <CopyX />
+        </template>
+
+        Cancel Payment
+      </Button>
+    </SizeTransition>
+
     <Button
-      variant="secondary"
+      variant="outline"
       as="NuxtLink"
       size="lg"
       to="/payments"
     >
       <template #icon>
-        <History class="w-4 h-4" />
+        <History />
       </template>
 
       View All Payments
@@ -84,11 +100,17 @@ import {
   ArrowLeft,
   Plus,
   History,
+  CopyX,
 } from 'lucide-vue-next';
+import { computed } from 'vue';
 
-import { PaymentStatus } from '#shared/consts/payments';
+import {
+  PaymentStatus,
+  isPaymentWaitingForConfirmation as isPaymentWaitingForConfirmationFn,
+} from '#shared/consts/payments';
 import Button from '@/components/ui/Button.vue';
 import FadeTransition from '@/components/ui/FadeTransition';
+import SizeTransition from '@/components/ui/SizeTransition';
 
 const props = defineProps<{
   status: PaymentStatus;
@@ -97,5 +119,10 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   refresh: [];
+  cancel: [];
 }>();
+
+const isPaymentWaitingForConfirmation = computed(() =>
+  isPaymentWaitingForConfirmationFn(props.status),
+);
 </script>
