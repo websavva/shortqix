@@ -159,7 +159,6 @@ const features = [
   'Advanced analytics dashboard',
   'URLs list',
   'Custom short URLs',
-  'QR code generation',
 ];
 
 // Check if current plan

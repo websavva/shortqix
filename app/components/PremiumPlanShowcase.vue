@@ -116,6 +116,7 @@ const onSelect = (planId: PremiumPlanId) => {
 const onPurchase = async () => {
   if (pending.value) return;
 
+  pending.value = true;
   try {
     const { payment } = await $fetch('/api/premium', {
       method: 'POST',
