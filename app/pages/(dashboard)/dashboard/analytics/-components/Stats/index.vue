@@ -18,10 +18,11 @@
         />
       </div>
 
-      <Error
+      <ErrorPane
         v-else-if="error"
-        :error-message="
-          error.data?.message || 'Failed to load analytics'
+        title="Failed to load analytics"
+        :message="
+          error?.data?.message || 'Failed to load analytics'
         "
         :pending="pending"
         @retry="fetchStats"
@@ -65,10 +66,10 @@ import {
 import { useAuth, useLazyFetch } from '#imports';
 
 import SizeTransition from '@/components/ui/SizeTransition';
+import ErrorPane from '@/components/ErrorPane.vue';
 
 import StatCard from './StatCard.vue';
 import StatCardPlaceholder from './StatCardPlaceholder.vue';
-import Error from './Error.vue';
 import PremiumBannerUpgrade from './PremiumBannerUpgrade.vue';
 
 const { isPremium } = useAuth();

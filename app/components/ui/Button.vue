@@ -1,15 +1,7 @@
 <template>
   <component
     :is="as"
-    :class="
-      cn(
-        buttonVariants({ variant, size }),
-        {
-          ['flex-row-reverse']: isIconPositionRight,
-        },
-        $attrs.class ?? '',
-      )
-    "
+    :class="derivedClassName"
   >
     <SizeTransition
       singular
@@ -52,16 +44,20 @@
   </component>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { LoaderCircle } from 'lucide-vue-next';
-import { cva } from 'class-variance-authority';
-import { computed } from '#imports';
+import type { HTMLAttributes } from 'vue';
+import {
+  cva,
+  type VariantProps,
+} from 'class-variance-authority';
+import { computed, defineComponent } from '#imports';
 
 import { cn } from '@/utils';
 
 import SizeTransition from './SizeTransition';
 
-const buttonVariants = cva(
+export const buttonVariants = cva(
   'inline-flex items-center justify-center cursor-pointer rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-80 disabled:cursor-not-allowed font-bold',
   {
     variants: {
@@ -92,25 +88,79 @@ const buttonVariants = cva(
   },
 );
 
-interface Props {
-  variant?: NonNullable<
-    Parameters<typeof buttonVariants>[0]
-  >['variant'];
-  size?: NonNullable<
-    Parameters<typeof buttonVariants>[0]
-  >['size'];
-  as?: string;
-  pending?: boolean;
-  iconPosition?: 'right' | 'left';
-}
+export type ButtonVariants = VariantProps<
+  typeof buttonVariants
+>;
 
-// eslint-disable-next-line vue/define-macros-order
-const props = withDefaults(defineProps<Props>(), {
-  as: 'button',
-  iconPosition: 'left',
+export default defineComponent({
+  components: {
+    LoaderCircle,
+    SizeTransition,
+  },
+
+  props: {
+    class: {
+      type: String as PropType<HTMLAttributes['class']>,
+      default: '',
+    },
+
+    variant: {
+      type: String as PropType<
+        NonNullable<
+          Parameters<typeof buttonVariants>[0]
+        >['variant']
+      >,
+      default: 'default',
+    },
+
+    size: {
+      type: String as PropType<
+        NonNullable<
+          Parameters<typeof buttonVariants>[0]
+        >['size']
+      >,
+      default: 'default',
+    },
+
+    as: {
+      type: String,
+      default: 'button',
+    },
+
+    pending: Boolean,
+
+    disabled: Boolean,
+
+    iconPosition: {
+      type: String as PropType<'right' | 'left'>,
+      default: 'left',
+    },
+  },
+
+  setup(props) {
+    const isIconPositionRight = computed(
+      () => props.iconPosition === 'right',
+    );
+
+    const derivedClassName = computed(() =>
+      cn(
+        buttonVariants({
+          variant: props.variant,
+          size: props.size,
+        }),
+        {
+          ['flex-row-reverse']: isIconPositionRight.value,
+        },
+        props.class,
+      ),
+    );
+
+    return {
+      isIconPositionRight,
+      buttonVariants,
+      cn,
+      derivedClassName,
+    };
+  },
 });
-
-const isIconPositionRight = computed(
-  () => props.iconPosition === 'right',
-);
 </script>

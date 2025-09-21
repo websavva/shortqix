@@ -3,6 +3,7 @@ import { eq, desc, sql } from 'drizzle-orm';
 
 import { PaginationParamsSchema } from '#shared/dtos';
 import { payments } from '#server/db/entities';
+import { createPaginationMetadata } from '#server/utils/pagination';
 import { db } from '#server/db/database';
 import {
   assertAuth,
@@ -13,7 +14,7 @@ export default defineEventHandler(async (event) => {
   assertAuth(event);
 
   const { page, limit } = await getValidatedQuery(
-    PaginationParamsSchema(),
+    PaginationParamsSchema,
     event,
   );
 
@@ -31,25 +32,21 @@ export default defineEventHandler(async (event) => {
       .offset(offset);
 
     // Get total count for pagination metadata
-    const totalCount = await db
-      .select({ count: sql<number>`count(${payments.id})` })
+    const [{ totalCount }] = await db
+      .select({
+        totalCount: sql<number>`count(${payments.id})`,
+      })
       .from(payments)
       .where(eq(payments.userId, event.user!.id));
-
-    const totalPayments = Number(totalCount[0].count);
-    const totalPages = Math.ceil(totalPayments / limit);
 
     return {
       payments: paymentItems,
 
-      pagination: {
+      pagination: createPaginationMetadata({
+        totalCount,
         page,
         limit,
-        totalPayments,
-        totalPages,
-        hasNext: page < totalPages,
-        hasPrev: page > 1,
-      },
+      }),
     };
   } catch (error: any) {
     console.error('Payments fetch error:', error);

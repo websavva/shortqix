@@ -1,4 +1,8 @@
-import { defineEventHandler, createError } from 'h3';
+import {
+  defineEventHandler,
+  createError,
+  getQuery,
+} from 'h3';
 import { eq, sql, desc } from 'drizzle-orm';
 
 import { PaginationParamsSchema } from '#shared/dtos';
@@ -6,14 +10,14 @@ import {
   assertAuth,
   getValidatedQuery,
 } from '#server/utils/validation';
+import { createPaginationMetadata } from '#server/utils/pagination';
 
 import { db } from '../../db/database';
 import { shortenedUrls } from '../../db/schema';
 
-
 export default defineEventHandler(async (event) => {
   const { page, limit } = await getValidatedQuery(
-    PaginationParamsSchema(),
+    PaginationParamsSchema,
     event,
   );
 
@@ -30,9 +34,10 @@ export default defineEventHandler(async (event) => {
         code: shortenedUrls.code,
         isCustom: shortenedUrls.isCustom,
         longUrl: shortenedUrls.longUrl,
-        clicks: shortenedUrls.clicks,
+        ...(event.user!.isPremium && {
+          clicks: shortenedUrls.clicks,
+        }),
         createdAt: shortenedUrls.createdAt,
-        userId: shortenedUrls.userId,
       })
       .from(shortenedUrls)
       .where(eq(shortenedUrls.userId, event.user!.id))
@@ -41,25 +46,22 @@ export default defineEventHandler(async (event) => {
       .limit(limit);
 
     // Get total count for pagination metadata
-    const totalCount = await db
+    const [{ totalCount }] = await db
       .select({
-        count: sql<number>`count(${shortenedUrls.id})`,
+        totalCount: sql<number>`count(${shortenedUrls.id})::integer`,
       })
       .from(shortenedUrls)
       .where(eq(shortenedUrls.userId, event.user!.id));
 
-    const totalUrls = Number(totalCount[0].count);
-    const totalPages = Math.ceil(totalUrls / limit);
+    const pagination = createPaginationMetadata({
+      totalCount,
+      page,
+      limit,
+    });
 
     return {
       urls,
-      pagination: {
-        page,
-        totalUrls,
-        totalPages,
-        hasNext: page < totalPages,
-        hasPrev: page > 1,
-      },
+      pagination,
     };
   } catch (error: any) {
     if (error.statusCode) throw error;

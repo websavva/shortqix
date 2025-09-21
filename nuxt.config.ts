@@ -28,6 +28,14 @@ export default defineNuxtConfig({
   //   autoImport: true,
   // },
 
+  vite: {
+    define: {
+      'process.env.BASE_URL': JSON.stringify(
+        process.env.BASE_URL,
+      ),
+    },
+  },
+
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
   },

@@ -2,7 +2,7 @@
   <div
     class="bg-destructive/10 border border-destructive/20 rounded-lg p-6"
   >
-    <div class="flex items-center space-x-3">
+    <div class="flex space-x-3">
       <div
         class="w-10 h-10 bg-destructive/20 rounded-lg flex items-center justify-center"
       >
@@ -10,17 +10,19 @@
       </div>
       <div>
         <div class="font-semibold text-destructive mb-1">
-          Failed to load analytics
+          {{ title }}
         </div>
 
-        <p class="text-sm text-muted-foreground mb-4">
-          {{ errorMessage }}
+        <p class="text-sm text-muted-foreground">
+          {{ message }}
         </p>
 
         <Button
+          v-if="isRetryable"
           size="sm"
           variant="outline"
           :pending="pending"
+          class="mt-4"
           @click="$emit('retry')"
         >
           Try Again
@@ -36,11 +38,15 @@ import { AlertCircle } from 'lucide-vue-next';
 import Button from '@/components/ui/Button.vue';
 
 interface Props {
-  errorMessage: string;
+  title: string;
+  message: string;
   pending?: boolean;
+  isRetryable?: boolean;
 }
 
-defineProps<Props>();
+withDefaults(defineProps<Props>(), {
+  isRetryable: true,
+});
 
 defineEmits<{
   retry: [];
