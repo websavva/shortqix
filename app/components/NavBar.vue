@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="bg-background/80 py-3 px-2 rounded-md flex items-center justify-between backdrop-blur-sm h-20"
+    class="bg-background/80 py-3 px-2 rounded-md flex items-center justify-between backdrop-blur-sm h-[var(--nav-bar-height)]"
   >
     <NuxtLink
       to="/"

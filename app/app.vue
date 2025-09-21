@@ -22,7 +22,7 @@ import { Toaster } from '~/components/ui/toast';
 
 useHead({
     htmlAttrs: {
-        class: 'text-[16px]',
+        class: 'text-[16px] [--nav-bar-height:calc(20*var(--spacing))]',
     },
 });
 </script>
