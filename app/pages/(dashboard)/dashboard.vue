@@ -18,7 +18,7 @@
         />
 
         <!-- Main Content Area -->
-        <main class="flex-1 min-w-0 h-[20000px]">
+        <main class="flex-1 min-w-0">
           <div
             class="bg-card rounded-xl shadow-sm border border-border"
           >

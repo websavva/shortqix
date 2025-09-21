@@ -1,13 +1,13 @@
 import { defineEventHandler, createError } from 'h3';
 import { eq, sql } from 'drizzle-orm';
 
-
-import { assertAuth, assertPremium  } from '#server/utils/validation';
+import {
+  assertAuth,
+  assertPremium,
+} from '#server/utils/validation';
 
 import { db } from '../../db/database';
 import { shortenedUrls } from '../../db/schema';
-
-
 
 export default defineEventHandler(async (event) => {
   assertAuth(event);
@@ -21,9 +21,9 @@ export default defineEventHandler(async (event) => {
     const [{ totalUrls, totalClicks, averageClicks }] =
       await db
         .select({
-          totalUrls: sql<number>`count(${shortenedUrls.id})`,
-          totalClicks: sql<number>`coalesce(sum(${shortenedUrls.clicks}), 0)`,
-          averageClicks: sql<number>`coalesce(round(avg(${shortenedUrls.clicks}), 2), 0)`,
+          totalUrls: sql<number>`count(${shortenedUrls.id})::integer`,
+          totalClicks: sql<number>`coalesce(sum(${shortenedUrls.clicks}), 0)::integer`,
+          averageClicks: sql<number>`coalesce(round(avg(${shortenedUrls.clicks}), 2), 0)::float`,
         })
         .from(shortenedUrls)
         .where(eq(shortenedUrls.userId, event.user!.id));
@@ -32,6 +32,10 @@ export default defineEventHandler(async (event) => {
       totalUrls,
       totalClicks,
       averageClicks,
+    } as {
+      totalUrls: number;
+      totalClicks: number;
+      averageClicks: number;
     };
   } catch (error: any) {
     if (error.statusCode) throw error;
