@@ -9,6 +9,7 @@ export interface UseSizeTransitionOptions {
   concurrent?: boolean;
   disabled?: boolean;
   singular?: boolean;
+  heightOnly?: boolean;
 }
 
 export type UseSizeTransitionPropsWithListeners = Required<
@@ -32,6 +33,7 @@ export const SIZE_TRANSITION_DEFAULT_OPTIONS: UseSizeTransitionOptions =
     concurrent: true,
     disabled: false,
     singular: false,
+    heightOnly: false,
   };
 
 const throwNonHTMLElementUsageError = () => {
@@ -83,14 +85,18 @@ export const useSizeTransition = (
             opacity: 1,
             ...(adjustedOptions.value.singular && {
               height: getPixels(prevHeight),
-              width: getPixels(prevWidth),
+              ...(!adjustedOptions.value.heightOnly && {
+                width: getPixels(prevWidth),
+              }),
             }),
           },
           {
             opacity: 0,
             ...(adjustedOptions.value.singular && {
               height: 0,
-              width: 0,
+              ...(!adjustedOptions.value.heightOnly && {
+                width: 0,
+              }),
             }),
           },
         ],
@@ -117,16 +123,20 @@ export const useSizeTransition = (
         await el.animate(
           [
             {
-              width: adjustedOptions.value.singular
-                ? 0
-                : getPixels(prevWidth),
+              ...(!adjustedOptions.value.heightOnly && {
+                width: adjustedOptions.value.singular
+                  ? 0
+                  : getPixels(prevWidth),
+              }),
               height: adjustedOptions.value.singular
                 ? 0
                 : getPixels(prevHeight),
               ...(concurrent && { opacity: 0 }),
             },
             {
-              width: getPixels(el.offsetWidth),
+              ...(!adjustedOptions.value.heightOnly && {
+                width: getPixels(el.offsetWidth),
+              }),
               height: getPixels(el.offsetHeight),
               ...(concurrent && { opacity: 1 }),
             },

@@ -17,8 +17,9 @@
       <SizeTransition
         singular
         concurrent
+        height-only
         :fade-config="{ duration: 200 }"
-        :size-config="{ duration: 150 }"
+        :size-config="{ duration: 200 }"
       >
         <!-- URLs Table -->
         <UrlsTablePlaceholder v-if="pending" />
@@ -79,6 +80,8 @@ const {
 } = await useLazyFetch('/api/analytics/urls', {
   credentials: 'include',
   query,
+  // temporary enforced delay for smooth animation
+  transform: (response) => sleep(500).then(() => response),
 });
 
 function onPageChange(page: number) {

@@ -29,6 +29,8 @@ export default defineComponent({
     disabled: Boolean,
 
     singular: Boolean,
+
+    heightOnly: Boolean,
   },
 
   setup(props, { slots }) {
@@ -39,6 +41,7 @@ export default defineComponent({
         fadeConfig: fade,
         sizeConfig: size,
         singular,
+        heightOnly,
       } = props;
 
       return {
@@ -47,6 +50,7 @@ export default defineComponent({
         fade,
         size,
         singular,
+        heightOnly,
       };
     });
 
