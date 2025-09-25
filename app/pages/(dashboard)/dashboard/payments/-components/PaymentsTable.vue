@@ -10,7 +10,7 @@
           <TableHead>Bitcoin Address</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Created</TableHead>
-          <TableHead>Expires</TableHead>
+          <!-- <TableHead>Expires</TableHead> -->
           <TableHead class="w-12"></TableHead>
         </TableRow>
       </TableHeader>
@@ -79,19 +79,23 @@
             </div>
           </TableCell>
 
-          <TableCell>
-            <NuxtTime
-              v-if="
-                shouldShowExpiresAt(
-                  payment.status,
-                )
-              "
-              :datetime="payment.expiresAt"
-              relative
-            />
+          <!-- <TableCell>
+            <SizeTransition
+              singular
+              concurrent
+              :fade-config="{ duration: 200 }"
+              :size-config="{ duration: 200 }"
+            >
+              <NuxtTime
+                v-if="shouldShowExpiresAt(payment.status)"
+                :datetime="payment.expiresAt"
+                relative
+                class="block"
+              />
 
-            <div v-else>&mdash;</div>
-          </TableCell>
+              <div v-else class="block">&mdash;</div>
+            </SizeTransition>
+          </TableCell> -->
 
           <TableCell>
             <div class="flex items-center">
@@ -106,23 +110,34 @@
                 </template>
               </Button>
 
-              <Button
-                v-if="
-                  isPaymentWaitingForConfirmation(
-                    payment.status,
-                  )
-                "
-                size="sm"
-                variant="ghost"
-                :pending="
-                  cancellingPaymentId === payment.id
-                "
-                @click="cancelPayment(payment.id)"
+              <SizeTransition
+                singular
+                concurrent
+                :fade-config="{ duration: 50 }"
+                :size-config="{ duration: 100 }"
               >
-                <template #icon>
-                  <X />
-                </template>
-              </Button>
+                <div
+                  v-if="
+                    isPaymentWaitingForConfirmation(
+                      payment.status,
+                    )
+                  "
+                  class="overflow-hidden"
+                >
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    :pending="
+                      cancellingPaymentId === payment.id
+                    "
+                    @click="cancelPayment(payment.id)"
+                  >
+                    <template #icon>
+                      <X />
+                    </template>
+                  </Button>
+                </div>
+              </SizeTransition>
             </div>
           </TableCell>
         </TableRow>
@@ -152,6 +167,7 @@ import {
   PaymentStatus,
   isPaymentWaitingForConfirmation,
 } from '#shared/consts/payments';
+import SizeTransition from '@/components/ui/SizeTransition';
 
 type SerializedPayment =
   InternalApi['/api/payments']['default']['payments'][number];

@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
     // Get total count for pagination metadata
     const [{ totalCount }] = await db
       .select({
-        totalCount: sql<number>`count(${payments.id})`,
+        totalCount: sql<number>`count(${payments.id})::integer`,
       })
       .from(payments)
       .where(eq(payments.userId, event.user!.id));

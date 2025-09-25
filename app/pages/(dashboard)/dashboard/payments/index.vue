@@ -112,6 +112,9 @@ async function onCancel(paymentId: string) {
       },
     );
 
+    // temporary enforced delay for smooth animation
+    await sleep(500);
+
     paymentsResponse.value!.payments =
       paymentsResponse.value!.payments.map((payment) =>
         payment.id === paymentId ? updatedPayment : payment,

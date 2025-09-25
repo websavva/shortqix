@@ -52,7 +52,7 @@
             />
           </TableCell>
 
-          <TableCell>
+          <TableCell class="flex justify-end">
             <Button
               variant="outline"
               size="sm"
