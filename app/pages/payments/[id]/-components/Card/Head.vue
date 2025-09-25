@@ -25,7 +25,10 @@
         :fade-config="{ duration: 200 }"
         :size-config="{ duration: 200 }"
       >
-        <div :key="statusConfig!.title" class="whitespace-nowrap">
+        <div
+          :key="statusConfig!.title"
+          class="whitespace-nowrap"
+        >
           <h2 class="text-xl font-semibold text-foreground">
             {{ statusConfig!.title }}
           </h2>
@@ -38,13 +41,10 @@
     </div>
 
     <FadeTransition>
-      <div
-        :key="statusConfig!.badge"
-        class="px-3 py-1 rounded-full text-sm font-medium"
-        :class="statusConfig!.badgeClass"
-      >
-        {{ statusConfig!.badge }}
-      </div>
+      <PaymentStatusBadge
+        :key="props.status"
+        :status="props.status"
+      />
     </FadeTransition>
   </div>
 </template>
@@ -61,6 +61,7 @@ import type { HTMLAttributes } from 'vue';
 
 import SizeTransition from '@/components/ui/SizeTransition';
 import FadeTransition from '@/components/ui/FadeTransition';
+import PaymentStatusBadge from '@/components/PaymentStatusBadge.vue';
 import { PaymentStatus } from '#shared/consts/payments';
 import { cn } from '@/utils';
 
@@ -74,8 +75,6 @@ const configs = {
     icon: Clock,
     title: 'Payment Processing',
     description: 'Waiting for Bitcoin payment',
-    badge: 'Processing',
-    badgeClass: 'bg-primary/10 text-primary',
     class: 'bg-primary/10 text-primary',
   },
   [PaymentStatus.CONFIRMATION_PENDING]: {
@@ -83,33 +82,24 @@ const configs = {
     title: 'Confirmation Pending',
     description:
       'Payment received, waiting for confirmation',
-    badge: 'Pending',
-    badgeClass: 'bg-yellow-200/20 text-yellow-200',
     class: 'bg-yellow-200/20 text-yellow-200 animate-spin',
   },
   [PaymentStatus.SUCCESS]: {
     icon: CheckCircle,
     title: 'Payment Successful',
     description: 'Your premium subscription is now active',
-    badge: 'Success',
-    badgeClass: 'bg-green-300/10 text-green-300',
     class: 'bg-green-300/10 text-green-300',
   },
   [PaymentStatus.EXPIRED]: {
     icon: XCircle,
     title: 'Payment Expired',
     description: 'This payment has expired',
-    badge: 'Expired',
-    badgeClass: 'bg-destructive/10 text-destructive',
     class: 'bg-destructive/10 text-destructive',
   },
   [PaymentStatus.CANCELLED]: {
     icon: AlertCircle,
     title: 'Payment Cancelled',
     description: 'This payment was cancelled',
-    badge: 'Cancelled',
-    badgeClass:
-      'bg-muted-foreground/20 text-muted-foreground',
     class: 'bg-muted-foreground/20 text-muted-foreground',
   },
 };

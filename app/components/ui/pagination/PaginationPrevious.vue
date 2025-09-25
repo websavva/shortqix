@@ -12,7 +12,6 @@
   >
     <slot>
       <ChevronLeftIcon />
-      <span class="hidden sm:block">Previous</span>
     </slot>
   </PaginationPrev>
 </template>

@@ -3,15 +3,12 @@
     <!-- Page Header -->
     <div>
       <h1 class="text-3xl font-bold text-foreground mb-2">
-        Analytics
+        Payments
       </h1>
       <p class="text-muted-foreground">
-        Track your link performance and engagement metrics
+        Manage your payments and subscription status
       </p>
     </div>
-
-    <!-- Stats Component -->
-    <Stats />
 
     <div class="mt-5">
       <SizeTransition
@@ -26,21 +23,26 @@
 
         <ErrorPane
           v-else-if="error"
-          title="Failed to load URLs"
+          title="Failed to load payments"
           :message="
-            error?.data?.message || 'Failed to load URLs'
+            error?.data?.message ||
+            'Failed to load payments'
           "
           :pending="pending"
-          @retry="fetchUrls"
+          @retry="fetchPayments"
         />
 
-        <div v-else-if="urlsResponse">
-          <UrlsTable :urls="urlsResponse.urls" />
+        <div v-else-if="paymentsResponse">
+          <PaymentsTable
+            :payments="paymentsResponse.payments"
+            :cancelling-payment-id
+            @cancel="onCancel"
+          />
 
           <Pagination
-            v-if="urlsResponse.pagination.count > 1"
+            v-if="paymentsResponse.pagination.count > 1"
             class="mt-5"
-            v-bind="urlsResponse.pagination"
+            v-bind="paymentsResponse.pagination"
             @change="onPageChange"
           />
         </div>
@@ -61,23 +63,26 @@ import SizeTransition from '@/components/ui/SizeTransition';
 import Pagination from '@/components/ui/pagination/Pagination.vue';
 import { PaginationParamsSchema } from '#shared/dtos/pagination';
 import TablePlaceholder from '@/components/ui/table/TablePlaceholder.vue';
+import { useToast } from '@/components/ui/toast';
 
-import Stats from './-components/Stats/index.vue';
-import UrlsTable from './-components/UrlsTable.vue';
+import PaymentsTable from './-components/PaymentsTable.vue';
 
 const $router = useRouter();
 const $route = useRoute();
+const $toast = useToast();
+
+const cancellingPaymentId = ref<string | null>(null);
 
 const query = computed(() =>
   PaginationParamsSchema.parse($route.query),
 );
 
 const {
-  data: urlsResponse,
+  data: paymentsResponse,
   pending,
   error,
-  execute: fetchUrls,
-} = await useLazyFetch('/api/analytics/urls', {
+  execute: fetchPayments,
+} = await useLazyFetch('/api/payments', {
   credentials: 'include',
   query,
   // temporary enforced delay for smooth animation
@@ -91,5 +96,34 @@ function onPageChange(page: number) {
       page,
     },
   });
+}
+
+async function onCancel(paymentId: string) {
+  if (cancellingPaymentId.value) return;
+
+  cancellingPaymentId.value = paymentId;
+
+  try {
+    const updatedPayment = await $fetch(
+      `/api/payments/${paymentId}`,
+      {
+        method: 'DELETE',
+        credentials: 'include',
+      },
+    );
+
+    paymentsResponse.value!.payments =
+      paymentsResponse.value!.payments.map((payment) =>
+        payment.id === paymentId ? updatedPayment : payment,
+      );
+  } catch (error: any) {
+    $toast.toast({
+      title: 'Failed to cancel payment',
+      description:
+        error?.data?.message || 'Please try again',
+    });
+  } finally {
+    cancellingPaymentId.value = null;
+  }
 }
 </script>

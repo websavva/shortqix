@@ -83,7 +83,7 @@
       variant="outline"
       as="NuxtLink"
       size="lg"
-      to="/payments"
+      to="/dashboard/payments"
     >
       <template #icon>
         <History />

@@ -6,6 +6,8 @@
     :total="props.totalCount"
     :default-page="1"
     :class="props.class"
+    :show-edges="true"
+    :sibling-count="1"
     @update:page="onPageChange"
   >
     <PaginationContent v-slot="{ items }">
@@ -22,9 +24,11 @@
         >
           {{ item.value }}
         </PaginationItem>
-      </template>
 
-      <PaginationEllipsis :index="4" />
+        <PaginationEllipsis
+          v-else-if="item.type === 'ellipsis'"
+        />
+      </template>
 
       <PaginationNext />
     </PaginationContent>
@@ -43,12 +47,14 @@ import PaginationItem from './PaginationItem.vue';
 import PaginationNext from './PaginationNext.vue';
 import PaginationPrevious from './PaginationPrevious.vue';
 
-const props =
-  defineProps<
-    Pick<PaginationMetadata, 'page' | 'limit' | 'totalCount'> & {
-        class?: HTMLAttributes['class'];
-    }
-  >();
+const props = defineProps<
+  Pick<
+    PaginationMetadata,
+    'page' | 'limit' | 'totalCount'
+  > & {
+    class?: HTMLAttributes['class'];
+  }
+>();
 
 const emit = defineEmits<{
   change: [value: number];
