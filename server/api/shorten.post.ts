@@ -1,12 +1,17 @@
 import { nanoid } from 'nanoid';
-import { defineEventHandler, createError } from 'h3';
-import { eq } from 'drizzle-orm';
+import {
+  defineEventHandler,
+  createError,
+  getRequestIP,
+} from 'h3';
+import { eq, and, sql, gte, lte } from 'drizzle-orm';
 
 import { db } from '../db/database';
 import { shortenedUrls } from '../db/schema';
 import {
   assertAuth,
-  assertPremium, readValidatedBody 
+  assertPremium,
+  readValidatedBody,
 } from '../utils/validation';
 import { createShortUrl } from '../../shared/utils/create-short-url';
 import { CreateShortenedUrlDtoSchema } from '../../shared/dtos';
@@ -46,13 +51,56 @@ export default defineEventHandler(async (event) => {
       code = nanoid(6);
     }
 
+    const { user, sessionId } = event;
+
+    const ipAddress = getRequestIP(event, {
+      xForwardedFor: true,
+    })!;
+
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
+
+    const [{ count: todayShortenedUrlsCount }] = await db
+      .select({
+        count: sql<number>`count(${shortenedUrls.id})::integer`,
+      })
+      .from(shortenedUrls)
+      .where(
+        and(
+          user
+            ? eq(shortenedUrls.userId, user.id)
+            : eq(shortenedUrls.ipAddress, ipAddress),
+          gte(shortenedUrls.createdAt, todayStart),
+          lte(shortenedUrls.createdAt, todayEnd),
+        ),
+      );
+
+    const maxTodayShortenedUrlsCount = +(user?.isPremium
+      ? process.env.PREMIUM_SHORT_URLS_MAX_COUNT!
+      : process.env.NON_PREMIUM_SHORT_URLS_MAX_COUNT!);
+
+    if (
+      todayShortenedUrlsCount >= maxTodayShortenedUrlsCount
+    ) {
+      throw createError({
+        statusCode: 400,
+        message:
+          'You have reached the maximum number of shortened URLs for today. Please upgrade to a premium plan to increase your limit.',
+      });
+    }
+
     await db
       .insert(shortenedUrls)
       .values({
         code,
         longUrl: url,
         isCustom: Boolean(customCode),
-        userId: event.user?.id,
+        userId: user?.id,
+        ipAddress,
+        sessionId,
       })
       .returning();
 

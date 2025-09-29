@@ -1,5 +1,5 @@
 {
-  "id": "9d371c57-cd9d-4b18-943b-2863ba30b3cb",
+  "id": "d2c23a10-3f12-4073-a9a3-49f14d4f10dc",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -294,6 +294,18 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": false
+        },
+        "ip_address": {
+          "name": "ip_address",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guest_id": {
+          "name": "guest_id",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},

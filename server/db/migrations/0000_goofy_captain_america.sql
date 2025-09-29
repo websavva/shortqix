@@ -42,6 +42,8 @@ CREATE TABLE "shortened_urls" (
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"clicks" integer DEFAULT 0 NOT NULL,
 	"user_id" integer,
+	"ip_address" varchar(100) NOT NULL,
+	"guest_id" varchar(100) NOT NULL,
 	CONSTRAINT "shortened_urls_code_unique" UNIQUE("code")
 );
 --> statement-breakpoint

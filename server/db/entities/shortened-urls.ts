@@ -18,6 +18,10 @@ export const shortenedUrls = pgTable('shortened_urls', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   clicks: integer('clicks').default(0).notNull(),
   userId: integer('user_id').references(() => users.id),
+  ipAddress: varchar('ip_address', {
+    length: 100,
+  }).notNull(),
+  sessionId: varchar('guest_id', { length: 100 }).notNull(),
 });
 
 export type ShortenedUrl =

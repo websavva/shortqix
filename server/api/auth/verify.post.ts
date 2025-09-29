@@ -3,17 +3,19 @@ import {
   createError,
   setCookie,
 } from 'h3';
-import { eq, and, gt } from 'drizzle-orm';
-
+import { eq, and, gt, isNull } from 'drizzle-orm';
 
 import type { AuthTokenPayload } from '#server/types';
 
 import { db } from '../../db/database';
-import { users, magicLinks } from '../../db/schema';
+import {
+  users,
+  magicLinks,
+  shortenedUrls,
+} from '../../db/schema';
 import { readValidatedBody } from '../../utils/validation';
 import { VerifyMagicLinkDtSchema } from '../../../shared/dtos';
 import { AuthJwtService } from '../../services/jwt';
-
 
 export default defineEventHandler(async (event) => {
   const { token } = await readValidatedBody(
@@ -79,6 +81,17 @@ export default defineEventHandler(async (event) => {
           .where(eq(users.id, user.id));
         user.isVerified = true;
       }
+
+      // Assigning short urls to user
+      await tx
+        .update(shortenedUrls)
+        .set({ userId: user.id })
+        .where(
+          and(
+            eq(shortenedUrls.sessionId, event.sessionId),
+            isNull(shortenedUrls.userId),
+          ),
+        );
 
       return user;
     });
