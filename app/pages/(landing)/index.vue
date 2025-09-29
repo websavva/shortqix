@@ -7,7 +7,8 @@
         class="flex flex-col items-center pt-20 pb-20"
       >
         <LogoBox
-          class="size-18 p-3"
+          class="size-18"
+          :scale=".85"
         />
 
         <h1
@@ -38,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import LogoBox from '@/components/LogoBox.vue';
+import LogoBox from '#shared/components/LogoBox';
 import Container from '@/components/ui/Container.vue';
 import ShortenLinkForm from '@/components/forms/ShortenLinkForm.vue';
 import PremiumPlanShowcase from '@/components/PremiumPlanShowcase.vue';

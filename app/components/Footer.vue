@@ -13,7 +13,7 @@
       >
         <div class="flex items-center gap-2">
           <LogoBox
-            class="size-8 p-2"
+            class="size-8"
           />
 
           <span class="font-semibold text-foreground">
@@ -35,9 +35,8 @@
 </template>
 
 <script setup lang="ts">
+import LogoBox from '#shared/components/LogoBox';
 import { cn } from '@/utils';
-
-import LogoBox from './LogoBox.vue';
 
 const currentYear = new Date().getFullYear();
 </script>

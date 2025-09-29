@@ -7,7 +7,7 @@
       class="flex items-center gap-2"
     >
       <LogoBox
-        class="size-12 p-3"
+        class="size-12"
       />
 
       <span class="text-lg font-medium">Shortqix</span>
@@ -95,7 +95,8 @@ import { NuxtLink } from '#components';
 import { useAuth } from '#imports';
 import { LogOut, Zap } from 'lucide-vue-next';
 
-import LogoBox from './LogoBox.vue';
+import LogoBox from '#shared/components/LogoBox';
+
 import SizeTransition from './ui/SizeTransition';
 import Button from './ui/Button.vue';
 
