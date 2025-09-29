@@ -7,7 +7,7 @@
     >
       <Column>
         <Img
-          :src="`${baseUrl}/logo-box.png`"
+          :src="toAbsoluteUrl('/logo-box.png')"
           :width="48"
           :height="48"
           alt="Shortqix"
@@ -38,8 +38,9 @@ import {
   Text,
 } from '@vue-email/components';
 
+import { toAbsoluteUrl } from '#shared/utils/to-absolute-url';
+    
 import { useEmailStyles } from './useEmailStyles';
 
 const { paragraph } = useEmailStyles();
-const baseUrl = process.env.BASE_URL;
 </script>
