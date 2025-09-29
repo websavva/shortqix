@@ -14,7 +14,7 @@ export default defineNuxtModule({
 
     if (nuxt.options.dev) {
       addServerHandler({
-        route: '/dev/email-preview',
+        route: '/api/dev/email-preview',
         handler: resolver.resolve('./runtime/handler.ts'),
       });
     }

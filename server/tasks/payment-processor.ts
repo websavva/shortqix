@@ -19,6 +19,7 @@ import {
   db,
   type DbOrTransactionInstance,
 } from '../db/database';
+import { MailService } from '../services/mail';
 
 export class PaymentProcessorTask implements Task {
   static async processAllPayments() {
@@ -184,6 +185,23 @@ export class PaymentProcessorTask implements Task {
         payment,
         user,
       );
+
+      await MailService.sendMailTemplate(
+        'premium-purchase',
+        {
+          to: updatedUser.email,
+          props: {
+            purchasedAt: payment.confirmedAt!,
+            premiumExpiresAt: updatedUser.premiumExpiresAt!,
+            planId: payment.plan,
+          },
+        },
+      ).catch((err) => {
+        console.error(
+          `❌ Error sending premium purchase email:`,
+          err,
+        );
+      });
 
       events.push(
         {
