@@ -25,7 +25,7 @@
 
     <Section :style="body">
       <EmailButton
-        :href="`${baseUrl}/dashboard`"
+        :href="toAbsoluteUrl('/dashboard')"
         variant="primary"
         size="lg"
       >
@@ -38,10 +38,11 @@
 <script setup lang="ts">
 import {
   Heading,
-  Link,
   Section,
   Text,
 } from '@vue-email/components';
+
+import { toAbsoluteUrl } from '#shared/utils/to-absolute-url';
 
 import {
   EmailLayout,
@@ -50,6 +51,5 @@ import {
   useEmailStyles,
 } from '../../components';
 
-const baseUrl = process.env.BASE_URL;
-const { heading, body, paragraph, link } = useEmailStyles();
+const { heading, body, paragraph } = useEmailStyles();
 </script>

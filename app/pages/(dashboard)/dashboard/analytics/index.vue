@@ -34,7 +34,7 @@
           @retry="fetchUrls"
         />
 
-        <div v-else-if="urlsResponse">
+        <div v-else-if="urlsResponse && urlsResponse.urls.length > 0">
           <UrlsTable :urls="urlsResponse.urls" />
 
           <Pagination
@@ -43,6 +43,12 @@
             v-bind="urlsResponse.pagination"
             @change="onPageChange"
           />
+        </div>
+
+        <div v-else>
+          <p class="text-muted-foreground">
+            No URLs found
+          </p>
         </div>
       </SizeTransition>
     </div>

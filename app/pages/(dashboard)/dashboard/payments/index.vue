@@ -32,7 +32,7 @@
           @retry="fetchPayments"
         />
 
-        <div v-else-if="paymentsResponse">
+        <div v-else-if="paymentsResponse && paymentsResponse.payments.length > 0">
           <PaymentsTable
             :payments="paymentsResponse.payments"
             :cancelling-payment-id
@@ -45,6 +45,12 @@
             v-bind="paymentsResponse.pagination"
             @change="onPageChange"
           />
+        </div>
+
+        <div v-else>
+          <p class="text-muted-foreground">
+            No payments found
+          </p>
         </div>
       </SizeTransition>
     </div>

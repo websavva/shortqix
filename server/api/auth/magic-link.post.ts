@@ -1,8 +1,4 @@
-import {
-  defineEventHandler,
-  createError,
-  getQuery,
-} from 'h3';
+import { defineEventHandler, createError } from 'h3';
 import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 
@@ -19,6 +15,8 @@ export default defineEventHandler(async (event) => {
   );
 
   try {
+    let isNewUser = false;
+
     // Use transaction to ensure both operations succeed or fail together
     const token = await db.transaction(async (tx) => {
       // Check if user exists, create if not
@@ -29,6 +27,8 @@ export default defineEventHandler(async (event) => {
         .limit(1);
 
       if (!user) {
+        isNewUser = true;
+
         // Create new user
         const [newUser] = await tx
           .insert(users)
@@ -59,13 +59,21 @@ export default defineEventHandler(async (event) => {
       return token;
     });
 
-    // Send magic link email
-    await MailService.sendMailTemplate('magic-link', {
-      to: email,
-      props: {
-        token,
-      },
-    });
+    // Send magic link and welcome emails
+    await Promise.all([
+      MailService.sendMailTemplate('magic-link', {
+        to: email,
+        props: {
+          token,
+        },
+      }),
+      isNewUser
+        ? MailService.sendMailTemplate('welcome', {
+            to: email,
+            props: {},
+          })
+        : Promise.resolve(),
+    ]);
 
     return {
       email,
