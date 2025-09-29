@@ -9,8 +9,9 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
-    '@nuxtjs/tailwindcss',
   ],
+
+  buildDir: '.nuxt',
 
   fonts: {
     families: [
@@ -34,10 +35,6 @@ export default defineNuxtConfig({
         process.env.BASE_URL,
       ),
     },
-  },
-
-  tailwindcss: {
-    cssPath: '~/assets/css/tailwind.css',
   },
 
   alias: {
