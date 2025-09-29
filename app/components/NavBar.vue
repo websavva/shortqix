@@ -7,7 +7,7 @@
       class="flex items-center gap-2"
     >
       <LogoBox
-        class="text-primary bg-primary/10 size-12 p-3"
+        class="size-12 p-3"
       />
 
       <span class="text-lg font-medium">Shortqix</span>

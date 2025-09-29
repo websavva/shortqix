@@ -7,7 +7,7 @@
         class="flex flex-col items-center pt-20 pb-20"
       >
         <LogoBox
-          class="text-primary bg-primary/10 size-18 p-3"
+          class="size-18 p-3"
         />
 
         <h1

@@ -13,7 +13,7 @@
       >
         <div class="flex items-center gap-2">
           <LogoBox
-            class="text-primary bg-primary/10 size-8 p-2"
+            class="size-8 p-2"
           />
 
           <span class="font-semibold text-foreground">

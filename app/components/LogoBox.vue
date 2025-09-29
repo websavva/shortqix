@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center rounded-lg">
+  <div class="text-primary bg-primary/10 flex items-center justify-center rounded-lg">
     <Logo class="size-full"/>
   </div>
 </template>
