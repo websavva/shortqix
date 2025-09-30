@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-background py-8">
+  <div class="min-h-screen bg-background py-8 max-sm:pt-2">
     <Container class="px-4">
       <!-- Loading State -->
       <div

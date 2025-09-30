@@ -65,10 +65,11 @@
           class="flex-shrink-0"
           @click="copyAddress"
         >
-          <template #icon>
-            <Copy class="w-4 h-4" />
-          </template>
-          Copy
+          <Copy class="size-4" />
+
+          <span class="max-sm:hidden ml-2">
+            Copy
+          </span>
         </Button>
       </div>
 

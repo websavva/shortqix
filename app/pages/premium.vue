@@ -1,5 +1,5 @@
 <template>
-  <Container class="py-10">
+  <Container class="py-10 max-sm:pt-0 max-sm:px-5">
     <PremiumPlanShowcase />
   </Container>
 </template>

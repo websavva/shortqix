@@ -25,15 +25,16 @@
         :fade-config="{ duration: 200 }"
         :size-config="{ duration: 200 }"
       >
-        <div
-          :key="statusConfig!.title"
-          class="whitespace-nowrap"
-        >
-          <h2 class="text-xl font-semibold text-foreground">
+        <div :key="statusConfig!.title">
+          <h2
+            class="text-xl font-semibold text-foreground whitespace-nowrap"
+          >
             {{ statusConfig!.title }}
           </h2>
 
-          <p class="text-sm text-muted-foreground">
+          <p
+            class="text-sm text-muted-foreground sm:whitespace-nowrap mt-1"
+          >
             {{ statusConfig!.description }}
           </p>
         </div>
@@ -44,6 +45,7 @@
       <PaymentStatusBadge
         :key="props.status"
         :status="props.status"
+        class="max-sm:hidden"
       />
     </FadeTransition>
   </div>
