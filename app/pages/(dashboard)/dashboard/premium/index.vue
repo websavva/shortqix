@@ -35,6 +35,8 @@
 </template>
 
 <script setup lang="ts">
+import { useSeoMeta } from '#imports';
+
 import { PremiumPlanId } from '#shared/consts/premium-plans';
 import { useToast } from '@/components/ui/toast';
 
@@ -46,6 +48,12 @@ import PremiumPlanCard from './-components/PremiumPlanCard.vue';
 // State
 const pending = ref(false);
 const $toast = useToast();
+
+useSeoMeta({
+  title: 'Premium Management',
+  description:
+    'Manage your premium subscription and billing',
+});
 
 async function onPlanSelect(planId: PremiumPlanId) {
   pending.value = true;

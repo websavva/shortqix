@@ -3,8 +3,8 @@ import { defineMailTemplate } from '../utils';
 import Component from './Component.vue';
 
 export const WelcomeMailTemplate = defineMailTemplate(
-  Component,
+  Component,  
   () => {
-    return `Welcome to Shortqix`;
+    return `Welcome to ${process.env.APP_NAME}`;
   },
 );

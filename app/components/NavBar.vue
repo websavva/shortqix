@@ -9,7 +9,7 @@
     >
       <LogoBox class="size-12" />
 
-      <span class="text-lg font-medium">Shortqix</span>
+      <span class="text-lg font-medium">{{ appName }}</span>
     </NuxtLink>
 
     <!-- Desktop Navigation -->
@@ -193,6 +193,8 @@ import LogoBox from '#shared/components/LogoBox';
 import RollTransition from './ui/RollTransition';
 import SizeTransition from './ui/SizeTransition';
 import Button from './ui/Button.vue';
+
+const appName = process.env.APP_NAME;
 
 const { isGuest, isPremium, logout, pending } = useAuth();
 

@@ -33,7 +33,11 @@
           @retry="fetchUrls"
         />
 
-        <div v-else-if="urlsResponse && urlsResponse.urls.length > 0">
+        <div
+          v-else-if="
+            urlsResponse && urlsResponse.urls.length > 0
+          "
+        >
           <UrlsTable :urls="urlsResponse.urls" />
 
           <Pagination
@@ -45,9 +49,7 @@
         </div>
 
         <div v-else>
-          <p class="text-muted-foreground">
-            No URLs found
-          </p>
+          <p class="text-muted-foreground">No URLs found</p>
         </div>
       </SizeTransition>
     </div>
@@ -59,6 +61,7 @@ import {
   useLazyFetch,
   useRouter,
   useRoute,
+  useSeoMeta,
 } from '#imports';
 
 import ErrorPane from '@/components/ErrorPane.vue';
@@ -78,6 +81,12 @@ const $route = useRoute();
 const query = computed(() =>
   PaginationParamsSchema.parse($route.query),
 );
+
+useSeoMeta({
+  title: 'Analytics',
+  description:
+    'Track your link performance and engagement metrics',
+});
 
 const {
   data: urlsResponse,

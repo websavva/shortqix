@@ -12,12 +12,10 @@
         class="flex flex-col items-center justify-center gap-4 text-center"
       >
         <div class="flex items-center gap-2">
-          <LogoBox
-            class="size-8"
-          />
+          <LogoBox class="size-8" />
 
           <span class="font-semibold text-foreground">
-            Shortqix
+            {{ appName }}
           </span>
         </div>
 
@@ -26,8 +24,14 @@
         </p>
 
         <p class="text-xs text-muted-foreground">
-          © {{ currentYear }} Shortqix. All rights
+          © {{ currentYear }} {{ appName }}. All rights
           reserved.
+        </p>
+
+        <p class="text-xs text-primary">
+          <a :href="`mailto:${supportEmail}`">
+            {{ supportEmail }}
+          </a>
         </p>
       </div>
     </div>
@@ -39,4 +43,7 @@ import LogoBox from '#shared/components/LogoBox';
 import { cn } from '@/utils';
 
 const currentYear = new Date().getFullYear();
+const appName = process.env.APP_NAME;
+
+const supportEmail = process.env.SUPPORT_EMAIL;
 </script>

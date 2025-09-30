@@ -1,12 +1,12 @@
 <template>
-  <EmailLayout preview="Welcome to Shortqix Premium!">
+  <EmailLayout :preview="`Welcome to ${appName} Premium!`">
     <Heading :style="heading">
-      🎉 Welcome to Shortqix Premium!
+      🎉 Welcome to {{ appName }} Premium!
     </Heading>
 
     <Section :style="body">
       <Text :style="paragraph">
-        Thank you for upgrading to Shortqix Premium! You now
+        Thank you for upgrading to {{ appName }} Premium! You now
         have access to all our advanced features to
         supercharge your link management.
       </Text>
@@ -149,6 +149,8 @@ const props = withDefaults(defineProps<Props>(), {
   purchasedAt: () => new Date(),
 });
 
+const appName = process.env.APP_NAME;
+  
 const { heading, body, paragraph, link } = useEmailStyles();
 
 const plan = computed(() => getPremiumPlan(props.planId)!);

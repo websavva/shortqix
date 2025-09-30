@@ -10,7 +10,7 @@
           :src="toAbsoluteUrl('/logo-box.png')"
           :width="48"
           :height="48"
-          alt="Shortqix"
+          :alt="appName"
         />
       </Column>
 
@@ -22,7 +22,7 @@
             fontWeight: '600',
           }"
         >
-          Shortqix
+          {{ appName }}
         </Text>
       </Column>
     </Row>
@@ -43,4 +43,6 @@ import { toAbsoluteUrl } from '#shared/utils/to-absolute-url';
 import { useEmailStyles } from './useEmailStyles';
 
 const { paragraph } = useEmailStyles();
+
+const appName = process.env.APP_NAME;
 </script>

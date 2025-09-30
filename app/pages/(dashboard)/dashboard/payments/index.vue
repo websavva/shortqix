@@ -66,6 +66,7 @@ import {
   useLazyFetch,
   useRouter,
   useRoute,
+  useSeoMeta,
 } from '#imports';
 
 import ErrorPane from '@/components/ErrorPane.vue';
@@ -88,6 +89,11 @@ const cancellingPaymentId = ref<string | null>(null);
 const query = computed(() =>
   PaginationParamsSchema.parse($route.query),
 );
+
+useSeoMeta({
+  title: 'Payments',
+  description: 'Manage your payments and subscription status',
+});
 
 const {
   data: paymentsResponse,

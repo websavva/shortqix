@@ -14,7 +14,7 @@
         <h1
           class="max-sm:text-3xl max-xl:text-4xl text-5xl font-bold mt-10 max-sm:mt-5 text-center leading-tight max-w-2xl"
         >
-          <span class="text-primary">Shortqix.</span> Link
+          <span class="text-primary">{{ appName }}.</span> Link
           Shortener
 
           <br />
@@ -43,10 +43,19 @@
 </template>
 
 <script setup lang="ts">
+import { useSeoMeta } from '#imports';
+
 import LogoBox from '#shared/components/LogoBox';
 import Container from '@/components/ui/Container.vue';
 import ShortenLinkForm from '@/components/forms/ShortenLinkForm.vue';
 import PremiumPlanShowcase from '@/components/PremiumPlanShowcase.vue';
 
 import Advantages from './-index/advantages/index.vue';
+
+const appName = process.env.APP_NAME;
+
+useSeoMeta({
+  title: 'Home',
+  description: 'Shorten your links with ease',
+});
 </script>

@@ -237,7 +237,12 @@ import {
   CheckIcon,
   MailWarningIcon,
 } from 'lucide-vue-next';
-import { useRoute, onMounted, useAuth } from '#imports';
+import {
+  useRoute,
+  onMounted,
+  useAuth,
+  useSeoMeta,
+} from '#imports';
 
 import { cn } from '@/utils';
 import SizeTransition from '@/components/ui/SizeTransition';
@@ -253,6 +258,11 @@ const $route = useRoute();
 const $toast = useToast();
 
 const token = computed(() => $route.params.token);
+
+useSeoMeta({
+  title: 'Verify Email',
+  description: 'Verify your email address',
+});
 
 const {
   execute: verify,

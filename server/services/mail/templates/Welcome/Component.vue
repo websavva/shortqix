@@ -1,12 +1,12 @@
 <template>
-  <EmailLayout preview="Welcome to Shortqix!">
+  <EmailLayout :preview="`Welcome to ${appName}!`">
     <Heading :style="heading">
-      🎉 Welcome to Shortqix!
+      🎉 Welcome to {{ appName }}!
     </Heading>
 
     <Section :style="body">
       <Text :style="paragraph">
-        Thank you for joining Shortqix! We're excited to
+        Thank you for joining {{ appName }}! We're excited to
         help you create short, memorable links that work
         everywhere.
       </Text>
@@ -52,4 +52,7 @@ import {
 } from '../../components';
 
 const { heading, body, paragraph } = useEmailStyles();
+
+const appName = process.env.APP_NAME;
+
 </script>

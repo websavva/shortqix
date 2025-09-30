@@ -27,7 +27,7 @@ export interface BitcoinBalanceResponse {
 export class BitcoinService {
   static readonly SATOSHIS_PER_BTC = 100_000_000;
   static readonly MEMPOOL_API_BASE = 'https://mempool.space/testnet/api';
-  static readonly USER_AGENT = 'ShortQix-Payment-Processor/1.0';
+  static readonly USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
   static createAddress() {
     const keyPair = ECPair.makeRandom({ rng: () => randomBytes(32) });

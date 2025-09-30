@@ -14,7 +14,7 @@
         
         <Text :style="paragraph">
           Best,
-          <br />- Shortqix Team
+          <br />- {{ appName }} Team
         </Text>
         
         <Hr :style="hr" />
@@ -45,9 +45,12 @@ export interface Props {
   preview?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  preview: 'Shortqix - Fast, reliable URL shortening service',
+const appName = process.env.APP_NAME;
+
+withDefaults(defineProps<Props>(), {
+  preview: `${process.env.APP_NAME} - Fast, reliable URL shortening service`,
 });
 
 const { main, container, body, paragraph, hr } = useEmailStyles();
+
 </script>

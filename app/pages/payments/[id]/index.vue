@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { onWsEvent, ref } from '#imports';
+import { onWsEvent, ref, useHead } from '#imports';
 import { XCircle, ArrowLeft } from 'lucide-vue-next';
 
 import { WsEventTypes } from '#shared/consts/ws-event-types';
@@ -170,4 +170,18 @@ onWsEvent(
     }
   },
 );
+
+useHead(() => ({
+  title: payment.value
+    ? `Payment Details - ${payment.value.id}`
+    : 'Not Found Payment',
+  meta: [
+    {
+      name: 'description',
+      content: payment.value
+        ? 'Track your premium subscription payment'
+        : 'Not Found Payment',
+    },
+  ],
+}));
 </script>

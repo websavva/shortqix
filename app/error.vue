@@ -197,7 +197,7 @@ import {
   Info,
   Lightbulb,
 } from 'lucide-vue-next';
-import { clearError, useRoute, computed } from '#imports';
+import { clearError, useRoute, computed, useSeoMeta } from '#imports';
 import { NuxtTime } from '#components';
 
 import Button from '@/components/ui/Button.vue';
@@ -266,10 +266,6 @@ const errorDescription = computed(() => {
   }
 });
 
-const errorId = computed(() => {
-  return Math.random().toString(36).substring(2, 15);
-});
-
 // Methods
 function getErrorType(statusCode?: number): string {
   if (!statusCode) return 'Unknown';
@@ -313,8 +309,13 @@ Thank you for helping us improve our service!
   `);
 
   window.open(
-    `mailto:support@shortqix.com?subject=${subject}&body=${body}`,
+    `mailto:${process.env.SUPPORT_EMAIL}?subject=${subject}&body=${body}`,
     '_blank',
   );
 }
+
+useSeoMeta({
+  title: errorTitle.value,
+  description: errorDescription.value,
+});
 </script>
