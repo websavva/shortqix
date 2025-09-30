@@ -87,6 +87,10 @@
 @theme {
   --font-display: 'Inter', 'sans-serif';
   --font-sans: 'Inter', 'sans-serif';
+  --breakpoint-xs: 30rem;
+  --breakpoint-2xl: 100rem;
+  --breakpoint-3xl: 110rem;
+  --breakpoint-4xl: 120rem;
 }
 @layer base {
   svg {

@@ -1,7 +1,7 @@
 <template>
   <Container
     tag="ul"
-    class="flex gap-8 justify-center"
+    class="flex max-sm:gap-6 gap-8 flex-wrap justify-center"
   >
     <li
       v-for="{ label, Icon } in ADVANTAGES"
@@ -10,11 +10,11 @@
     >
       <Component
         :is="Icon"
-        class="size-7 mb-3"
+        class="max-xl:size-6 size-7 mb-3"
       />
 
       <span
-        class="text-sm text-foreground/50 max-w-32 text-center"
+        class="max-sm:text-xs text-sm text-foreground/50 max-w-32 text-center"
       >
         {{ label }}
       </span>

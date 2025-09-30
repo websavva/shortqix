@@ -5,19 +5,19 @@
     "
   >
     <span
-      class="bg-foreground/10 text-foreground/80 rounded-lg px-4 py-2 text-sm block uppercase"
+      class="bg-foreground/10 text-foreground/80 rounded-lg px-4 py-2 text-sm max-lg:text-xs block uppercase"
     >
       Feature
     </span>
 
     <h2
-      class="text-3xl mt-5 flex flex-col items-center font-bold text-center"
+      class="text-3xl max-lg:text-2xl mt-5 flex flex-col items-center font-bold text-center"
     >
       <span> Premium Subscription </span>
     </h2>
 
     <ul
-      class="w-full flex gap-[var(--premium-plan-showcase-gap,_calc(var(--spacing)_*_8))] *:flex-1 mt-10"
+      class="w-full flex gap-[var(--premium-plan-showcase-gap,_calc(var(--spacing)_*_8))] *:flex-1 mt-10 max-lg:flex-col max-lg:max-w-md max-lg:w-full"
     >
       <li
         v-for="plan in PREMIUM_PLANS"

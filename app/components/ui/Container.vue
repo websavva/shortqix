@@ -1,7 +1,7 @@
 <template>
   <Component
     :is="tag"
-    :class="cn('mx-auto max-w-screen-xl', props.class)"
+    :class="cn('mx-auto  max-lg:w-full max-xl:max-w-screen-lg max-w-screen-xl', props.class)"
   >
     <slot />
   </Component>

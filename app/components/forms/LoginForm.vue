@@ -2,7 +2,7 @@
   <div
     :class="
       cn(
-        'rounded-[2rem] border border-primary/30 w-full max-w-2xl py-20 px-16 relative overflow-hidden shadow-lg shadow-primary/20',
+        'rounded-[2rem] border border-primary/30 w-full max-w-2xl py-20 px-16 relative overflow-hidden shadow-lg shadow-primary/20 max-lg:py-16 max-sm:p-10 max-xs:p-6 max-xs:rounded-2xl',
         props.class ?? '',
       )
     "
@@ -23,21 +23,21 @@
         <!-- Success State -->
         <div
           v-if="activeEmail"
-          class="text-center space-y-6"
+          class="text-center space-y-6 max-sm:space-y-4"
         >
           <div
-            class="mx-auto w-20 h-20 bg-gradient-to-br from-primart/15 via-primart/10 to-primary/5 rounded-2xl flex items-center justify-center shadow-lg border border-green-500/10"
+            class="mx-auto size-20 max-sm:size-16 bg-gradient-to-br from-primart/15 via-primart/10 to-primary/5 rounded-2xl flex items-center justify-center shadow-lg border border-green-500/10"
           >
-            <CheckCircle class="size-10 text-primary" />
+            <CheckCircle class="size-1/2 text-primary" />
           </div>
 
           <h2
-            class="text-5xl font-bold text-foreground tracking-tight"
+            class="text-5xl max-lg:text-3xl font-bold text-foreground tracking-tight"
           >
             Check Your Email
           </h2>
           <p
-            class="text-xl text-muted-foreground max-w-md mx-auto leading-relaxed"
+            class="text-xl max-lg:text-base text-muted-foreground max-w-md mx-auto leading-relaxed"
           >
             We've sent a secure sign-in link to
             <span class="font-semibold text-foreground">{{
@@ -61,19 +61,19 @@
           <!-- Header -->
           <div class="text-center space-y-6">
             <div
-              class="mx-auto w-20 h-20 bg-gradient-to-br from-primary/15 via-primary/10 to-primary/5 rounded-2xl flex items-center justify-center shadow-lg border border-primary/10"
+              class="mx-auto size-20 max-lg:size-18 max-sm:size-16 bg-gradient-to-br from-primary/15 via-primary/10 to-primary/5 rounded-2xl flex items-center justify-center shadow-lg border border-primary/10"
             >
               <ArrowRight
-                class="w-10 h-10 text-primary rotate-45"
+                class="size-1/2 text-primary rotate-45"
               />
             </div>
             <h2
-              class="text-5xl font-bold text-foreground tracking-tight"
+              class="text-5xl max-lg:text-4xl max-xs:text-3xl font-bold text-foreground tracking-tight"
             >
               Login
             </h2>
             <p
-              class="text-xl text-muted-foreground max-w-md mx-auto leading-relaxed"
+              class="text-xl max-lg:text-lg max-sm:text-base max-xs:text-sm text-muted-foreground max-w-md mx-auto leading-relaxed"
             >
               Enter your email to receive a secure sign-in
               link
@@ -110,13 +110,13 @@
 
             <Button
               size="lg"
-              class="w-full h-16 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 mt-10"
+              class="w-full h-16 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 mt-10 max-lg:mt-5 max-lg:text-base max-lg:h-13 max-xs:text-sm"
               type="submit"
               :pending
               icon-position="right"
             >
               <template #icon>
-                <ArrowRight class="w-6 h-6" />
+                <ArrowRight />
               </template>
 
               Send Magic Link
@@ -125,24 +125,24 @@
 
           <div class="text-center space-y-4 mt-8">
             <p
-              class="text-lg text-muted-foreground/70 leading-relaxed"
+              class="text-lg max-lg:text-base max-sm:text-xs text-muted-foreground/70 leading-relaxed"
             >
               We'll send you a secure, passwordless link to
               sign in to your account
             </p>
             <div
-              class="flex items-center justify-center gap-6 text-sm text-muted-foreground/50"
+              class="flex items-center justify-center gap-6 max-sm:gap-3 text-sm max-sm:text-xs text-muted-foreground/50"
             >
               <div class="flex items-center gap-2">
                 <div
-                  class="w-2 h-2 bg-primary rounded-full"
+                  class="size-2 bg-primary rounded-full"
                 ></div>
                 <span>Secure & Private</span>
               </div>
 
               <div class="flex items-center gap-2">
                 <div
-                  class="w-2 h-2 bg-primary rounded-full"
+                  class="size-2 bg-primary rounded-full"
                 ></div>
                 <span>No Password Required</span>
               </div>
@@ -190,10 +190,12 @@ const form = useForm({
   },
 });
 
-const pending = computed(() => form.isSubmitting.value);
+const pending = ref(false);
 const activeEmail = ref('');
 
 const onSubmit = form.handleSubmit(async ({ email }) => {
+  pending.value = true;
+
   try {
     await $fetch('/api/auth/magic-link', {
       method: 'POST',
@@ -210,6 +212,8 @@ const onSubmit = form.handleSubmit(async ({ email }) => {
         error?.data?.message ||
         'Please try again with a valid email.',
     });
+  } finally {
+    pending.value = false;
   }
 });
 

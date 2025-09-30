@@ -2,7 +2,7 @@
   <Container
     class="flex items-start justify-center min-h-[80vh]"
   >
-    <LoginForm class="w-full max-w-2xl mt-10" />
+    <LoginForm class="w-full max-w-2xl my-10 max-lg:mt-5 max-lg:mx-10 max-sm:mx-7 max-xs:mt-3" />
   </Container>
 </template>
 

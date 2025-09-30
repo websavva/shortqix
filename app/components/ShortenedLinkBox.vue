@@ -40,7 +40,7 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex justify-center gap-2">
+        <div class="flex justify-center gap-2 max-xs:flex-col">
           <!-- Share Button (Web Share API) -->
           <Button
             v-if="canShare"

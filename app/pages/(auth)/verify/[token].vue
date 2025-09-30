@@ -1,12 +1,14 @@
 <template>
   <div class="min-h-screen flex items-start justify-center">
-    <Container class="w-xl mt-10">
+    <Container
+      class="w-xl my-10 max-lg:max-w-lg max-lgw-full max-lg:px-5 max-sm:mt-5"
+    >
       <SizeTransition concurrent>
         <div
           :key="status"
           :class="
             cn(
-              'rounded-3xl border border-primary/20 p-12 relative overflow-hidden shadow-lg shadow-primary/20',
+              'rounded-3xl border border-primary/20 p-12 relative overflow-hidden shadow-lg shadow-primary/20 max-lg:p-8',
               {
                 'border-destructive/20': verificationError,
                 'shadow-destructive/20': verificationError,
@@ -18,20 +20,20 @@
           <div class="relative text-center space-y-8">
             <template v-if="pending">
               <div
-                class="mx-auto size-20 bg-primary/10 rounded-3xl flex items-center justify-center shadow-lg"
+                class="mx-auto size-20 max-sm:size-16 bg-primary/10 rounded-3xl flex items-center justify-center shadow-lg"
               >
                 <div
-                  class="size-10 border-4 border-primary border-t-transparent rounded-full animate-spin"
+                  class="size-1/2 border-4 border-primary border-t-transparent rounded-full animate-spin"
                 ></div>
               </div>
               <div class="space-y-5">
                 <h1
-                  class="text-3xl font-bold text-foreground"
+                  class="text-3xl max-lg:text-2xl font-bold text-foreground"
                 >
                   Verifying Your Email
                 </h1>
                 <p
-                  class="text-md text-muted-foreground max-w-md mx-auto"
+                  class="text-md text-muted-foreground max-lg:text-base max-w-md mx-auto"
                 >
                   Please wait while we verify your email
                   address. This may take a few moments.
@@ -44,30 +46,30 @@
               >
                 <div class="flex items-center space-x-2">
                   <div
-                    class="w-3 h-3 bg-primary rounded-full animate-pulse"
+                    class="size-3 max-sm:size-2 bg-primary rounded-full animate-pulse"
                   ></div>
                   <span
-                    class="text-sm text-muted-foreground"
+                    class="text-sm max-sm:text-xs text-muted-foreground"
                     >Processing</span
                   >
                 </div>
                 <div class="w-8 h-0.5 bg-border"></div>
                 <div class="flex items-center space-x-2">
                   <div
-                    class="w-3 h-3 bg-border rounded-full"
+                    class="size-3 max-sm:size-2 bg-border rounded-full"
                   ></div>
                   <span
-                    class="text-sm text-muted-foreground"
+                    class="text-sm max-sm:text-xs text-muted-foreground"
                     >Verifying</span
                   >
                 </div>
                 <div class="w-8 h-0.5 bg-border"></div>
                 <div class="flex items-center space-x-2">
                   <div
-                    class="w-3 h-3 bg-border rounded-full"
+                    class="size-3 max-sm:size-2 bg-border rounded-full"
                   ></div>
                   <span
-                    class="text-sm text-muted-foreground"
+                    class="text-sm max-sm:text-xs text-muted-foreground"
                     >Complete</span
                   >
                 </div>
@@ -77,21 +79,21 @@
             <template v-else-if="isVerified">
               <!-- Success Icon -->
               <div
-                class="mx-auto size-20 bg-primary/10 rounded-2xl flex items-center justify-center shadow-lg"
+                class="mx-auto size-20 max-sm:size-16 bg-primary/10 rounded-2xl flex items-center justify-center shadow-lg"
               >
-                <CheckIcon class="size-10 text-primary" />
+                <CheckIcon class="size-1/2 text-primary" />
               </div>
 
               <!-- Success Content -->
               <div class="space-y-6">
                 <div class="space-y-3">
                   <h1
-                    class="text-3xl font-bold text-foreground"
+                    class="text-3xl max-lg:text-2xl max-sm:text-xl font-bold text-foreground"
                   >
                     Email Verified Successfully
                   </h1>
                   <p
-                    class="text-lg text-muted-foreground max-w-md mx-auto leading-relaxed"
+                    class="text-lg max-lg:text-md max-sm:text-base text-muted-foreground max-w-md mx-auto leading-relaxed max-sm:px-3"
                   >
                     Your account is now active and ready to
                     use. You can start creating short links
@@ -105,19 +107,19 @@
                 >
                   <div class="flex items-center space-x-2">
                     <div
-                      class="w-2 h-2 bg-green-500 rounded-full"
+                      class="size-2 bg-green-500 rounded-full"
                     ></div>
                     <span
-                      class="text-sm font-medium text-foreground"
+                      class="text-sm max-sm:text-xs font-medium text-foreground"
                       >Email Verified</span
                     >
                   </div>
                   <div class="flex items-center space-x-2">
                     <div
-                      class="w-2 h-2 bg-green-500 rounded-full"
+                      class="size-2 bg-green-500 rounded-full"
                     ></div>
                     <span
-                      class="text-sm font-medium text-foreground"
+                      class="text-sm max-sm:text-xs font-medium text-foreground"
                       >Account Active</span
                     >
                   </div>
@@ -125,11 +127,11 @@
               </div>
 
               <!-- Action Button -->
-              <div class="pt-4">
+              <div class="max-sm:mt-2">
                 <Button
                   as="NuxtLink"
                   href="/dashboard"
-                  class="w-full h-12 text-base font-medium"
+                  class="w-full h-12 max-sm:h-10 text-base max-sm:text-sm font-medium"
                 >
                   Go to Dashboard
                 </Button>
@@ -138,10 +140,10 @@
 
             <template v-else>
               <div
-                class="mx-auto size-20 bg-destructive/10 rounded-3xl flex items-center justify-center"
+                class="mx-auto size-20 max-sm:size-16 bg-destructive/10 rounded-3xl flex items-center justify-center"
               >
                 <MailWarningIcon
-                  class="size-10 text-destructive"
+                  class="size-1/2 text-destructive"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -149,12 +151,12 @@
               </div>
               <div class="space-y-4">
                 <h1
-                  class="text-4xl font-bold text-foreground"
+                  class="text-4xl max-lg:text-2xl font-bold text-foreground"
                 >
                   Verification Failed
                 </h1>
                 <p
-                  class="text-xl text-muted-foreground max-w-lg mx-auto"
+                  class="text-xl max-lg:text-base text-muted-foreground max-w-lg mx-auto"
                 >
                   {{
                     verificationError?.data?.message ||
@@ -208,14 +210,14 @@
                 <Button
                   as="NuxtLink"
                   href="/login"
-                  class="w-full h-14 text-lg"
+                  class="w-full h-12 max-sm:h-10 text-lg max-sm:text-sm"
                 >
                   Back to Sign In
                 </Button>
 
                 <Button
                   variant="outline"
-                  class="w-full h-12"
+                  class="w-full h-12 max-sm:h-10 text-lg max-sm:text-sm"
                   :disabled="pending"
                   @click="onVerify"
                 >
@@ -235,12 +237,7 @@ import {
   CheckIcon,
   MailWarningIcon,
 } from 'lucide-vue-next';
-import {
-  useRoute,
-  useRouter,
-  onMounted,
-  useAuth,
-} from '#imports';
+import { useRoute, onMounted, useAuth } from '#imports';
 
 import { cn } from '@/utils';
 import SizeTransition from '@/components/ui/SizeTransition';

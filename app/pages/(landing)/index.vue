@@ -4,15 +4,15 @@
       class="relative bg-gradient-to-t from-primary/5 from-10% to-transparent to-35%"
     >
       <Container
-        class="flex flex-col items-center pt-20 pb-20"
+        class="flex flex-col items-center max-sm:pt-5 max-lg:pt-10 max-xl:pt-15 pt-20 pb-20"
       >
         <LogoBox
           class="size-18"
-          :scale=".85"
+          :scale="0.85"
         />
 
         <h1
-          class="text-5xl font-bold mt-10 text-center leading-tight max-w-2xl"
+          class="max-sm:text-3xl max-xl:text-4xl text-5xl font-bold mt-10 max-sm:mt-5 text-center leading-tight max-w-2xl"
         >
           <span class="text-primary">Shortqix.</span> Link
           Shortener
@@ -26,14 +26,18 @@
           for fast and easy sharing
         </h1>
 
-        <ShortenLinkForm class="w-1/2 mt-10 relative" />
+        <ShortenLinkForm
+          class="max-xs:w-[90%] max-lg:w-md w-1/2 mt-10 relative max-lg:px-5"
+        />
 
-        <Advantages class="mt-18 relative" />
+        <Advantages
+          class="max-sm:max-w-sm max-xl:mt-12 mt-18 relative max-lg:px-10"
+        />
       </Container>
     </div>
 
     <PremiumPlanShowcase
-      class="mt-10 w-6xl pt-20 pb-30 bg-background mx-auto"
+      class="max-w-6xl w-full my-30 max-lg:my-15 bg-background mx-auto max-lg:px-5"
     />
   </div>
 </template>

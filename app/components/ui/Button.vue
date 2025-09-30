@@ -17,14 +17,7 @@
             $slots.default,
         }"
       >
-        <Transition
-          enter-active-class="transition-all duration-200"
-          enter-from-class="opacity-0 -translate-y-[100%]"
-          enter-to-class="opacity-100 translate-y-0"
-          leave-active-class="transition-opacity duration-200"
-          leave-from-class="opacity-100 translate-y-0"
-          leave-to-class="opacity-0 translate-y-[100%]"
-        >
+        <RollTransition>
           <LoaderCircle
             v-if="pending"
             class="animate-spin text-current row-start-1 row-end-1 col-start-1 col-end-1"
@@ -36,7 +29,7 @@
           >
             <slot name="icon" />
           </span>
-        </Transition>
+        </RollTransition>
       </div>
     </SizeTransition>
 
@@ -56,6 +49,7 @@ import { computed, defineComponent } from '#imports';
 import { cn } from '@/utils';
 
 import SizeTransition from './SizeTransition';
+import RollTransition from './RollTransition';
 
 export const buttonVariants = cva(
   'inline-flex items-center justify-center cursor-pointer rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-80 disabled:cursor-not-allowed font-bold',
@@ -96,6 +90,7 @@ export default defineComponent({
   components: {
     LoaderCircle,
     SizeTransition,
+    RollTransition,
   },
 
   props: {

@@ -7,7 +7,7 @@
       v-bind="forwarded"
       :class="
         cn(
-          'fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background/95 backdrop-blur-md p-6 shadow-2xl transition-all duration-300 sm:rounded-xl',
+          'fixed left-1/2 top-1/2 z-50 grid w-full xs:max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background/95 backdrop-blur-md p-6 shadow-2xl transition-all duration-300 rounded-xl max-xs:rounded-none',
           // Opening animations - slide in from bottom with scale and fade
           'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-bottom-4 data-[state=open]:duration-300',
           // Closing animations - slide out to bottom with scale and fade
