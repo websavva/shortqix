@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
     .where(
       and(
         eq(payments.id, id),
-        eq(payments.userId, event.user!.id),
+        eq(payments.userId, event.context.user!.id),
         inArray(payments.status, [
           PaymentStatus.PROCESSING,
           PaymentStatus.CONFIRMATION_PENDING,

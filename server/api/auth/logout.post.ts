@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   // Clear the auth cookie
   deleteCookie(event, 'auth-token');
 
-  event.user = null;
+  event.context.user = null;
 
   return {
     message: 'Logged out successfully',

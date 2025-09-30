@@ -86,7 +86,7 @@ export class MailService {
   ) {
     const { subject, html, text } = await mailTemplates[
       template
-    ](props);
+    ](props as any);
 
     return this.sendMail({
       ...options,

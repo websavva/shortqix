@@ -5,9 +5,9 @@ export function assertPremium(
   message: string = 'User is not premium',
 ) {
   if (
-    !event.user?.isPremium ||
-    !event.user?.premiumExpiresAt ||
-    event.user.premiumExpiresAt < new Date()
+    !event.context.user?.isPremium ||
+    !event.context.user?.premiumExpiresAt ||
+    event.context.user.premiumExpiresAt < new Date()
   ) {
     throw createError({
       statusCode: 403,

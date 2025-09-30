@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Find and validate magic link
-    const magicLink = await db
+    const [magicLink] = await db
       .select()
       .from(magicLinks)
       .where(
@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
       )
       .limit(1);
 
-    if (!magicLink[0]) {
+    if (!magicLink) {
       throw createError({
         statusCode: 400,
         message: 'Invalid or expired token',
@@ -57,13 +57,13 @@ export default defineEventHandler(async (event) => {
       await tx
         .update(magicLinks)
         .set({ used: true })
-        .where(eq(magicLinks.id, magicLink[0].id));
+        .where(eq(magicLinks.id, magicLink.id));
 
       // Get user
       const [user] = await tx
         .select()
         .from(users)
-        .where(eq(users.email, magicLink[0].email))
+        .where(eq(users.email, magicLink.email))
         .limit(1);
 
       if (!user) {
@@ -88,7 +88,7 @@ export default defineEventHandler(async (event) => {
         .set({ userId: user.id })
         .where(
           and(
-            eq(shortenedUrls.sessionId, event.sessionId),
+            eq(shortenedUrls.sessionId, event.context.sessionId!),
             isNull(shortenedUrls.userId),
           ),
         );

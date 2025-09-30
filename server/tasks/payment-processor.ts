@@ -231,7 +231,7 @@ export class PaymentProcessorTask implements Task {
   private static async sendWsEvents(events: WsEvent[]) {
     for (const event of events) {
       await WebSocketService.sendUserEvent(
-        event.userId,
+        event.context.userId,
         event.type,
         event.payload,
       );

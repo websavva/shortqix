@@ -26,18 +26,18 @@ export default defineEventHandler(async (event) => {
     const paymentItems = await db
       .select()
       .from(payments)
-      .where(eq(payments.userId, event.user!.id))
+      .where(eq(payments.userId, event.context.user!.id))
       .orderBy(desc(payments.createdAt))
       .limit(limit)
       .offset(offset);
 
     // Get total count for pagination metadata
-    const [{ totalCount }] = await db
+    const [{ totalCount = 0 } = {}] = await db
       .select({
         totalCount: sql<number>`count(${payments.id})::integer`,
       })
       .from(payments)
-      .where(eq(payments.userId, event.user!.id));
+      .where(eq(payments.userId, event.context.user!.id));
 
     return {
       payments: paymentItems,

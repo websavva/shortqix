@@ -6,5 +6,5 @@ import type { User } from '#server/db/schema';
 export default defineEventHandler(async (event) => {
   assertAuth(event);
 
-  return { user: event.user as User };
+  return { user: event.context.user as User };
 });

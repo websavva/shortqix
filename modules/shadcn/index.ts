@@ -31,7 +31,6 @@ export default defineNuxtModule<ShadcnVueOptions>({
     version: '0.0.1',
     compatibility: {
       nuxt: '>=3.9.0',
-      bridge: false,
     },
   },
   async setup({ componentDir, prefix }) {
@@ -116,9 +115,6 @@ export default defineNuxtModule<ShadcnVueOptions>({
 
 declare module '@nuxt/schema' {
   interface NuxtConfig {
-    shadcn?: ShadcnVueOptions;
-  }
-  interface NuxtOptions {
     shadcn?: ShadcnVueOptions;
   }
 }

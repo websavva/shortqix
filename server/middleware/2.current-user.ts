@@ -14,8 +14,9 @@ import { users, type User } from '../db/schema';
 import { db } from '../db/database';
 
 declare module 'h3' {
-  interface H3Event {
-    user: User | null;
+  interface H3EventContext {
+    user?: User | null;
+    sessionId?: string;
   }
 }
 
@@ -78,12 +79,12 @@ export const CurrentUserNodeMiddleware: NodeMiddleware =
 
 export default defineEventHandler({
   onRequest: (event) => {
-    event.user = null;
+    event.context.user = null;
   },
 
   handler: fromNodeMiddleware(CurrentUserNodeMiddleware),
 
   onBeforeResponse: (event) => {
-    event.user = event.node.req.user;
+    event.context.user = event.node.req.user;
   },
 });

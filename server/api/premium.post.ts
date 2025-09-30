@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
           address,
           privateKey,
           publicKey,
-          userId: event.user!.id,
+          userId: event.context.user!.id,
           isActive: true,
           createdAt: new Date(),
           lastUsedAt: new Date(),
@@ -55,7 +55,7 @@ export default defineEventHandler(async (event) => {
         .insert(payments)
         .values({
           bitcoinAddress: address,
-          userId: event.user!.id,
+          userId: event.context.user!.id,
           plan: planId,
           amountUsd: selectedPlan.priceUSD,
           amountBtc: String(amountBtc),

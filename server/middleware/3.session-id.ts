@@ -6,8 +6,8 @@ import {
 import { nanoid } from 'nanoid';
 
 declare module 'h3' {
-  interface H3Event {
-    sessionId: string;
+  interface H3EventContext {
+    sessionId?: string;
   }
 }
 
@@ -27,5 +27,5 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  event.sessionId = sessionId;
+  event.context.sessionId = sessionId;
 });

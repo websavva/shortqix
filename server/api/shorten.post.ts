@@ -51,7 +51,7 @@ export default defineEventHandler(async (event) => {
       code = nanoid(6);
     }
 
-    const { user, sessionId } = event;
+    const { user, sessionId } = event.context;
 
     const ipAddress = getRequestIP(event, {
       xForwardedFor: true,
@@ -63,20 +63,21 @@ export default defineEventHandler(async (event) => {
     const todayEnd = new Date();
     todayEnd.setHours(23, 59, 59, 999);
 
-    const [{ count: todayShortenedUrlsCount }] = await db
-      .select({
-        count: sql<number>`count(${shortenedUrls.id})::integer`,
-      })
-      .from(shortenedUrls)
-      .where(
-        and(
-          user
-            ? eq(shortenedUrls.userId, user.id)
-            : eq(shortenedUrls.ipAddress, ipAddress),
-          gte(shortenedUrls.createdAt, todayStart),
-          lte(shortenedUrls.createdAt, todayEnd),
-        ),
-      );
+    const [{ count: todayShortenedUrlsCount = 0 } = {}] =
+      await db
+        .select({
+          count: sql<number>`count(${shortenedUrls.id})::integer`,
+        })
+        .from(shortenedUrls)
+        .where(
+          and(
+            user
+              ? eq(shortenedUrls.userId, user.id)
+              : eq(shortenedUrls.ipAddress, ipAddress),
+            gte(shortenedUrls.createdAt, todayStart),
+            lte(shortenedUrls.createdAt, todayEnd),
+          ),
+        );
 
     const maxTodayShortenedUrlsCount = +(user?.isPremium
       ? process.env.PREMIUM_SHORT_URLS_MAX_COUNT!
@@ -100,7 +101,7 @@ export default defineEventHandler(async (event) => {
         isCustom: Boolean(customCode),
         userId: user?.id,
         ipAddress,
-        sessionId,
+        sessionId: sessionId!,
       })
       .returning();
 

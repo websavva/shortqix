@@ -6,5 +6,9 @@
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
     "verbatimModuleSyntax": true
-  }
+  },
+  "include": [
+    "./types/**/*",
+    "./**/*"
+  ]
 }
