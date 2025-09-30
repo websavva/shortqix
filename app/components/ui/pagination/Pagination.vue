@@ -6,7 +6,7 @@
     :total="props.totalCount"
     :default-page="1"
     :class="props.class"
-    :show-edges="true"
+    :show-edges="!isMobile"
     :sibling-count="1"
     @update:page="onPageChange"
   >
@@ -37,6 +37,7 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
+import { useMediaQuery } from '@vueuse/core'
 
 import type { PaginationMetadata } from '#shared/dtos/pagination';
 
@@ -63,6 +64,8 @@ const emit = defineEmits<{
 defineOptions({
   inheritAttrs: false,
 });
+
+const isMobile = useMediaQuery('(max-width: 720px)')
 
 const onPageChange = (value: number) => {
   emit('change', value);

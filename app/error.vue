@@ -1,6 +1,6 @@
 <template>
   <TheApp>
-    <div class="max-w-4xl w-full mx-auto px-6 py-12">
+    <div class="max-w-4xl w-full mx-auto px-6 py-12 max-sm:pt-5">
       <!-- Header -->
       <div class="text-center mb-12">
         <div
@@ -8,11 +8,11 @@
         >
           <Bug class="w-12 h-12 text-primary" />
         </div>
-        <h1 class="text-4xl font-bold text-foreground mb-4">
+        <h1 class="text-4xl max-sm:text-2xl font-bold text-foreground mb-4">
           {{ errorTitle }}
         </h1>
         <p
-          class="text-xl text-muted-foreground max-w-2xl mx-auto"
+          class="text-xl max-sm:text-base text-muted-foreground max-w-2xl mx-auto"
         >
           {{ errorDescription }}
         </p>
@@ -162,7 +162,7 @@
           size="lg"
           as="NuxtLink"
           to="/"
-          class="flex-1 sm:flex-none sm:min-w-[160px]"
+          class="sm:flex-1 sm:flex-none sm:min-w-[160px]"
         >
           <template #icon>
             <Home />
@@ -174,7 +174,7 @@
         <Button
           variant="outline"
           size="lg"
-          class="flex-1 sm:flex-none sm:min-w-[160px]"
+          class="sm:flex-1 sm:flex-none sm:min-w-[160px]"
           @click="reportIssue"
         >
           <template #icon>

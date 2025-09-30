@@ -22,7 +22,7 @@
           <h2 class="text-xl font-semibold text-foreground">
             {{ isPremium ? 'Premium Active' : 'Free Plan' }}
           </h2>
-          <p class="text-sm text-muted-foreground">
+          <p class="text-sm text-muted-foreground max-xs:text-xs">
             {{
               isPremium && user?.premiumExpiresAt
                 ? `Expires ${timeAgo(user.premiumExpiresAt)}`
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div
-        class="px-3 py-1 rounded-full text-sm font-medium"
+        class="px-3 py-1 rounded-full text-sm font-medium max-sm:hidden"
         :class="{
           'bg-primary text-primary-foreground': isPremium,
           'bg-muted text-muted-foreground': !isPremium,

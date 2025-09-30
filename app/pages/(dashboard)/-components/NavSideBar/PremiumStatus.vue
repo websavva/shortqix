@@ -12,13 +12,13 @@
         <Zap class="w-4 h-4 text-primary" />
 
         <span
-          class="text-sm font-medium text-card-foreground"
+          class="text-sm font-medium text-card-foreground whitespace-nowrap"
         >
           {{ isPremium ? 'Premium Active' : 'Free Plan' }}
         </span>
       </div>
       <div
-        class="px-2 py-1 rounded-full text-xs font-medium"
+        class="px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap"
         :class="{
           'bg-primary text-primary-foreground': isPremium,
           'bg-muted text-muted-foreground': !isPremium,

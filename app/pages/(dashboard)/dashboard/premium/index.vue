@@ -1,30 +1,25 @@
 <template>
   <div class="space-y-8">
     <!-- Page Header -->
-    <div>
-      <h1 class="text-3xl font-bold text-foreground mb-2">
-        Premium Management
-      </h1>
-      <p class="text-muted-foreground">
+    <Heading>
+      <template #title> Premium Management </template>
+
+      <template #description>
         Manage your premium subscription and billing
-      </p>
-    </div>
+      </template>
+    </Heading>
 
     <!-- Current Status -->
     <PremiumIntroCard />
 
     <!-- Plan Selection (for non-premium users) -->
     <div class="space-y-6">
-      <div>
-        <h2
-          class="text-2xl font-semibold text-foreground mb-2"
-        >
-          Choose Your Plan
-        </h2>
-        <p class="text-muted-foreground">
+      <Heading>
+        <template #title> Choose Your Plan </template>
+        <template #description>
           Select the plan that best fits your needs
-        </p>
-      </div>
+        </template>
+      </Heading>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <PremiumPlanCard
@@ -42,6 +37,8 @@
 <script setup lang="ts">
 import { PremiumPlanId } from '#shared/consts/premium-plans';
 import { useToast } from '@/components/ui/toast';
+
+import Heading from '../-components/Heading.vue';
 
 import PremiumIntroCard from './-components/PremiumIntroCard.vue';
 import PremiumPlanCard from './-components/PremiumPlanCard.vue';

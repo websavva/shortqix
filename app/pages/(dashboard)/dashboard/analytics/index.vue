@@ -1,14 +1,13 @@
 <template>
   <div class="space-y-8">
     <!-- Page Header -->
-    <div>
-      <h1 class="text-3xl font-bold text-foreground mb-2">
-        Analytics
-      </h1>
-      <p class="text-muted-foreground">
+    <Heading>
+      <template #title> Analytics </template>
+
+      <template #description>
         Track your link performance and engagement metrics
-      </p>
-    </div>
+      </template>
+    </Heading>
 
     <!-- Stats Component -->
     <Stats />
@@ -67,6 +66,8 @@ import SizeTransition from '@/components/ui/SizeTransition';
 import Pagination from '@/components/ui/pagination/Pagination.vue';
 import { PaginationParamsSchema } from '#shared/dtos/pagination';
 import TablePlaceholder from '@/components/ui/table/TablePlaceholder.vue';
+
+import Heading from '../-components/Heading.vue';
 
 import Stats from './-components/Stats/index.vue';
 import UrlsTable from './-components/UrlsTable.vue';

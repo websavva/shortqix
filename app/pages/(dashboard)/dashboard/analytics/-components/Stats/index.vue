@@ -10,7 +10,7 @@
 
       <div
         v-else-if="pending"
-        class="grid grid-cols-1 md:grid-cols-3 gap-6"
+        class="grid grid-cols-1 xl:grid-cols-3 gap-6"
       >
         <StatCardPlaceholder
           v-for="n in 3"
@@ -30,7 +30,7 @@
 
       <div
         v-else
-        class="grid grid-cols-1 md:grid-cols-3 gap-6"
+        class="grid grid-cols-1 xl:grid-cols-3 gap-6"
       >
         <StatCard
           title="Total URLs"

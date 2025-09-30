@@ -1,14 +1,13 @@
 <template>
   <div class="space-y-8">
     <!-- Page Header -->
-    <div>
-      <h1 class="text-3xl font-bold text-foreground mb-2">
-        Payments
-      </h1>
-      <p class="text-muted-foreground">
+    <Heading>
+      <template #title> Payments </template>
+
+      <template #description>
         Manage your payments and subscription status
-      </p>
-    </div>
+      </template>
+    </Heading>
 
     <div class="mt-5">
       <SizeTransition
@@ -32,7 +31,12 @@
           @retry="fetchPayments"
         />
 
-        <div v-else-if="paymentsResponse && paymentsResponse.payments.length > 0">
+        <div
+          v-else-if="
+            paymentsResponse &&
+            paymentsResponse.payments.length > 0
+          "
+        >
           <PaymentsTable
             :payments="paymentsResponse.payments"
             :cancelling-payment-id
@@ -70,6 +74,8 @@ import Pagination from '@/components/ui/pagination/Pagination.vue';
 import { PaginationParamsSchema } from '#shared/dtos/pagination';
 import TablePlaceholder from '@/components/ui/table/TablePlaceholder.vue';
 import { useToast } from '@/components/ui/toast';
+
+import Heading from '../-components/Heading.vue';
 
 import PaymentsTable from './-components/PaymentsTable.vue';
 

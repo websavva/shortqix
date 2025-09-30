@@ -20,7 +20,7 @@
           >
             Analytics Locked
           </h3>
-          <span class="text-sm font-medium text-primary">
+          <span class="text-sm font-medium text-primary max-sm:hidden">
             Starting at ${{ startingPrice }}/mo
           </span>
         </div>

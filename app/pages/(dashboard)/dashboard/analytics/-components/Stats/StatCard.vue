@@ -2,7 +2,7 @@
   <div
     class="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-shadow"
   >
-    <div class="flex items-center justify-between">
+    <div class="flex sm:items-center justify-between">
       <div>
         <p
           class="text-sm font-medium text-muted-foreground mb-2"
@@ -17,11 +17,11 @@
         </p>
       </div>
       <div
-        class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center"
+        class="size-12 max-sm:size-10 bg-primary/10 rounded-lg flex items-center justify-center"
       >
         <component
           :is="icon"
-          class="w-6 h-6 text-primary"
+          class="size-1/2 text-primary"
         />
       </div>
     </div>
