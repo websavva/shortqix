@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitest/config';
+import { defineVitestProject } from '@nuxt/test-utils/config';
 
 export default defineConfig({
   test: {
@@ -6,19 +7,21 @@ export default defineConfig({
       {
         test: {
           name: 'unit',
-          include: ['configs', 'app', 'shared'].map(
-            (path) => `${path}/**/*.test.ts`,
-          ),
+          include: [
+            'configs',
+            'shared',
+            'server/utils',
+          ].map((path) => `${path}/**/*.test.ts`),
           environment: 'node',
         },
       },
-      {
+      await defineVitestProject({
         test: {
-          name: 'e2e',
-          include: ['e2e/**/*.test.ts'],
-          environment: 'node',
+          name: 'nuxt',
+          include: ['app/**/*.test.ts'],
+          environment: 'nuxt',
         },
-      },
+      }),
     ],
   },
 });

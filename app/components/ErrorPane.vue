@@ -6,14 +6,23 @@
       <div
         class="w-10 h-10 bg-destructive/20 rounded-lg flex items-center justify-center"
       >
-        <AlertCircle class="w-5 h-5 text-destructive" />
+        <AlertCircle
+          class="w-5 h-5 text-destructive"
+          data-test-id="alert-circle"
+        />
       </div>
       <div>
-        <div class="font-semibold text-destructive mb-1">
+        <div
+          class="font-semibold text-destructive mb-1"
+          data-test-id="title"
+        >
           {{ title }}
         </div>
 
-        <p class="text-sm text-muted-foreground">
+        <p
+          class="text-sm text-muted-foreground"
+          data-test-id="message"
+        >
           {{ message }}
         </p>
 
@@ -23,6 +32,7 @@
           variant="outline"
           :pending="pending"
           class="mt-4"
+          data-test-id="retry-button"
           @click="$emit('retry')"
         >
           Try Again

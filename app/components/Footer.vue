@@ -3,7 +3,7 @@
     :class="
       cn(
         'border-t border-border bg-background',
-        $attrs.class ?? '',
+        props.class ?? '',
       )
     "
   >
@@ -12,9 +12,15 @@
         class="flex flex-col items-center justify-center gap-4 text-center"
       >
         <div class="flex items-center gap-2">
-          <LogoBox class="size-8" />
+          <LogoBox 
+            class="size-8"
+            data-test-id="logo-box"
+          />
 
-          <span class="font-semibold text-foreground">
+          <span 
+            class="font-semibold text-foreground"
+            data-test-id="app-name"
+          >
             {{ appName }}
           </span>
         </div>
@@ -23,13 +29,19 @@
           Fast, reliable URL shortening service
         </p>
 
-        <p class="text-xs text-muted-foreground">
+        <p
+          class="text-xs text-muted-foreground"
+          data-test-id="copyright"
+        >
           © {{ currentYear }} {{ appName }}. All rights
           reserved.
         </p>
 
         <p class="text-xs text-primary">
-          <a :href="`mailto:${supportEmail}`">
+          <a
+            :href="`mailto:${supportEmail}`"
+            data-test-id="support-email"
+          >
             {{ supportEmail }}
           </a>
         </p>
@@ -39,8 +51,14 @@
 </template>
 
 <script setup lang="ts">
+import type { HTMLAttributes } from 'vue';
+
 import LogoBox from '#shared/components/LogoBox';
 import { cn } from '@/utils';
+
+const props = defineProps<{
+  class?: HTMLAttributes['class'];
+}>();
 
 const currentYear = new Date().getFullYear();
 const appName = process.env.APP_NAME;
