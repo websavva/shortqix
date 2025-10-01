@@ -1,7 +1,7 @@
-export function toAbsoluteUrl(url: string) {
+export function toAbsoluteUrl(fullPath: string) {
   return (
     process.env.BASE_URL +
-    (!url.startsWith('/') ? '/' : '') +
-    url
+    (!fullPath.startsWith('/') ? '/' : '') +
+    fullPath
   );
 }

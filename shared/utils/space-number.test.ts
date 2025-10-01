@@ -115,13 +115,10 @@ describe('spaceNumber', () => {
     },
   ];
 
-  cases.forEach(
-    ({ name, input, expected, delimiter = ' ' }) => {
-      it(name, () => {
-        expect(spaceNumber(input, delimiter)).toBe(
-          expected,
-        );
-      });
+  it.each(cases)(
+    '$name',
+    ({ input, expected, delimiter = ' ' }) => {
+      expect(spaceNumber(input, delimiter)).toBe(expected);
     },
   );
 
