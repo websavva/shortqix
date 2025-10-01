@@ -2,8 +2,6 @@ import type { Payment, User } from '#server/db/schema';
 
 import type { PremiumPlanId } from './premium-plans';
 
-
-
 export enum WsEventTypes {
   PAYMENT_UPDATE_STATUS = 'payment-update-status',
   PREMIUM_PURCHASE = 'premium-purchase',

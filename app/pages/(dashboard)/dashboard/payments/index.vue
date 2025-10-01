@@ -2,7 +2,7 @@
   <div class="space-y-8">
     <!-- Page Header -->
     <Heading>
-      <template #title> Payments </template>
+      <template #title>Payments</template>
 
       <template #description>
         Manage your payments and subscription status
@@ -92,7 +92,8 @@ const query = computed(() =>
 
 useSeoMeta({
   title: 'Payments',
-  description: 'Manage your payments and subscription status',
+  description:
+    'Manage your payments and subscription status',
 });
 
 const {

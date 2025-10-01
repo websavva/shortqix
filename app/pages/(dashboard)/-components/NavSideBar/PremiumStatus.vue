@@ -45,9 +45,9 @@ import { useAuth } from '#imports';
 import { timeAgo } from '#shared/utils/time-ago';
 import { cn } from '@/utils';
 
-const { isPremium, user } = useAuth();
-
 const props = defineProps<{
   class?: HTMLAttributes['class'];
 }>();
+
+const { isPremium, user } = useAuth();
 </script>

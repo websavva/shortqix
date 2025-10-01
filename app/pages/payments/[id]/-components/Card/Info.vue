@@ -37,8 +37,9 @@
       <div>
         <label
           class="text-sm font-medium text-muted-foreground"
-          >Payment ID</label
         >
+          Payment ID
+        </label>
         <p
           class="text-sm font-mono text-foreground bg-muted px-2 py-1 rounded"
         >
@@ -72,8 +73,9 @@
       <div v-if="payment.confirmedAt">
         <label
           class="text-sm font-medium text-muted-foreground"
-          >Confirmed</label
         >
+          Confirmed
+        </label>
         <p class="text-sm text-foreground">
           {{ formatDate(payment.confirmedAt) }}
         </p>

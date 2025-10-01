@@ -40,9 +40,9 @@
             class="text-xl max-lg:text-base text-muted-foreground max-w-md mx-auto leading-relaxed"
           >
             We've sent a secure sign-in link to
-            <span class="font-semibold text-foreground">{{
-              activeEmail
-            }}</span>
+            <span class="font-semibold text-foreground">
+              {{ activeEmail }}
+            </span>
           </p>
           <div class="pt-4">
             <Button

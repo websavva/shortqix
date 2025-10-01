@@ -26,4 +26,3 @@ const props = defineProps<
 
 const delegatedProps = reactiveOmit(props, 'class');
 </script>
-

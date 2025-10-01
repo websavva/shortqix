@@ -7,8 +7,7 @@ const { JsonWebTokenError, TokenExpiredError } = jwt;
 export class AuthJwtService {
   static sign(payload: AuthTokenPayload) {
     return jwt.sign(payload, process.env.AUTH_SECRET!, {
-      expiresIn: `${+process.env
-        .AUTH_TOKEN_EXPIRES_IN_MS!}ms`,
+      expiresIn: `${+process.env.AUTH_TOKEN_EXPIRES_IN_MS!}ms`,
     });
   }
 

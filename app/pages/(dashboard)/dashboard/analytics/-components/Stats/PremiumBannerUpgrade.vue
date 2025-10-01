@@ -12,15 +12,13 @@
 
       <!-- Content -->
       <div class="flex-1 min-w-0">
-        <div
-          class="flex items-center justify-between mb-2"
-        >
-          <h3
-            class="text-lg font-semibold text-foreground"
-          >
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-lg font-semibold text-foreground">
             Analytics Locked
           </h3>
-          <span class="text-sm font-medium text-primary max-sm:hidden">
+          <span
+            class="text-sm font-medium text-primary max-sm:hidden"
+          >
             Starting at ${{ startingPrice }}/mo
           </span>
         </div>

@@ -62,9 +62,7 @@ export class PaymentProcessorTask implements Task {
               PaymentStatus.PROCESSING,
               PaymentStatus.CONFIRMATION_PENDING,
             ]),
-            sql`${
-              paymentsTable.expiresAt
-            } < ${new Date().toISOString()}`,
+            sql`${paymentsTable.expiresAt} < ${new Date().toISOString()}`,
           ),
         )
         .returning({
@@ -122,9 +120,7 @@ export class PaymentProcessorTask implements Task {
             PaymentStatus.PROCESSING,
             PaymentStatus.CONFIRMATION_PENDING,
           ]),
-          sql`${
-            paymentsTable.expiresAt
-          } > ${new Date().toISOString()}`,
+          sql`${paymentsTable.expiresAt} > ${new Date().toISOString()}`,
         ),
       );
   }

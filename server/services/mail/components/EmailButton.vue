@@ -30,7 +30,7 @@ const { button } = useEmailStyles();
 
 const buttonStyle = computed(() => {
   const baseStyle = { ...button };
-  
+
   // Size variants
   if (props.size === 'sm') {
     baseStyle.padding = '8px 16px';
@@ -39,7 +39,7 @@ const buttonStyle = computed(() => {
     baseStyle.padding = '16px 32px';
     baseStyle.fontSize = '18px';
   }
-  
+
   // Color variants
   if (props.variant === 'secondary') {
     baseStyle.backgroundColor = palette.secondary;
@@ -49,7 +49,7 @@ const buttonStyle = computed(() => {
     baseStyle.color = palette.primary;
     baseStyle.border = `2px solid ${palette.primary}`;
   }
-  
+
   return baseStyle;
 });
 </script>

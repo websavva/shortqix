@@ -5,20 +5,21 @@
       <Preview>{{ preview }}</Preview>
       <Container :style="container">
         <EmailHeader />
-        
+
         <Hr :style="hr" />
-        
+
         <Section :style="body">
           <slot />
         </Section>
-        
+
         <Text :style="paragraph">
           Best,
-          <br />- {{ appName }} Team
+          <br />
+          - {{ appName }} Team
         </Text>
-        
+
         <Hr :style="hr" />
-        
+
         <EmailFooter />
       </Container>
     </Body>
@@ -45,12 +46,12 @@ export interface Props {
   preview?: string;
 }
 
-const appName = process.env.APP_NAME;
-
 withDefaults(defineProps<Props>(), {
   preview: `${process.env.APP_NAME} - Fast, reliable URL shortening service`,
 });
 
-const { main, container, body, paragraph, hr } = useEmailStyles();
+const appName = process.env.APP_NAME;
 
+const { main, container, body, paragraph, hr } =
+  useEmailStyles();
 </script>

@@ -1,7 +1,4 @@
-import {
-  defineEventHandler,
-  createError,
-} from 'h3';
+import { defineEventHandler, createError } from 'h3';
 
 import { getPremiumPlan } from '#shared/consts/premium-plans';
 import { BuyPremiumDtSchema } from '#shared/dtos';
@@ -12,7 +9,6 @@ import { bitcoinAddresses, payments } from '../db/entities';
 import { BitcoinService } from '../services/bitcoin';
 import { PaymentStatus } from '../../shared/consts/payments';
 import { readValidatedBody } from '../utils/validation';
-
 
 export default defineEventHandler(async (event) => {
   assertAuth(event);

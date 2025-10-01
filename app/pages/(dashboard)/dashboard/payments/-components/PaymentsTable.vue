@@ -10,7 +10,7 @@
           <TableHead>Bitcoin Address</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Created</TableHead>
-          <!-- <TableHead>Expires</TableHead> -->
+          <TableHead>Expires</TableHead>
           <TableHead class="w-12"></TableHead>
         </TableRow>
       </TableHeader>
@@ -79,7 +79,7 @@
             </div>
           </TableCell>
 
-          <!-- <TableCell>
+          <TableCell>
             <SizeTransition
               singular
               concurrent
@@ -93,9 +93,14 @@
                 class="block"
               />
 
-              <div v-else class="block">&mdash;</div>
+              <div
+                v-else
+                class="block"
+              >
+                &mdash;
+              </div>
             </SizeTransition>
-          </TableCell> -->
+          </TableCell>
 
           <TableCell>
             <div class="flex items-center">

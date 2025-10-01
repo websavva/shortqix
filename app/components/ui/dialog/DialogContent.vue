@@ -19,8 +19,10 @@
       "
     >
       <!-- Subtle animated background gradient -->
-      <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 rounded-xl opacity-30" />
-      
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 rounded-xl opacity-30"
+      />
+
       <!-- Content wrapper -->
       <div class="relative space-y-4">
         <slot />
@@ -30,7 +32,9 @@
       <DialogClose
         class="absolute right-4 top-4 rounded-lg p-2 opacity-70 ring-offset-background transition-all duration-200 hover:opacity-100 hover:bg-accent/50 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground group"
       >
-        <X class="w-4 h-4 transition-transform duration-200 group-hover:rotate-90" />
+        <X
+          class="w-4 h-4 transition-transform duration-200 group-hover:rotate-90"
+        />
         <span class="sr-only">Close</span>
       </DialogClose>
     </DialogContent>

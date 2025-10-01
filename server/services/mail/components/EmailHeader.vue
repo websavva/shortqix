@@ -39,7 +39,7 @@ import {
 } from '@vue-email/components';
 
 import { toAbsoluteUrl } from '#shared/utils/to-absolute-url';
-    
+
 import { useEmailStyles } from './useEmailStyles';
 
 const { paragraph } = useEmailStyles();

@@ -50,8 +50,9 @@
                   ></div>
                   <span
                     class="text-sm max-sm:text-xs text-muted-foreground"
-                    >Processing</span
                   >
+                    Processing
+                  </span>
                 </div>
                 <div class="w-8 h-0.5 bg-border"></div>
                 <div class="flex items-center space-x-2">
@@ -60,8 +61,9 @@
                   ></div>
                   <span
                     class="text-sm max-sm:text-xs text-muted-foreground"
-                    >Verifying</span
                   >
+                    Verifying
+                  </span>
                 </div>
                 <div class="w-8 h-0.5 bg-border"></div>
                 <div class="flex items-center space-x-2">
@@ -70,8 +72,9 @@
                   ></div>
                   <span
                     class="text-sm max-sm:text-xs text-muted-foreground"
-                    >Complete</span
                   >
+                    Complete
+                  </span>
                 </div>
               </div>
             </template>
@@ -111,8 +114,9 @@
                     ></div>
                     <span
                       class="text-sm max-sm:text-xs font-medium text-foreground"
-                      >Email Verified</span
                     >
+                      Email Verified
+                    </span>
                   </div>
                   <div class="flex items-center space-x-2">
                     <div
@@ -120,8 +124,9 @@
                     ></div>
                     <span
                       class="text-sm max-sm:text-xs font-medium text-foreground"
-                      >Account Active</span
                     >
+                      Account Active
+                    </span>
                   </div>
                 </div>
               </div>

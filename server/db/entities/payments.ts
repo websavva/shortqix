@@ -6,7 +6,6 @@ import {
   varchar,
   timestamp,
   doublePrecision,
-  pgEnum,
 } from 'drizzle-orm/pg-core';
 
 import { PaymentStatus } from '../../../shared/consts/payments';

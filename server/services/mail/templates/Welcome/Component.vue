@@ -1,13 +1,13 @@
 <template>
   <EmailLayout :preview="`Welcome to ${appName}!`">
-    <Heading :style="heading">
-      🎉 Welcome to {{ appName }}!
+    <Heading :style="heading"
+      >🎉 Welcome to {{ appName }}!
     </Heading>
 
     <Section :style="body">
       <Text :style="paragraph">
-        Thank you for joining {{ appName }}! We're excited to
-        help you create short, memorable links that work
+        Thank you for joining {{ appName }}! We're excited
+        to help you create short, memorable links that work
         everywhere.
       </Text>
 
@@ -16,8 +16,10 @@
           <strong>Get started:</strong>
         </Text>
         <Text :style="{ ...paragraph, marginBottom: '0' }">
-          1. Paste your long URL<br />
-          2. Customize your short link (optional)<br />
+          1. Paste your long URL
+          <br />
+          2. Customize your short link (optional)
+          <br />
           3. Share your shortened link anywhere!
         </Text>
       </EmailCard>
@@ -54,5 +56,4 @@ import {
 const { heading, body, paragraph } = useEmailStyles();
 
 const appName = process.env.APP_NAME;
-
 </script>

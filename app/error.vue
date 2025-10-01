@@ -1,6 +1,8 @@
 <template>
   <TheApp>
-    <div class="max-w-4xl w-full mx-auto px-6 py-12 max-sm:pt-5">
+    <div
+      class="max-w-4xl w-full mx-auto px-6 py-12 max-sm:pt-5"
+    >
       <!-- Header -->
       <div class="text-center mb-12">
         <div
@@ -8,7 +10,9 @@
         >
           <Bug class="w-12 h-12 text-primary" />
         </div>
-        <h1 class="text-4xl max-sm:text-2xl font-bold text-foreground mb-4">
+        <h1
+          class="text-4xl max-sm:text-2xl font-bold text-foreground mb-4"
+        >
           {{ errorTitle }}
         </h1>
         <p
@@ -37,8 +41,9 @@
               >
                 <span
                   class="text-sm font-medium text-muted-foreground"
-                  >Status Code</span
                 >
+                  Status Code
+                </span>
                 <code
                   class="text-sm font-mono bg-muted px-2 py-1 rounded"
                 >
@@ -50,8 +55,9 @@
               >
                 <span
                   class="text-sm font-medium text-muted-foreground"
-                  >Error Type</span
                 >
+                  Error Type
+                </span>
                 <span
                   class="text-sm font-medium text-foreground"
                 >
@@ -63,8 +69,9 @@
               >
                 <span
                   class="text-sm font-medium text-muted-foreground"
-                  >Timestamp</span
                 >
+                  Timestamp
+                </span>
                 <NuxtTime
                   :datetime="new Date()"
                   class="text-sm text-foreground"
@@ -197,7 +204,12 @@ import {
   Info,
   Lightbulb,
 } from 'lucide-vue-next';
-import { clearError, useRoute, computed, useSeoMeta } from '#imports';
+import {
+  clearError,
+  useRoute,
+  computed,
+  useSeoMeta,
+} from '#imports';
 import { NuxtTime } from '#components';
 
 import Button from '@/components/ui/Button.vue';

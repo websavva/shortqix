@@ -6,8 +6,8 @@
 
     <Section :style="body">
       <Text :style="paragraph">
-        Thank you for upgrading to {{ appName }} Premium! You now
-        have access to all our advanced features to
+        Thank you for upgrading to {{ appName }} Premium!
+        You now have access to all our advanced features to
         supercharge your link management.
       </Text>
 
@@ -22,9 +22,12 @@
           🚀 Your Premium Features:
         </Text>
         <Text :style="{ ...paragraph, marginBottom: '0' }">
-          • Extended limits<br />
-          • Custom slugs for links<br />
-          • Advanced analytics & insights<br />
+          • Extended limits
+          <br />
+          • Custom slugs for links
+          <br />
+          • Advanced analytics & insights
+          <br />
         </Text>
       </EmailCard>
 
@@ -96,16 +99,18 @@
         📋 Purchase Details:
       </Text>
       <Text :style="{ ...paragraph, marginBottom: '0' }">
-        <strong>Plan:</strong> {{ plan.title }}<br />
-        <strong>Amount Paid:</strong> ${{
-          spaceNumber(plan.priceUSD)
-        }}
+        <strong>Plan:</strong>
+        {{ plan.title }}
+        <br />
+        <strong>Amount Paid:</strong>
+        ${{ spaceNumber(plan.priceUSD) }}
         <br />
         <strong>Billing Period:</strong>
         {{ plan.durationText }}
         <br />
         <strong>Purchase Date:</strong>
-        {{ formatDate(purchasedAt) }}<br />
+        {{ formatDate(purchasedAt) }}
+        <br />
         <strong>Premium Expires:</strong>
         {{ formatDate(premiumExpiresAt) }}
       </Text>
@@ -150,7 +155,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const appName = process.env.APP_NAME;
-  
+
 const { heading, body, paragraph, link } = useEmailStyles();
 
 const plan = computed(() => getPremiumPlan(props.planId)!);

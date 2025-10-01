@@ -24,7 +24,7 @@ const { card } = useEmailStyles();
 
 const cardStyle = computed(() => {
   const baseStyle = { ...card };
-  
+
   if (props.variant === 'highlighted') {
     baseStyle.backgroundColor = palette.accent;
     baseStyle.borderColor = palette.primary;
@@ -32,7 +32,7 @@ const cardStyle = computed(() => {
     baseStyle.backgroundColor = 'transparent';
     baseStyle.borderWidth = '2px';
   }
-  
+
   return baseStyle;
 });
 </script>

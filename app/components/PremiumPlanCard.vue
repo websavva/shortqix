@@ -78,9 +78,9 @@
         >
           <CheckIcon class="size-4 text-primary" />
         </div>
-        <span class="text-sm text-foreground">{{
-          feature
-        }}</span>
+        <span class="text-sm text-foreground">
+          {{ feature }}
+        </span>
       </div>
     </div>
 
@@ -105,7 +105,7 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
-import { computed, ref } from '#imports';
+import { computed } from '#imports';
 import { CheckIcon, ZapIcon } from 'lucide-vue-next';
 
 import {

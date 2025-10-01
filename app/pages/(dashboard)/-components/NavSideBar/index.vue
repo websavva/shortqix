@@ -10,7 +10,9 @@
     "
   >
     <!-- Mobile: Horizontal layout -->
-    <div class="lg:hidden flex sm:items-center justify-between max-sm:flex-col max-sm:gap-4">
+    <div
+      class="lg:hidden flex sm:items-center justify-between max-sm:flex-col max-sm:gap-4"
+    >
       <UserInfo />
 
       <PremiumStatus />
@@ -23,11 +25,13 @@
     </div>
 
     <!-- Navigation Menu -->
-    <NavMenu 
-      :class="cn(
-        'pt-4 mt-4 border-t border-muted',
-        'lg:pt-5 lg:mt-5'
-      )" 
+    <NavMenu
+      :class="
+        cn(
+          'pt-4 mt-4 border-t border-muted',
+          'lg:pt-5 lg:mt-5',
+        )
+      "
     />
   </nav>
 </template>

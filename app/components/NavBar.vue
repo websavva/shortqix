@@ -100,7 +100,7 @@
       >
         <Zap class="w-4" />
 
-        <span class="hidden sm:block ml-2"> Premium </span>
+        <span class="hidden sm:block ml-2">Premium</span>
       </Button>
 
       <!-- Mobile Menu Button -->

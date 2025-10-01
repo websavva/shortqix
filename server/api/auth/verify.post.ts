@@ -88,7 +88,10 @@ export default defineEventHandler(async (event) => {
         .set({ userId: user.id })
         .where(
           and(
-            eq(shortenedUrls.sessionId, event.context.sessionId!),
+            eq(
+              shortenedUrls.sessionId,
+              event.context.sessionId!,
+            ),
             isNull(shortenedUrls.userId),
           ),
         );

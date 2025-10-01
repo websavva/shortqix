@@ -49,8 +49,9 @@
     <div class="space-y-3">
       <label
         class="text-sm font-medium text-muted-foreground"
-        >Bitcoin Address</label
       >
+        Bitcoin Address
+      </label>
       <div
         class="flex items-center gap-2 p-3 bg-muted rounded-lg"
       >
@@ -67,18 +68,16 @@
         >
           <Copy class="size-4" />
 
-          <span class="max-sm:hidden ml-2">
-            Copy
-          </span>
+          <span class="max-sm:hidden ml-2">Copy</span>
         </Button>
       </div>
 
       <div class="text-center">
         <p class="text-sm text-muted-foreground">
           Send exactly
-          <span class="font-semibold text-foreground"
-            >{{ props.amount }} BTC</span
-          >
+          <span class="font-semibold text-foreground">
+            {{ props.amount }} BTC
+          </span>
         </p>
       </div>
     </div>
@@ -148,7 +147,6 @@ const copyAddress = async () => {
     });
   }
 };
-
 
 onMounted(() => {
   generateQRCode(props.address);

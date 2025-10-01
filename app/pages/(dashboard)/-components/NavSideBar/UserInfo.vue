@@ -1,8 +1,6 @@
 <template>
   <div
-    :class="
-      cn('flex items-center space-x-3', props.class)
-    "
+    :class="cn('flex items-center space-x-3', props.class)"
   >
     <div
       class="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center"
@@ -37,9 +35,9 @@ import { useAuth } from '#imports';
 import { timeAgo } from '#shared/utils/time-ago';
 import { cn } from '@/utils';
 
-const { user } = useAuth();
-
 const props = defineProps<{
   class?: HTMLAttributes['class'];
 }>();
+
+const { user } = useAuth();
 </script>

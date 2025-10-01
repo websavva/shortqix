@@ -44,9 +44,9 @@
             </div>
 
             <div class="flex flex-col items-start">
-              <span class="font-medium text-sm">{{
-                label
-              }}</span>
+              <span class="font-medium text-sm">
+                {{ label }}
+              </span>
               <span
                 class="text-xs transition-colors duration-200"
                 :class="{
@@ -67,11 +67,7 @@
     <div class="lg:hidden">
       <div class="flex space-x-1">
         <Button
-          v-for="{
-            label,
-            icon,
-            to,
-          } in menuItems"
+          v-for="{ label, icon, to } in menuItems"
           :key="to"
           :to="to"
           variant="ghost"
@@ -98,9 +94,9 @@
               class="w-4 h-4"
             />
           </div>
-          <span class="text-xs font-medium truncate">{{
-            label
-          }}</span>
+          <span class="text-xs font-medium truncate">
+            {{ label }}
+          </span>
         </Button>
       </div>
     </div>

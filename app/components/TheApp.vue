@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Container class="fixed  max-lg:top-0 top-3 left-0 right-0 z-50 max-lg:px-4">
+    <Container
+      class="fixed max-lg:top-0 top-3 left-0 right-0 z-50 max-lg:px-4"
+    >
       <NavBar />
     </Container>
 

@@ -1,9 +1,4 @@
-import {
-  useNuxtApp,
-  watch,
-  onMounted,
-  onScopeDispose,
-} from '#imports';
+import { useNuxtApp, watch } from '#imports';
 import {
   tryOnMounted,
   tryOnUnmounted,

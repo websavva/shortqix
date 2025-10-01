@@ -29,9 +29,9 @@ import SizeTransition from '@/components/ui/SizeTransition';
 
 import { useFormField } from './useFormField';
 
-const { name, formMessageId, isFormDirty } = useFormField();
-
 const props = defineProps<{
   class?: HTMLAttributes['class'];
 }>();
+
+const { name, formMessageId, isFormDirty } = useFormField();
 </script>

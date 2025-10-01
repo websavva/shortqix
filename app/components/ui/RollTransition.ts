@@ -13,7 +13,8 @@ export default defineComponent({
       h(
         Transition,
         {
-          enterActiveClass: 'transition-all duration-[var(--transition-duration)]',
+          enterActiveClass:
+            'transition-all duration-[var(--transition-duration)]',
           enterFromClass: 'opacity-0 -translate-y-[100%]',
           enterToClass: 'opacity-100 translate-y-0',
           leaveActiveClass:

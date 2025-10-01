@@ -1,7 +1,7 @@
 import type { Config } from 'drizzle-kit';
 import { config } from 'dotenv';
 
-config()
+config();
 
 export default {
   schema: './server/db/schema.ts',
@@ -15,4 +15,4 @@ export default {
     database: process.env.POSTGRES_DB!,
     ssl: false,
   },
-} satisfies Config 
+} satisfies Config;

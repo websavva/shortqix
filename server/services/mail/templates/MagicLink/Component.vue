@@ -1,6 +1,6 @@
 <template>
   <EmailLayout preview="Log in with this magic link.">
-    <Heading :style="heading"> 🪄 Your magic link </Heading>
+    <Heading :style="heading">🪄 Your magic link</Heading>
 
     <Section :style="body">
       <Text :style="paragraph">

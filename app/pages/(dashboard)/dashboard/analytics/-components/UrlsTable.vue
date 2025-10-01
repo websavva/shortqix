@@ -40,9 +40,9 @@
           </TableCell>
 
           <TableCell v-if="isPremium">
-            <span class="font-medium">{{
-              spaceNumber(url.clicks || 0)
-            }}</span>
+            <span class="font-medium">
+              {{ spaceNumber(url.clicks || 0) }}
+            </span>
           </TableCell>
 
           <TableCell>
@@ -87,13 +87,13 @@ import Button from '@/components/ui/Button.vue';
 import { useToast } from '@/components/ui/toast';
 import { spaceNumber } from '#shared/utils/space-number';
 
-const $toast = useToast();
-
-const { isPremium } = useAuth();
-
 defineProps<{
   urls: InternalApi['/api/analytics/urls']['default']['urls'];
 }>();
+
+const $toast = useToast();
+
+const { isPremium } = useAuth();
 
 async function onCopy(code: string) {
   try {

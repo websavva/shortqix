@@ -31,7 +31,9 @@ export default defineEventHandler(async (event) => {
         averageClicks: sql<number>`coalesce(round(avg(${shortenedUrls.clicks}), 2), 0)::float`,
       })
       .from(shortenedUrls)
-      .where(eq(shortenedUrls.userId, event.context.user!.id));
+      .where(
+        eq(shortenedUrls.userId, event.context.user!.id),
+      );
 
     return {
       totalUrls,

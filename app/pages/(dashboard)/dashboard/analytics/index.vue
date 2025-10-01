@@ -2,7 +2,7 @@
   <div class="space-y-8">
     <!-- Page Header -->
     <Heading>
-      <template #title> Analytics </template>
+      <template #title>Analytics</template>
 
       <template #description>
         Track your link performance and engagement metrics

@@ -33,7 +33,11 @@
       :fade-config="{ duration: 200 }"
       :size-config="{ duration: 300 }"
     >
-      <div v-if="props.payment.status === PaymentStatus.PROCESSING">
+      <div
+        v-if="
+          props.payment.status === PaymentStatus.PROCESSING
+        "
+      >
         <BitcoinAddressBox
           :address="props.payment.bitcoinAddress"
           :amount="props.payment.amountBtc"

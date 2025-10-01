@@ -2,7 +2,7 @@
   <div class="space-y-8">
     <!-- Page Header -->
     <Heading>
-      <template #title> Premium Management </template>
+      <template #title>Premium Management</template>
 
       <template #description>
         Manage your premium subscription and billing
@@ -15,7 +15,7 @@
     <!-- Plan Selection (for non-premium users) -->
     <div class="space-y-6">
       <Heading>
-        <template #title> Choose Your Plan </template>
+        <template #title>Choose Your Plan</template>
         <template #description>
           Select the plan that best fits your needs
         </template>

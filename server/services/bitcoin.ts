@@ -26,11 +26,15 @@ export interface BitcoinBalanceResponse {
 
 export class BitcoinService {
   static readonly SATOSHIS_PER_BTC = 100_000_000;
-  static readonly MEMPOOL_API_BASE = 'https://mempool.space/testnet/api';
-  static readonly USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+  static readonly MEMPOOL_API_BASE =
+    'https://mempool.space/testnet/api';
+  static readonly USER_AGENT =
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
   static createAddress() {
-    const keyPair = ECPair.makeRandom({ rng: () => randomBytes(32) });
+    const keyPair = ECPair.makeRandom({
+      rng: () => randomBytes(32),
+    });
 
     const { address } = bitcoin.payments.p2wpkh({
       pubkey: Buffer.from(keyPair.publicKey),
@@ -53,14 +57,19 @@ export class BitcoinService {
       throw new Error('Failed to convert USD to BTC');
     }
 
-    const data = (await response.json()) as { bitcoin: { usd: number } };
+    const data = (await response.json()) as {
+      bitcoin: { usd: number };
+    };
 
-    return +((amount / data.bitcoin.usd).toFixed(8));
+    return +(amount / data.bitcoin.usd).toFixed(8);
   }
 
-  static calculateBalance(stats: BitcoinBalanceResponseStats): number {
+  static calculateBalance(
+    stats: BitcoinBalanceResponseStats,
+  ): number {
     return this.normalizeAmount(
-      (stats.funded_txo_sum - stats.spent_txo_sum) / this.SATOSHIS_PER_BTC,
+      (stats.funded_txo_sum - stats.spent_txo_sum) /
+        this.SATOSHIS_PER_BTC,
     );
   }
 
@@ -73,14 +82,21 @@ export class BitcoinService {
     );
 
     if (!response.ok) {
-      throw new Error(`Failed to check balance: ${response.status}`);
+      throw new Error(
+        `Failed to check balance: ${response.status}`,
+      );
     }
 
-    const data = (await response.json()) as BitcoinBalanceResponse;
+    const data =
+      (await response.json()) as BitcoinBalanceResponse;
 
     return {
-      pendingBalance: this.calculateBalance(data.mempool_stats),
-      confirmedBalance: this.calculateBalance(data.chain_stats),
+      pendingBalance: this.calculateBalance(
+        data.mempool_stats,
+      ),
+      confirmedBalance: this.calculateBalance(
+        data.chain_stats,
+      ),
     };
   }
 

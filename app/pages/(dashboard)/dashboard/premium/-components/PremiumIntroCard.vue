@@ -22,7 +22,9 @@
           <h2 class="text-xl font-semibold text-foreground">
             {{ isPremium ? 'Premium Active' : 'Free Plan' }}
           </h2>
-          <p class="text-sm text-muted-foreground max-xs:text-xs">
+          <p
+            class="text-sm text-muted-foreground max-xs:text-xs"
+          >
             {{
               isPremium && user?.premiumExpiresAt
                 ? `Expires ${timeAgo(user.premiumExpiresAt)}`
@@ -75,7 +77,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="space-y-2">
         <h3 class="font-medium text-foreground mb-3">
           Benefits
@@ -119,6 +121,10 @@ import { useAuth } from '#imports';
 import { timeAgo } from '#shared/utils/time-ago';
 import { cn } from '@/utils';
 
+const props = defineProps<{
+  class?: HTMLAttributes['class'];
+}>();
+
 const { isPremium, user } = useAuth();
 
 const benefits = [
@@ -132,8 +138,4 @@ const features = [
   'Click Tracking',
   'Custom Domains',
 ];
-
-const props = defineProps<{
-  class?: HTMLAttributes['class'];
-}>();
 </script>

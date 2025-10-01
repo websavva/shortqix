@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
-import { useMediaQuery } from '@vueuse/core'
+import { useMediaQuery } from '@vueuse/core';
 
 import type { PaginationMetadata } from '#shared/dtos/pagination';
 
@@ -47,6 +47,10 @@ import PaginationEllipsis from './PaginationEllipsis.vue';
 import PaginationItem from './PaginationItem.vue';
 import PaginationNext from './PaginationNext.vue';
 import PaginationPrevious from './PaginationPrevious.vue';
+
+defineOptions({
+  inheritAttrs: false,
+});
 
 const props = defineProps<
   Pick<
@@ -61,11 +65,7 @@ const emit = defineEmits<{
   change: [value: number];
 }>();
 
-defineOptions({
-  inheritAttrs: false,
-});
-
-const isMobile = useMediaQuery('(max-width: 720px)')
+const isMobile = useMediaQuery('(max-width: 720px)');
 
 const onPageChange = (value: number) => {
   emit('change', value);

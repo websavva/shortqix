@@ -1,4 +1,4 @@
-import { lt, sql  } from 'drizzle-orm';
+import { lt, sql } from 'drizzle-orm';
 
 import { WsEventTypes } from '#shared/consts/ws-event-types';
 
@@ -6,7 +6,6 @@ import type { Task } from '../types/task';
 import { db } from '../db';
 import { users } from '../db/schema';
 import { WebSocketService } from '../services/ws';
-
 
 export class PremiumExpirationTask implements Task {
   static async updateExpiredPremium() {

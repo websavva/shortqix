@@ -12,12 +12,12 @@
         class="flex flex-col items-center justify-center gap-4 text-center"
       >
         <div class="flex items-center gap-2">
-          <LogoBox 
+          <LogoBox
             class="size-8"
             data-test-id="logo-box"
           />
 
-          <span 
+          <span
             class="font-semibold text-foreground"
             data-test-id="app-name"
           >

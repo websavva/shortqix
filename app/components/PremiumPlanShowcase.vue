@@ -13,7 +13,7 @@
     <h2
       class="text-3xl max-lg:text-2xl mt-5 flex flex-col items-center font-bold text-center"
     >
-      <span> Premium Subscription </span>
+      <span>Premium Subscription</span>
     </h2>
 
     <ul
@@ -59,8 +59,9 @@
                 variant="outline"
                 :disabled="pending"
                 @click="onCancel"
-                >Cancel</Button
               >
+                Cancel
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

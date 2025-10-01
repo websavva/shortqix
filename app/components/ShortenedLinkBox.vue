@@ -40,7 +40,9 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex justify-center gap-2 max-xs:flex-col">
+        <div
+          class="flex justify-center gap-2 max-xs:flex-col"
+        >
           <!-- Share Button (Web Share API) -->
           <Button
             v-if="canShare"
@@ -83,13 +85,13 @@ import {
 import Button from '@/components/ui/Button.vue';
 import { useToast } from '@/components/ui/toast';
 
-const $toast = useToast();
-
 const props = defineProps<{
   url: string;
   title?: string;
   text?: string;
 }>();
+
+const $toast = useToast();
 
 // State
 const isSharing = ref(false);

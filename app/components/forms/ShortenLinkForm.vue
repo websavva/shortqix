@@ -17,7 +17,11 @@
               <Input
                 type="text"
                 v-bind="componentField"
-                :disabled="Boolean(form.isSubmitting.value || shortenedUrl)"
+                :disabled="
+                  Boolean(
+                    form.isSubmitting.value || shortenedUrl,
+                  )
+                "
                 placeholder="Enter your long URL here"
                 class="border-0 rounded-none focus-visible:ring-0 bg-transparent min-h-full"
               />

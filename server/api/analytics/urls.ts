@@ -1,8 +1,4 @@
-import {
-  defineEventHandler,
-  createError,
-  getQuery,
-} from 'h3';
+import { defineEventHandler, createError } from 'h3';
 import { eq, sql, desc } from 'drizzle-orm';
 
 import { PaginationParamsSchema } from '#shared/dtos';

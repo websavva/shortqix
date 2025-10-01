@@ -14,8 +14,8 @@
         <h1
           class="max-sm:text-3xl max-xl:text-4xl text-5xl font-bold mt-10 max-sm:mt-5 text-center leading-tight max-w-2xl"
         >
-          <span class="text-primary">{{ appName }}.</span> Link
-          Shortener
+          <span class="text-primary">{{ appName }}.</span>
+          Link Shortener
 
           <br />
 
