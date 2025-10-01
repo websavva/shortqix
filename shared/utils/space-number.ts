@@ -1,55 +1,88 @@
-/**
- * @link http://php.net/manual/ru/function.number-format.php
- * @link https://stackoverflow.com/questions/12820312/equivalent-to-php-function-number-format-in-jquery-javascript/34141813#34141813
- * @param {Number} number
- * @param {Number} decimals
- * @param {String} decPoint
- * @param {String} thousandsSep
- * @returns {String}
- */
+export const NON_BREAKING_SPACE = '\u00A0';
 
-export default function numberFormat(
-  number: number | string,
-  decimals: number = 0,
-  decPoint: string = '.',
-  thousandsSep: string = ',',
-): string {
-  // Strip all characters but numerical ones.
-  number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
-  const n = !isFinite(+number) ? 0 : +number;
-  const prec = !isFinite(+decimals)
-    ? 0
-    : Math.abs(decimals);
-  const sep =
-    typeof thousandsSep === 'undefined'
-      ? ','
-      : thousandsSep;
-  const dec =
-    typeof decPoint === 'undefined' ? '.' : decPoint;
-  const toFixedFix = function (
-    n: number,
-    prec: number,
-  ): string {
-    const k = 10 ** prec;
-    return '' + Math.round(n * k) / k;
-  };
+function toPlainString(num: number): string {
+  // Convert number to string
+  const str = num.toString();
 
-  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-  const s = (
-    prec ? toFixedFix(n, prec) : '' + Math.round(n)
-  ).split('.');
-  if (s[0] && s[0].length > 3) {
-    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+  // If not in scientific notation, return as-is
+  if (!str.includes('e')) {
+    return str;
   }
-  if ((s[1] || '').length < prec) {
-    s[1] = s[1] || '';
-    s[1] += new Array(prec - s[1].length + 1).join('0');
+
+  // Parse scientific notation: e.g., "1.5e+7" or "8.9e-10"
+  const match = str.match(/(-?)(\d*)\.?(\d*)e([+-]\d+)/);
+
+  if (!match) {
+    return str;
   }
-  return s.join(dec);
+
+  const [
+    ,
+    sign,
+    integerPart = '',
+    decimalPart = '',
+    exponentStr,
+  ] = match;
+  const exponent = parseInt(exponentStr!, 10);
+
+  if (exponent < 0) {
+    // Negative exponent: shift decimal point left
+    // e.g., 89e-10 → 0.0000000089
+    const zerosNeeded =
+      Math.abs(exponent) - integerPart.length;
+    const leadingZeros = '0'.repeat(zerosNeeded);
+    return `${sign}0.${leadingZeros}${integerPart}${decimalPart}`;
+  } else {
+    // Positive exponent: shift decimal point right
+    // e.g., 15e6 → 15000000
+    const zerosNeeded = exponent - decimalPart.length;
+    const trailingZeros =
+      zerosNeeded > 0 ? '0'.repeat(zerosNeeded) : '';
+    const newDecimal =
+      zerosNeeded < 0
+        ? `.${decimalPart.slice(exponent)}`
+        : '';
+    const movedDigits = decimalPart.slice(
+      0,
+      Math.max(0, exponent),
+    );
+
+    return `${sign}${integerPart}${movedDigits}${trailingZeros}${newDecimal}`;
+  }
 }
 
-const NON_BREAKING_SPACE = '\u00A0';
+export function spaceNumber(
+  value: number,
+  delimiter = NON_BREAKING_SPACE,
+) {
+  // Convert scientific notation to plain string first
+  const plainValue = toPlainString(value);
 
-export function spaceNumber(value: number) {
-  return numberFormat(value, 0, '.', NON_BREAKING_SPACE);
+  const [integerWithSign = '', decimal = ''] =
+    plainValue.split('.');
+
+  const isNegative = integerWithSign.startsWith('-');
+
+  const reversedIntegerWithoutSign = integerWithSign
+    .slice(isNegative ? 1 : 0)
+    .split('')
+    .reverse();
+
+  const thousandNumber = Math.ceil(
+    reversedIntegerWithoutSign.length / 3,
+  );
+
+  const integerWithSpaces = Array.from(
+    { length: thousandNumber },
+    (_, index) => {
+      return reversedIntegerWithoutSign
+        .slice(index * 3, (index + 1) * 3)
+        .reverse()
+        .join('');
+    },
+  )
+    .reverse()
+    .join(delimiter);
+
+  return `${isNegative ? '-' : ''}${integerWithSpaces}${decimal ? '.' + decimal : ''}`;
 }

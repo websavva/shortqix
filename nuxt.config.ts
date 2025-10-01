@@ -9,7 +9,11 @@ const { resolve } = createResolver(import.meta.url);
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', '@nuxt/fonts'],
+  modules: [
+    '@nuxt/eslint',
+    '@nuxt/test-utils/module',
+    '@nuxt/fonts',
+  ],
 
   buildDir: '.nuxt',
 
@@ -41,7 +45,10 @@ export default defineNuxtConfig({
     'prepare:types'({ tsConfig }) {
       if (!tsConfig.include) tsConfig.include = [];
 
-      tsConfig.include.push('configs/**/*.ts');
+      tsConfig.include.push(
+        'configs/**/*.ts',
+        'vitest.config.ts',
+      );
     },
   },
 
