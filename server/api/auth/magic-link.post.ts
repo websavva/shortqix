@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
       const token = nanoid(32);
       const expiresAt = new Date(
         Date.now() +
-          +process.env.AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS!,
+          +process.env.SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS!,
       );
 
       // Save magic link to database
@@ -78,7 +78,7 @@ export default defineEventHandler(async (event) => {
     return {
       email,
       token:
-        process.env.NODE_ENV === 'production'
+        process.env.SQX_STAGE === 'production'
           ? undefined
           : token,
     };

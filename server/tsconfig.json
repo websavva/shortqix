@@ -5,10 +5,9 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "jsx": "preserve",
+    "jsxImportSource": "vue"
   },
-  "include": [
-    "./types/**/*",
-    "./**/*"
-  ]
+  "include": ["./types/**/*", "./**/*"]
 }

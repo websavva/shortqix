@@ -9,11 +9,11 @@ config();
 
 // Create the postgres client
 const client = postgres({
-  host: process.env.POSTGRES_HOST || 'localhost',
-  port: parseInt(process.env.POSTGRES_PORT || '5432'),
-  user: process.env.POSTGRES_USER || 'postgres',
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DB || 'url_shortener',
+  host: process.env.SQX_POSTGRES_HOST || 'localhost',
+  port: parseInt(process.env.SQX_POSTGRES_PORT || '5432'),
+  user: process.env.SQX_POSTGRES_USER || 'postgres',
+  password: process.env.SQX_POSTGRES_PASSWORD,
+  database: process.env.SQX_POSTGRES_DB || 'url_shortener',
 });
 
 // Create the drizzle database instance

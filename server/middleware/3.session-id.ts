@@ -20,10 +20,10 @@ export default defineEventHandler(async (event) => {
     sessionId = nanoid(32);
 
     setCookie(event, 'session-id', sessionId, {
-      domain: process.env.COOKIE_DOMAIN,
+      domain: process.env.SQX_COOKIE_DOMAIN,
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: +process.env.SESSION_ID_COOKIE_EXPIRES_IN_MS!,
+      secure: process.env.SQX_STAGE === 'production',
+      maxAge: +process.env.SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS!,
     });
   }
 

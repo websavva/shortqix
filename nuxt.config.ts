@@ -1,6 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config';
 import { createResolver } from '@nuxt/kit';
-import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 
 import { publicDefine, privateDefine } from './configs/env';
 import { staticSeoMeta } from './configs/seo-meta';
@@ -77,18 +77,15 @@ export default defineNuxtConfig({
     },
 
     rollupConfig: {
-      // @ts-expect-error rollup types are not updated
-      plugins: [vue()],
+      plugins: [
+        vueJsx({
+          include: /\.tsx$/,
+        }),
+      ],
     },
 
     experimental: {
       websocket: true,
-    },
-  },
-
-  runtimeConfig: {
-    public: {
-      baseUrl: process.env.BASE_URL,
     },
   },
 

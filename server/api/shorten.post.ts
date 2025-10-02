@@ -80,8 +80,8 @@ export default defineEventHandler(async (event) => {
         );
 
     const maxTodayShortenedUrlsCount = +(user?.isPremium
-      ? process.env.PREMIUM_SHORT_URLS_MAX_COUNT!
-      : process.env.NON_PREMIUM_SHORT_URLS_MAX_COUNT!);
+      ? process.env.SQX_PREMIUM_SHORT_URLS_MAX_COUNT!
+      : process.env.SQX_NON_PREMIUM_SHORT_URLS_MAX_COUNT!);
 
     if (
       todayShortenedUrlsCount >= maxTodayShortenedUrlsCount

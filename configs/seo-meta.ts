@@ -1,12 +1,12 @@
 import type { NuxtConfig } from 'nuxt/config';
 
-const description = `${process.env.APP_NAME} is a URL shortening service that allows you to shorten long URLs into short, easy-to-remember links.`;
+const description = `${process.env.SQX_APP_NAME || 'Shortqix'} is a URL shortening service that allows you to shorten long URLs into short, easy-to-remember links.`;
 
 export const staticSeoMeta: Required<NuxtConfig>['app']['head'] =
   {
     title: 'Home',
 
-    titleTemplate: `%s | ${process.env.APP_NAME} - Fast, reliable URL shortening service`,
+    titleTemplate: `%s | ${process.env.SQX_APP_NAME || 'Shortqix'} - Fast, reliable URL shortening service`,
 
     meta: [
       {
@@ -19,11 +19,11 @@ export const staticSeoMeta: Required<NuxtConfig>['app']['head'] =
       },
       {
         name: 'og:image',
-        content: `${process.env.BASE_URL}/og.png`,
+        content: `${process.env.SQX_BASE_URL}/og.png`,
       },
       {
         name: 'og:title',
-        content: process.env.APP_NAME,
+        content: process.env.SQX_APP_NAME || 'Shortqix',
       },
       {
         name: 'og:description',
@@ -31,7 +31,7 @@ export const staticSeoMeta: Required<NuxtConfig>['app']['head'] =
       },
       {
         name: 'og:url',
-        content: process.env.BASE_URL,
+        content: process.env.SQX_BASE_URL,
       },
       {
         name: 'og:type',
@@ -47,7 +47,7 @@ export const staticSeoMeta: Required<NuxtConfig>['app']['head'] =
       {
         rel: 'icon',
         type: 'image/png',
-        href: `${process.env.BASE_URL}/logo-box.png`,
+        href: `${process.env.SQX_BASE_URL}/logo-box.png`,
       },
     ],
   };

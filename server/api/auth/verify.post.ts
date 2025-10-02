@@ -110,10 +110,10 @@ export default defineEventHandler(async (event) => {
     // Set HTTP-only cookie
     setCookie(event, 'auth-token', jwtToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.SQX_STAGE === 'production',
       sameSite: 'lax',
       maxAge: Math.floor(
-        +process.env.AUTH_TOKEN_EXPIRES_IN_MS! / 1000,
+        +process.env.SQX_AUTH_TOKEN_EXPIRES_IN_MS! / 1000,
       ),
     });
 

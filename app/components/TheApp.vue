@@ -14,7 +14,9 @@
 
     <Footer class="max-lg:px-4" />
 
-    <Toaster />
+    <ClientOnly>
+      <Toaster />
+    </ClientOnly>
   </div>
 </template>
 

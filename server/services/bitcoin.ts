@@ -1,10 +1,5 @@
-import { randomBytes } from 'node:crypto';
-
 import * as bitcoin from 'bitcoinjs-lib';
-import ECPairFactory from 'ecpair';
-import * as ecc from 'tiny-secp256k1';
-
-const ECPair = ECPairFactory(ecc);
+import * as ecc from '@noble/secp256k1';
 
 function toHex(buffer: Uint8Array<ArrayBufferLike>) {
   return Buffer.from(buffer).toString('hex');
@@ -32,19 +27,22 @@ export class BitcoinService {
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
   static createAddress() {
-    const keyPair = ECPair.makeRandom({
-      rng: () => randomBytes(32),
-    });
+    // Generate a random private key using @noble/secp256k1
+    const privateKey = ecc.utils.randomSecretKey();
 
+    // Get the public key from the private key using getPublicKey
+    const publicKey = ecc.getPublicKey(privateKey, true); // compressed format
+
+    // Create Bitcoin address using bitcoinjs-lib
     const { address } = bitcoin.payments.p2wpkh({
-      pubkey: Buffer.from(keyPair.publicKey),
+      pubkey: Buffer.from(publicKey),
       network: bitcoin.networks.testnet,
     });
 
     return {
       address: address!,
-      privateKey: toHex(keyPair.privateKey!),
-      publicKey: toHex(keyPair.publicKey),
+      privateKey: toHex(privateKey),
+      publicKey: toHex(publicKey),
     };
   }
 

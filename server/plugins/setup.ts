@@ -6,6 +6,10 @@ import { WebSocketService } from '../services/ws';
 import { MailService } from '../services/mail';
 
 export default defineNitroPlugin((nitroApp) => {
+  nitroApp.hooks.hook('error', (error) => {
+    console.error('❌ Server error:', error);
+  });
+
   const setup = async () => {
     console.log('⏳ Server not ready, waiting...');
 

@@ -15,18 +15,18 @@ export class MailService {
   static async setup() {
     console.log('📧 Setting up SMTP transport...');
 
-    const isDev = process.env.NODE_ENV !== 'production';
+    const isDev = process.env.SQX_STAGE !== 'production';
 
     const authOptions = !isDev
       ? {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASSWORD,
+          user: process.env.SQX_SMTP_USER,
+          pass: process.env.SQX_SMTP_PASSWORD,
         }
       : undefined;
 
     this.transport = createTransport({
-      port: +process.env.SMTP_PORT!,
-      host: process.env.SMTP_HOST!,
+      port: +process.env.SQX_SMTP_PORT!,
+      host: process.env.SQX_SMTP_HOST!,
       auth: authOptions,
       secure: !isDev,
     });
@@ -58,7 +58,7 @@ export class MailService {
       console.log(`📤 Sending email to: ${options.to}`);
 
       const result = await this.transport.sendMail({
-        from: process.env.SMTP_FROM,
+        from: process.env.SQX_SMTP_FROM,
         ...options,
       });
 
@@ -112,9 +112,9 @@ export class MailService {
   static getStatus() {
     return {
       isConfigured: !!this.transport,
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
-      secure: process.env.NODE_ENV === 'production',
+      host: process.env.SQX_SMTP_HOST,
+      port: process.env.SQX_SMTP_PORT,
+      secure: process.env.SQX_STAGE === 'production',
     };
   }
 }

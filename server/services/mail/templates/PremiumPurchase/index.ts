@@ -1,6 +1,6 @@
 import { defineMailTemplate } from '../utils';
 
-import Component from './Component.vue';
+import Component from './Component';
 
 export const PremiumPurchaseMailTemplate =
   defineMailTemplate(

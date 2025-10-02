@@ -1,6 +1,6 @@
-export { default as EmailLayout } from './EmailLayout.vue';
-export { default as EmailHeader } from './EmailHeader.vue';
-export { default as EmailFooter } from './EmailFooter.vue';
-export { default as EmailButton } from './EmailButton.vue';
-export { default as EmailCard } from './EmailCard.vue';
+export { default as EmailLayout } from './EmailLayout';
+export { default as EmailHeader } from './EmailHeader';
+export { default as EmailFooter } from './EmailFooter';
+export { default as EmailButton } from './EmailButton';
+export { default as EmailCard } from './EmailCard';
 export { useEmailStyles } from './useEmailStyles';

@@ -194,7 +194,7 @@ import RollTransition from './ui/RollTransition';
 import SizeTransition from './ui/SizeTransition';
 import Button from './ui/Button.vue';
 
-const appName = process.env.APP_NAME;
+const appName = process.env.SQX_APP_NAME;
 
 const { isGuest, isPremium, logout, pending } = useAuth();
 

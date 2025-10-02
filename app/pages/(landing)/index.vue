@@ -52,7 +52,7 @@ import PremiumPlanShowcase from '@/components/PremiumPlanShowcase.vue';
 
 import Advantages from './-index/advantages/index.vue';
 
-const appName = process.env.APP_NAME;
+const appName = process.env.SQX_APP_NAME;
 
 useSeoMeta({
   title: 'Home',

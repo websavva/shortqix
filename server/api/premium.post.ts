@@ -58,7 +58,7 @@ export default defineEventHandler(async (event) => {
           status: PaymentStatus.PROCESSING,
           expiresAt: new Date(
             Date.now() +
-              +process.env.PAYMENT_EXPIRES_IN_MS!,
+              +process.env.SQX_PAYMENT_EXPIRES_IN_MS!,
           ),
           createdAt: new Date(),
           updatedAt: new Date(),

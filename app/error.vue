@@ -321,7 +321,7 @@ Thank you for helping us improve our service!
   `);
 
   window.open(
-    `mailto:${process.env.SUPPORT_EMAIL}?subject=${subject}&body=${body}`,
+    `mailto:${process.env.SQX_SUPPORT_EMAIL}?subject=${subject}&body=${body}`,
     '_blank',
   );
 }

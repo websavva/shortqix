@@ -61,7 +61,7 @@ const props = defineProps<{
 }>();
 
 const currentYear = new Date().getFullYear();
-const appName = process.env.APP_NAME;
+const appName = process.env.SQX_APP_NAME;
 
-const supportEmail = process.env.SUPPORT_EMAIL;
+const supportEmail = process.env.SQX_SUPPORT_EMAIL;
 </script>
