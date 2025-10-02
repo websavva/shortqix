@@ -91,7 +91,7 @@ jobs:
           key: ${{ runner.os }}-e2e-chromium
 
       - name: Installing Chromium with all deps
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright-core install --with-deps chromium
         shell: bash
 
       - name: Running E2E tets

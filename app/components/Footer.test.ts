@@ -15,8 +15,8 @@ describe('Footer', () => {
 
   beforeEach(() => {
     // Mock process.env
-    vi.stubEnv('APP_NAME', mockAppName);
-    vi.stubEnv('SUPPORT_EMAIL', mockSupportEmail);
+    vi.stubEnv('SQX_APP_NAME', mockAppName);
+    vi.stubEnv('SQX_SUPPORT_EMAIL', mockSupportEmail);
   });
 
   describe('Rendering', () => {
@@ -108,7 +108,7 @@ describe('Footer', () => {
   describe('Environment Variables', () => {
     it('should use APP_NAME from environment', () => {
       const customAppName = 'CustomApp';
-      vi.stubEnv('APP_NAME', customAppName);
+      vi.stubEnv('SQX_APP_NAME', customAppName);
 
       const wrapper = mount(Footer);
 
@@ -119,7 +119,7 @@ describe('Footer', () => {
 
     it('should use SUPPORT_EMAIL from environment', () => {
       const customEmail = 'custom@example.com';
-      vi.stubEnv('SUPPORT_EMAIL', customEmail);
+      vi.stubEnv('SQX_SUPPORT_EMAIL', customEmail);
 
       const wrapper = mount(Footer);
       const emailLink = wrapper.find(

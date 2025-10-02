@@ -36,7 +36,7 @@ describe('toAbsoluteUrl', () => {
   it.each(cases)(
     '$name',
     ({ input, expected, baseUrl = 'https://test.com' }) => {
-      vi.stubEnv('BASE_URL', baseUrl);
+      vi.stubEnv('SQX_BASE_URL', baseUrl);
 
       expect(toAbsoluteUrl(input)).toBe(expected);
     },
