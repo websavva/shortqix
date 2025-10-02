@@ -53,11 +53,8 @@ jobs:
       - name: Prepare workflow
         uses: ./.github/actions/prepare-workflow
 
-      - name: Run server unit tests
-        run: pnpm run test:units:server
-
-      - name: Run client unit tests
-        run: pnpm run test:units:client
+      - name: Run unit tests
+        run: pnpm run test:unit
 
   test_e2e:
     name: Run e2e tests
