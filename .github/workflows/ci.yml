@@ -73,7 +73,7 @@ jobs:
       - name: Run docker-compose
         uses: hoverkraft-tech/compose-action@v2.0.1
         with:
-          compose-file: './docker-compose.dev.yaml'
+          compose-file: './docker-compose.dev.yml'
 
       - name: Prepare worfklow
         uses: ./.github/actions/prepare-workflow
