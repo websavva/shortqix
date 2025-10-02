@@ -13,7 +13,9 @@
     "db:studio": "drizzle-kit studio",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "typecheck": "vue-tsc --noEmit",
+    "typecheck:server": "vue-tsc --noEmit -p server",
+    "typecheck:app": "vue-tsc --noEmit",
+    "typecheck": "pnpm typecheck:server && pnpm typecheck:app",
     "test:unit": "vitest run --project pure-unit --project nuxt-unit",
     "test:e2e": "vitest run --project e2e"
   },
