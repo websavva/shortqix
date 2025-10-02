@@ -50,6 +50,8 @@ export default defineConfig(async () => {
               'e2e/global-setup/check.ts',
             ],
 
+            setupFiles: ['e2e/setup/clear-database.ts'],
+
             environment: 'node',
 
             testTimeout: 10e3,

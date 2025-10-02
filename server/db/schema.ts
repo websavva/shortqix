@@ -4,10 +4,10 @@ export * from './entities';
 // Reexport specific entities for backward compatibility
 export {
   shortenedUrls,
-  users,
   bitcoinAddresses,
   payments,
   magicLinks,
+  users,
   paymentStatusEnum,
 } from './entities';
 

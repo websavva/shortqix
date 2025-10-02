@@ -2,25 +2,24 @@ import {
   useRequestFetch,
   useRouter,
   computed,
-  readonly,
-  useState,
   ref,
 } from '#imports';
+import { defineStore, storeToRefs } from 'pinia';
 import type { Serialize } from 'nitropack';
 import { FetchError } from 'ofetch';
 
 import type { User } from '#server/db/entities';
 
-export const useAuth = () => {
+export const useAuthStore = defineStore('auth', () => {
   let abortController: AbortController | null = null;
 
   const pending = ref(false);
 
   const localFetch = useRequestFetch();
 
-  const user = useState<ReturnType<
-    typeof normalizeUser
-  > | null>('user', () => null);
+  const user = ref<ReturnType<typeof normalizeUser> | null>(
+    null,
+  );
 
   const isGuest = computed(() => !user.value);
 
@@ -118,8 +117,8 @@ export const useAuth = () => {
   }
 
   return {
-    user: readonly(user),
-    pending: readonly(pending),
+    user,
+    pending,
     isAuthenticated,
     isPremium,
     isGuest,
@@ -129,5 +128,12 @@ export const useAuth = () => {
     cancelFetchUser,
     resetUser,
     updateUser,
+  };
+});
+
+export const useAuth = () => {
+  return {
+    ...useAuthStore(),
+    ...storeToRefs(useAuthStore()),
   };
 };

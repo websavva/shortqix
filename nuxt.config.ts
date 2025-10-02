@@ -17,12 +17,17 @@ const drizzleKitBinPath = join(
   'bin.cjs',
 );
 
+const isProdBuild = process.env.SQQ_STAGE === 'production';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
-    '@nuxt/eslint',
-    '@nuxt/test-utils/module',
     '@nuxt/fonts',
+    '@pinia/nuxt',
+
+    ...(!isProdBuild
+      ? ['@nuxt/eslint', '@nuxt/test-utils/module']
+      : []),
   ],
 
   buildDir: '.nuxt',
@@ -58,6 +63,7 @@ export default defineNuxtConfig({
       tsConfig.include.push(
         'configs/**/*.ts',
         'vitest.config.ts',
+        'modules/**/*.ts',
       );
     },
   },
