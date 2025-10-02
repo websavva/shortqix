@@ -1,7 +1,12 @@
 import type { Config } from 'drizzle-kit';
-import { config } from 'dotenv';
 
-config();
+try {
+  // workaround for production builds
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  require('dotenv').config();
+} catch (error) {
+  console.error(error);
+}
 
 export default {
   schema: './server/db/schema.ts',

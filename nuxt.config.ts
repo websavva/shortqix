@@ -1,11 +1,21 @@
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { defineNuxtConfig } from 'nuxt/config';
 import { createResolver } from '@nuxt/kit';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 
-import { publicDefine, privateDefine } from './configs/env';
+import { publicDefine } from './configs/env';
 import { staticSeoMeta } from './configs/seo-meta';
 
 const { resolve } = createResolver(import.meta.url);
+
+const drizzleKitBinPath = join(
+  dirname(
+    fileURLToPath(import.meta.resolve('drizzle-kit')),
+  ),
+  'bin.cjs',
+);
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -67,12 +77,13 @@ export default defineNuxtConfig({
       autoImport: false,
     },
 
+    externals: {
+      traceInclude: [drizzleKitBinPath],
+    },
+
     esbuild: {
       options: {
-        define: {
-          ...privateDefine,
-          ...publicDefine,
-        },
+        define: publicDefine,
       },
     },
 

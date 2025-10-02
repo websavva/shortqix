@@ -6,15 +6,15 @@ services:
   database:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${SQX_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${SQX_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${SQX_POSTGRES_DB}
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "${SQX_POSTGRES_PORT}:5432"
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U ${SQX_POSTGRES_USER} -d ${SQX_POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
