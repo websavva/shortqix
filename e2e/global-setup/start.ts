@@ -1,5 +1,6 @@
+import { rmdir } from 'node:fs/promises';
+
 import { createTest } from '@nuxt/test-utils';
-import { rm } from 'fs-extra';
 
 import { port, rootDir, buildDir } from '../utils';
 
@@ -23,6 +24,10 @@ export default async function start() {
   return async () => {
     await hooks.afterAll();
 
-    await rm(buildDir, { force: true, recursive: true });
+    await rmdir(buildDir, { recursive: true }).catch(
+      (err) => {
+        console.error(err);
+      },
+    );
   };
 }

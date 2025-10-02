@@ -23,8 +23,6 @@ jobs:
 
       - name: Prepare workflow
         uses: ./.github/actions/prepare-workflow
-        with:
-          no-optional: true
 
       - name: Run linter
         run: pnpm lint
