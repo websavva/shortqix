@@ -120,7 +120,7 @@ jobs:
         uses: danielr1996/envsubst-action@1.0.0
         env:
           PORT: 3000
-          SQX_DOMAIN: sqix.pro
+          SQX_DOMAIN: ${{ secrets.SQX_DOMAIN }}
         with:
           input: deployment/nginx.conf.temp
           output: deployment/nginx.conf
@@ -138,36 +138,36 @@ jobs:
       - name: Deploy
         uses: appleboy/ssh-action@v1.1.0
         env:
-          NODE_ENV: production
-          PORT: 3000
-          SQX_STAGE: production
-          SQX_RELEASE_VERSION: ${{ needs.infer-version.outputs.version }}
-          SQX_DOMAIN: ${{ secrets.SQX_DOMAIN }}
-          SQX_BASE_URL: ${{ secrets.SQX_BASE_URL }}
-          SQX_APP_NAME: ${{ secrets.SQX_APP_NAME }}
-          SQX_SUPPORT_EMAIL: ${{ secrets.SQX_SUPPORT_EMAIL }}
-          SQX_POSTGRES_USER: ${{ secrets.SQX_POSTGRES_USER }}
-          SQX_POSTGRES_PASSWORD: ${{ secrets.SQX_POSTGRES_PASSWORD }}
-          SQX_POSTGRES_DB: ${{ secrets.SQX_POSTGRES_DB }}
-          SQX_POSTGRES_PORT: ${{ secrets.SQX_POSTGRES_PORT }}
-          SQX_POSTGRES_HOST: database
-          SQX_SMTP_HOST: ${{ secrets.SQX_SMTP_HOST }}
-          SQX_SMTP_PORT: ${{ secrets.SQX_SMTP_PORT }}
-          SQX_SMTP_USER: ${{ secrets.SQX_SMTP_USER }}
-          SQX_SMTP_PASSWORD: ${{ secrets.SQX_SMTP_PASSWORD }}
-          SQX_SMTP_FROM: ${{ secrets.SQX_SMTP_FROM }}
-          SQX_AUTH_SECRET: ${{ secrets.SQX_AUTH_SECRET }}
-          SQX_AUTH_TOKEN_EXPIRES_IN_MS: ${{ secrets.SQX_AUTH_TOKEN_EXPIRES_IN_MS }}
-          SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS: ${{ secrets.SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS }}
-          SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS: ${{ secrets.SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS }}
-          SQX_COOKIE_DOMAIN: ${{ secrets.SQX_COOKIE_DOMAIN }}
-          SQX_PAYMENT_EXPIRES_IN_MS: ${{ secrets.SQX_PAYMENT_EXPIRES_IN_MS }}
-          SQX_NON_PREMIUM_SHORT_URLS_MAX_COUNT: ${{ secrets.SQX_NON_PREMIUM_SHORT_URLS_MAX_COUNT }}
-          SQX_PREMIUM_SHORT_URLS_MAX_COUNT: ${{ secrets.SQX_PREMIUM_SHORT_URLS_MAX_COUNT }}
         with:
           host: sqix.pro
           username: ${{ secrets.DEPLOY_SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            export NODE_ENV=production
+            export PORT=3000
+            export SQX_STAGE=production
+            export SQX_RELEASE_VERSION=${{ needs.infer-version.outputs.version }}
+            export SQX_DOMAIN=${{ secrets.SQX_DOMAIN }}
+            export SQX_BASE_URL=${{ secrets.SQX_BASE_URL }}
+            export SQX_APP_NAME=${{ secrets.SQX_APP_NAME }}
+            export SQX_SUPPORT_EMAIL=${{ secrets.SQX_SUPPORT_EMAIL }}
+            export SQX_POSTGRES_USER=${{ secrets.SQX_POSTGRES_USER }}
+            export SQX_POSTGRES_PASSWORD=${{ secrets.SQX_POSTGRES_PASSWORD }}
+            export SQX_POSTGRES_DB=${{ secrets.SQX_POSTGRES_DB }}
+            export SQX_POSTGRES_PORT=${{ secrets.SQX_POSTGRES_PORT }}
+            export SQX_POSTGRES_HOST=database
+            export SQX_SMTP_HOST=${{ secrets.SQX_SMTP_HOST }}
+            export SQX_SMTP_PORT=${{ secrets.SQX_SMTP_PORT }}
+            export SQX_SMTP_USER=${{ secrets.SQX_SMTP_USER }}
+            export SQX_SMTP_PASSWORD=${{ secrets.SQX_SMTP_PASSWORD }}
+            export SQX_SMTP_FROM=${{ secrets.SQX_SMTP_FROM }}
+            export SQX_AUTH_SECRET=${{ secrets.SQX_AUTH_SECRET }}
+            export SQX_AUTH_TOKEN_EXPIRES_IN_MS=${{ secrets.SQX_AUTH_TOKEN_EXPIRES_IN_MS }}
+            export SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS=${{ secrets.SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS }}
+            export SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS=${{ secrets.SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS }}
+            export SQX_COOKIE_DOMAIN=${{ secrets.SQX_COOKIE_DOMAIN }}
+            export SQX_PAYMENT_EXPIRES_IN_MS=${{ secrets.SQX_PAYMENT_EXPIRES_IN_MS }}
+            export SQX_NON_PREMIUM_SHORT_URLS_MAX_COUNT=${{ secrets.SQX_NON_PREMIUM_SHORT_URLS_MAX_COUNT }}
+            export SQX_PREMIUM_SHORT_URLS_MAX_COUNT=${{ secrets.SQX_PREMIUM_SHORT_URLS_MAX_COUNT }}
             cd /apps/shortqix
             docker compose up -d
