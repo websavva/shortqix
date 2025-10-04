@@ -2,8 +2,9 @@ import { defineComponent, computed } from 'vue';
 import { Link } from '@vue-email/components';
 
 import palette from '#shared/consts/palette.json';
+import { hslToHex } from '#shared/utils/hsl-to-hex';
 
-import { useEmailStyles } from './useEmailStyles';
+import { button as baseButtonStyle } from './styles';
 
 export default defineComponent({
   name: 'EmailButton',
@@ -25,10 +26,8 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const { button } = useEmailStyles();
-
     const buttonStyle = computed(() => {
-      const baseStyle = { ...button };
+      const baseStyle = { ...baseButtonStyle };
 
       // Size variants
       if (props.size === 'sm') {
@@ -41,12 +40,16 @@ export default defineComponent({
 
       // Color variants
       if (props.variant === 'secondary') {
-        baseStyle.backgroundColor = palette.secondary;
-        baseStyle.color = palette['secondary-foreground'];
+        baseStyle.backgroundColor = hslToHex(
+          palette.secondary,
+        );
+        baseStyle.color = hslToHex(
+          palette['secondary-foreground'],
+        );
       } else if (props.variant === 'outline') {
         baseStyle.backgroundColor = 'transparent';
-        baseStyle.color = palette.primary;
-        baseStyle.border = `2px solid ${palette.primary}`;
+        baseStyle.color = hslToHex(palette.primary);
+        baseStyle.border = `2px solid ${hslToHex(palette.primary)}`;
       }
 
       return baseStyle;

@@ -1,9 +1,4 @@
 import { defineComponent } from 'vue';
-import {
-  Heading,
-  Section,
-  Text,
-} from '@vue-email/components';
 
 import { toAbsoluteUrl } from '#shared/utils/to-absolute-url';
 
@@ -11,45 +6,44 @@ import {
   EmailLayout,
   EmailCard,
   EmailButton,
-  useEmailStyles,
+  EmailHeading,
+  EmailSection,
+  EmailText,
 } from '../../components';
 
 export default defineComponent({
   name: 'WelcomeEmail',
   setup() {
-    const { heading, body, paragraph } = useEmailStyles();
     const appName = process.env.SQX_APP_NAME;
 
     return () => (
       <EmailLayout preview={`Welcome to ${appName}!`}>
-        <Heading style={heading}>
+        <EmailHeading>
           🎉 Welcome to {appName}!
-        </Heading>
+        </EmailHeading>
 
-        <Section style={body}>
-          <Text style={paragraph}>
+        <EmailSection>
+          <EmailText>
             Thank you for joining {appName}! We're excited
             to help you create short, memorable links that
             work everywhere.
-          </Text>
+          </EmailText>
 
           <EmailCard variant="highlighted">
-            <Text style={{ ...paragraph, marginTop: '0' }}>
+            <EmailText style={{ marginTop: '0' }}>
               <strong>Get started:</strong>
-            </Text>
-            <Text
-              style={{ ...paragraph, marginBottom: '0' }}
-            >
+            </EmailText>
+            <EmailText style={{ marginBottom: '0' }}>
               1. Paste your long URL
               <br />
               2. Customize your short link (optional)
               <br />
               3. Share your shortened link anywhere!
-            </Text>
+            </EmailText>
           </EmailCard>
-        </Section>
+        </EmailSection>
 
-        <Section style={body}>
+        <EmailSection>
           <EmailButton
             href={toAbsoluteUrl('/dashboard')}
             variant="primary"
@@ -57,7 +51,7 @@ export default defineComponent({
           >
             Go to Dashboard
           </EmailButton>
-        </Section>
+        </EmailSection>
       </EmailLayout>
     );
   },

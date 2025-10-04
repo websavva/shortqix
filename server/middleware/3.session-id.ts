@@ -23,8 +23,10 @@ export default defineEventHandler(async (event) => {
       domain: process.env.SQX_COOKIE_DOMAIN,
       httpOnly: true,
       secure: process.env.SQX_STAGE === 'production',
-      maxAge:
-        +process.env.SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS!,
+      maxAge: Math.floor(
+        +process.env.SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS! /
+          1e3,
+      ),
     });
   }
 

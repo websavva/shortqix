@@ -10,7 +10,11 @@ import { toAbsoluteUrl } from '#shared/utils/to-absolute-url';
 
 import {
   EmailLayout,
-  useEmailStyles,
+  EmailHeading,
+  EmailBody,
+  EmailSection,
+  EmailText,
+  EmailLink,
 } from '../../components';
 
 export default defineComponent({
@@ -26,29 +30,21 @@ export default defineComponent({
       toAbsoluteUrl(`/verify/${props.token}`),
     );
 
-    const { heading, body, paragraph, link } =
-      useEmailStyles();
-
     return () => (
       <EmailLayout preview="Log in with this magic link.">
-        <Heading style={heading}>
-          🪄 Your magic link
-        </Heading>
+        <EmailHeading>🪄 Your magic link</EmailHeading>
 
-        <Section style={body}>
-          <Text style={paragraph}>
-            <Link
-              style={link}
-              href={magicLink.value}
-            >
+        <EmailSection>
+          <EmailText>
+            <EmailLink href={magicLink.value}>
               👉 Click here to sign in 👈
-            </Link>
-          </Text>
-          <Text style={paragraph}>
+            </EmailLink>
+          </EmailText>
+          <EmailText>
             If you didn't request this, please ignore this
             email.
-          </Text>
-        </Section>
+          </EmailText>
+        </EmailSection>
       </EmailLayout>
     );
   },

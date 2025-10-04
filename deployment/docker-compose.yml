@@ -1,0 +1,59 @@
+version: '3.8'
+name: shortqix-development
+
+
+services:
+  database:
+    container_name: database
+    image: postgres:16-alpine
+    networks:
+      - shortqix-network
+    environment:
+      POSTGRES_USER: ${SQX_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${SQX_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${SQX_POSTGRES_DB}
+    ports:
+      - "${SQX_POSTGRES_PORT}:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${SQX_POSTGRES_USER} -d ${SQX_POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  smtp-server:
+    container_name: smtp-server
+    image: 'datydock/mailslurper'
+    networks:
+      - shortqix-network
+    ports:
+      - 8080:8080
+      - 8085:8085
+      - 2500:2500
+    
+  app:
+    container_name: app
+    image: shortqix:0.0.1
+    depends_on:
+      - database
+      - smtp-server
+    networks:
+      - shortqix-network
+    env_file: .env
+
+  http-server:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    networks:
+      - shortqix-network
+    restart: unless-stopped
+
+
+networks:
+  shortqix-network:

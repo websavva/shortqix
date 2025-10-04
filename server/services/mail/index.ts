@@ -17,7 +17,7 @@ export class MailService {
 
     const isDev = process.env.SQX_STAGE !== 'production';
 
-    const authOptions = !isDev
+    const authOptions = isDev
       ? {
           user: process.env.SQX_SMTP_USER,
           pass: process.env.SQX_SMTP_PASSWORD,
@@ -28,7 +28,8 @@ export class MailService {
       port: +process.env.SQX_SMTP_PORT!,
       host: process.env.SQX_SMTP_HOST!,
       auth: authOptions,
-      secure: !isDev,
+      // secure: true,
+      secure: isDev,
     });
 
     await this.verify();

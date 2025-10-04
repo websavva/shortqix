@@ -91,7 +91,8 @@ import { ref, watch } from 'vue';
 import { useCssVar } from '@vueuse/core';
 import { toString as renderQRCode } from 'qrcode';
 
-import { hslToHex, cn } from '@/utils';
+import { hslToHex } from '#shared/utils/hsl-to-hex';
+import { cn } from '@/utils';
 import { useToast } from '@/components/ui/toast';
 import Button from '@/components/ui/Button.vue';
 

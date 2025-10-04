@@ -1,19 +1,8 @@
-import type {
-  Component,
-  VNodeProps,
-  AllowedComponentProps,
-} from 'vue';
-import { render } from '@vue-email/render';
-
-type ExtractComponentProps<TComponent> =
-  TComponent extends new () => {
-    $props: infer P;
-  }
-    ? Omit<
-        P,
-        keyof VNodeProps | keyof AllowedComponentProps
-      >
-    : never;
+import type { Component } from 'vue';
+import {
+  render,
+  type ExtractComponentProps,
+} from '@vue-email/render';
 
 export interface MailTemplateResult {
   subject: string;

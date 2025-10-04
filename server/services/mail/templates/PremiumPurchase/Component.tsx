@@ -18,7 +18,10 @@ import {
   EmailLayout,
   EmailCard,
   EmailButton,
-  useEmailStyles,
+  EmailHeading,
+  EmailSection,
+  EmailText,
+  EmailLink,
 } from '../../components';
 
 export default defineComponent({
@@ -39,8 +42,6 @@ export default defineComponent({
   },
   setup(props) {
     const appName = process.env.SQX_APP_NAME;
-    const { heading, body, paragraph, link } =
-      useEmailStyles();
 
     const plan = computed(
       () => getPremiumPlan(props.planId)!,
@@ -54,46 +55,43 @@ export default defineComponent({
       <EmailLayout
         preview={`Welcome to ${appName} Premium!`}
       >
-        <Heading style={heading}>
+        <EmailHeading>
           🎉 Welcome to {appName} Premium!
-        </Heading>
+        </EmailHeading>
 
-        <Section style={body}>
-          <Text style={paragraph}>
+        <EmailSection>
+          <EmailText>
             Thank you for upgrading to {appName} Premium!
             You now have access to all our advanced features
             to supercharge your link management.
-          </Text>
+          </EmailText>
 
           <EmailCard variant="highlighted">
-            <Text
+            <EmailText
               style={{
-                ...paragraph,
                 marginTop: '0',
                 fontWeight: '600',
               }}
             >
               🚀 Your Premium Features:
-            </Text>
-            <Text
-              style={{ ...paragraph, marginBottom: '0' }}
-            >
+            </EmailText>
+            <EmailText style={{ marginBottom: '0' }}>
               • Extended limits
               <br />
               • Custom slugs for links
               <br />
               • Advanced analytics & insights
               <br />
-            </Text>
+            </EmailText>
           </EmailCard>
 
-          <Text style={paragraph}>
+          <EmailText>
             Your subscription is now active and you can
             start using all premium features immediately.
-          </Text>
-        </Section>
+          </EmailText>
+        </EmailSection>
 
-        <Section style={body}>
+        <EmailSection>
           <EmailButton
             href={toAbsoluteUrl('/dashboard')}
             variant="primary"
@@ -101,60 +99,56 @@ export default defineComponent({
           >
             Go to Dashboard
           </EmailButton>
-        </Section>
+        </EmailSection>
 
-        <Section style={body}>
-          <Text style={paragraph}>
+        <EmailSection>
+          <EmailText>
             <strong>Need help getting started?</strong>
-          </Text>
-          <Text style={paragraph}>
+          </EmailText>
+          <EmailText>
             Check out our
-            <Link
-              style={link}
+            <EmailLink
               href={toAbsoluteUrl('/help/premium')}
             >
               Premium guide
-            </Link>
+            </EmailLink>
             or explore the
-            <Link
-              style={link}
+            <EmailLink
               href={toAbsoluteUrl('/dashboard/analytics')}
             >
               analytics dashboard
-            </Link>
+            </EmailLink>
             to see your link performance.
-          </Text>
-        </Section>
+          </EmailText>
+        </EmailSection>
 
         <EmailCard variant="outlined">
-          <Text
+          <EmailText
             style={{
-              ...paragraph,
               marginTop: '0',
               fontWeight: '600',
             }}
           >
             💡 Pro Tip:
-          </Text>
-          <Text style={{ ...paragraph, marginBottom: '0' }}>
+          </EmailText>
+          <EmailText style={{ marginBottom: '0' }}>
             Use custom short links to build your brand
             recognition. Instead of
             {createShortUrl('sh1a08z1')}, you can now use
             {createShortUrl('your-slug')} !
-          </Text>
+          </EmailText>
         </EmailCard>
 
         <EmailCard variant="outlined">
-          <Text
+          <EmailText
             style={{
-              ...paragraph,
               marginTop: '0',
               fontWeight: '600',
             }}
           >
             📋 Purchase Details:
-          </Text>
-          <Text style={{ ...paragraph, marginBottom: '0' }}>
+          </EmailText>
+          <EmailText style={{ marginBottom: '0' }}>
             <strong>Plan:</strong>
             {plan.value.title}
             <br />
@@ -169,7 +163,7 @@ export default defineComponent({
             <br />
             <strong>Premium Expires:</strong>
             {formatDate(props.premiumExpiresAt)}
-          </Text>
+          </EmailText>
         </EmailCard>
       </EmailLayout>
     );

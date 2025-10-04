@@ -4,27 +4,31 @@ import {
   Row,
   Column,
   Section,
-  Text,
 } from '@vue-email/components';
 
 import { toAbsoluteUrl } from '#shared/utils/to-absolute-url';
 
-import { useEmailStyles } from './useEmailStyles';
+import { s, main } from './styles';
+import { EmailText } from './base';
 
 export default defineComponent({
   name: 'EmailHeader',
   setup() {
-    const { paragraph } = useEmailStyles();
     const appName = process.env.SQX_APP_NAME;
 
     return () => (
       <Section>
         <Row
-          style={{
+          style={s({
             display: 'flex',
-          }}
+          })}
         >
-          <Column>
+          <Column
+            style={s(main, {
+              width: '48px',
+              height: '48px',
+            })}
+          >
             <Img
               src={toAbsoluteUrl('/logo-box.png')}
               width={48}
@@ -33,16 +37,15 @@ export default defineComponent({
             />
           </Column>
 
-          <Column style={{}}>
-            <Text
+          <Column style={main}>
+            <EmailText
               style={{
-                ...paragraph,
                 marginLeft: '5px',
                 fontWeight: '600',
               }}
             >
               {appName}
-            </Text>
+            </EmailText>
           </Column>
         </Row>
       </Section>

@@ -1,18 +1,15 @@
 import { defineComponent } from 'vue';
-import {
-  Body,
-  Container,
-  Head,
-  Hr,
-  Html,
-  Preview,
-  Section,
-  Text,
-} from '@vue-email/components';
+import { Head, Html, Preview } from '@vue-email/components';
 
 import EmailHeader from './EmailHeader';
 import EmailFooter from './EmailFooter';
-import { useEmailStyles } from './useEmailStyles';
+import {
+  EmailBody,
+  EmailContainer,
+  EmailHr,
+  EmailSection,
+  EmailText,
+} from './base';
 
 export default defineComponent({
   name: 'EmailLayout',
@@ -24,28 +21,24 @@ export default defineComponent({
   },
   setup(props, { slots }) {
     const appName = process.env.SQX_APP_NAME;
-    const { main, container, body, paragraph, hr } =
-      useEmailStyles();
 
     return () => (
       <Html>
         <Head />
-        <Body style={main}>
+        <EmailBody>
           <Preview>{props.preview}</Preview>
-          <Container style={container}>
+          <EmailContainer>
             <EmailHeader />
-            <Hr style={hr} />
-            <Section style={body}>
-              {slots.default?.()}
-            </Section>
-            <Text style={paragraph}>
+            <EmailHr />
+            <EmailSection>{slots.default?.()}</EmailSection>
+            <EmailText>
               Best,
               <br />- {appName} Team
-            </Text>
-            <Hr style={hr} />
+            </EmailText>
+            <EmailHr />
             <EmailFooter />
-          </Container>
-        </Body>
+          </EmailContainer>
+        </EmailBody>
       </Html>
     );
   },

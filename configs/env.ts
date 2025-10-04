@@ -21,7 +21,6 @@ export const PRIVATE_ENV_NAMES = [
 
 export const PUBLIC_ENV_NAMES = [
   'SQX_BASE_URL',
-  'SQX_SQX_BASE_URL',
   'SQX_APP_NAME',
   'SQX_SUPPORT_EMAIL',
   'SQX_DOMAIN',
