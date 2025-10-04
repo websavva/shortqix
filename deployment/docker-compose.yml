@@ -12,8 +12,6 @@ services:
       POSTGRES_USER: ${SQX_POSTGRES_USER}
       POSTGRES_PASSWORD: ${SQX_POSTGRES_PASSWORD}
       POSTGRES_DB: ${SQX_POSTGRES_DB}
-    ports:
-      - "${SQX_POSTGRES_PORT}:5432"
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -22,36 +20,51 @@ services:
       timeout: 5s
       retries: 5
 
-  smtp-server:
-    container_name: smtp-server
-    image: 'datydock/mailslurper'
-    networks:
-      - shortqix-network
-    ports:
-      - 8080:8080
-      - 8085:8085
-      - 2500:2500
-    
   app:
     container_name: app
-    image: shortqix:0.0.1
+    image: ghcr.io/websavva/shortqix:${SQX_RELEASE_VERSION}
     depends_on:
       - database
-      - smtp-server
     networks:
       - shortqix-network
-    env_file: .env
+    environment:
+      PORT: ${PORT}
+      SQX_POSTGRES_DB: ${SQX_POSTGRES_DB}
+      SQX_POSTGRES_PORT: ${SQX_POSTGRES_PORT}
+      SQX_POSTGRES_HOST: database
+      SQX_POSTGRES_USER: ${SQX_POSTGRES_USER}
+      SQX_POSTGRES_PASSWORD: ${SQX_POSTGRES_PASSWORD}
+      SQX_AUTH_SECRET: ${SQX_AUTH_SECRET}
+      SQX_SMTP_HOST: ${SQX_SMTP_HOST}
+      SQX_SMTP_PORT: ${SQX_SMTP_PORT}
+      SQX_SMTP_USER: ${SQX_SMTP_USER}
+      SQX_SMTP_PASSWORD: ${SQX_SMTP_PASSWORD}
+      SQX_SMTP_FROM: ${SQX_SMTP_FROM}
+      SQX_AUTH_TOKEN_EXPIRES_IN_MS: ${SQX_AUTH_TOKEN_EXPIRES_IN_MS}
+      SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS: ${SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS}
+      SQX_PAYMENT_EXPIRES_IN_MS: ${SQX_PAYMENT_EXPIRES_IN_MS}
+      SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS: ${SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS}
+      SQX_NON_PREMIUM_SHORT_URLS_MAX_COUNT: ${SQX_NON_PREMIUM_SHORT_URLS_MAX_COUNT}
+      SQX_PREMIUM_SHORT_URLS_MAX_COUNT: ${SQX_PREMIUM_SHORT_URLS_MAX_COUNT}
+      SQX_COOKIE_DOMAIN: ${SQX_COOKIE_DOMAIN}
 
   http-server:
     image: nginx:alpine
-    ports:
-      - "80:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/nginx.conf
+
+      - type: bind
+        source: /ssl-certificates
+        target: /ssl-certificates
     depends_on:
       - app
     networks:
       - shortqix-network
+    ports:
+      - '80:80'
+      - '443:443'
     restart: unless-stopped
 
 

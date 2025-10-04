@@ -15,7 +15,9 @@ export const buildDir = resolve(
 export const host = process.env.SQX_BASE_URL!;
 
 export const port =
-  +new URL(process.env.SQX_BASE_URL!).port || undefined;
+  +(process.env.PORT || '') ||
+  +new URL(process.env.SQX_BASE_URL!).port ||
+  undefined;
 
 export function setup() {
   return _setup({

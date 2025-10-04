@@ -1,0 +1,5 @@
+.output
+node_modules
+.nuxt
+.env
+postgres_data
