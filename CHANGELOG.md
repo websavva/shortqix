@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/websavva/shortqix/compare/v1.0.1...v1.0.2) (2025-10-04)
+
+
+### Bug Fixes
+
+* **cd:** Env passing down was fixed ([899af40](https://github.com/websavva/shortqix/commit/899af401f3da5b56cdea31f21965baa7434b4969))
+* **cd:** Minor typo  was fixed ([1922474](https://github.com/websavva/shortqix/commit/1922474f6922a266ef4d658fc9bf35b6dd004a07))
+
 ## [1.0.1](https://github.com/websavva/shortqix/compare/v1.0.0...v1.0.1) (2025-10-04)
 
 
