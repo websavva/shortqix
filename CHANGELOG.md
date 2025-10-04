@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/websavva/shortqix/compare/v1.0.0...v1.0.1) (2025-10-04)
+
+
+### Bug Fixes
+
+* **cd:** docker-compose file is ensured for first run ([11b431e](https://github.com/websavva/shortqix/commit/11b431eb7478ba5764f8f61639684405d9ef969d))
+
 ## [1.0.0](https://github.com/websavva/shortqix/compare/v0.0.1...v1.0.0) (2025-10-04)
 
 
