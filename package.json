@@ -1,6 +1,6 @@
 {
   "name": "shortqix",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.10.0",
