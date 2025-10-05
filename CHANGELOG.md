@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/websavva/shortqix/compare/v1.2.0...v1.2.1) (2025-10-05)
+
+
+### Bug Fixes
+
+* **cd:** curl is intalled for app container ([c1ec35b](https://github.com/websavva/shortqix/commit/c1ec35bea0abc7d437bf076d6a72328115f95fdf))
+
 ## [1.2.0](https://github.com/websavva/shortqix/compare/v1.1.2...v1.2.0) (2025-10-05)
 
 
