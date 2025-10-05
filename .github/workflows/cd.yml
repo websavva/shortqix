@@ -122,7 +122,7 @@ jobs:
             | \
             xargs -r docker rm
             docker network ls --filter "name=shortqix" --format "{{.Name}}" | xargs -r docker network rm
-            
+
       - name: Copy docker-compose.yml
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -134,13 +134,12 @@ jobs:
           strip_components: 1
           
       - name: Generating nginx.conf
-        uses: danielr1996/envsubst-action@1.0.0
+        shell: bash
         env:
           PORT: 3000
           SQX_DOMAIN: ${{ secrets.SQX_DOMAIN }}
-        with:
-          input: deployment/nginx.conf.temp
-          output: deployment/nginx.conf
+        run: |
+          sed -e "s/{{PORT}}/${PORT}/g" -e "s/{{SQX_DOMAIN}}/${SQX_DOMAIN}/g" deployment/nginx.conf.temp > deployment/nginx.conf
 
       - name: Copy nginx.conf
         uses: appleboy/scp-action@v0.1.7
@@ -159,31 +158,31 @@ jobs:
           username: ${{ secrets.DEPLOY_SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            export NODE_ENV=production
-            export PORT=3000
-            export SQX_STAGE=production
-            export SQX_RELEASE_VERSION=${{ needs.infer-version.outputs.version }}
-            export SQX_DOMAIN=${{ secrets.SQX_DOMAIN }}
-            export SQX_BASE_URL=${{ secrets.SQX_BASE_URL }}
-            export SQX_APP_NAME=${{ secrets.SQX_APP_NAME }}
-            export SQX_SUPPORT_EMAIL=${{ secrets.SQX_SUPPORT_EMAIL }}
-            export SQX_POSTGRES_USER=${{ secrets.SQX_POSTGRES_USER }}
-            export SQX_POSTGRES_PASSWORD=${{ secrets.SQX_POSTGRES_PASSWORD }}
-            export SQX_POSTGRES_DB=${{ secrets.SQX_POSTGRES_DB }}
-            export SQX_POSTGRES_PORT=${{ secrets.SQX_POSTGRES_PORT }}
-            export SQX_POSTGRES_HOST=database
-            export SQX_SMTP_HOST=${{ secrets.SQX_SMTP_HOST }}
-            export SQX_SMTP_PORT=${{ secrets.SQX_SMTP_PORT }}
-            export SQX_SMTP_USER=${{ secrets.SQX_SMTP_USER }}
-            export SQX_SMTP_PASSWORD=${{ secrets.SQX_SMTP_PASSWORD }}
-            export SQX_SMTP_FROM=${{ secrets.SQX_SMTP_FROM }}
-            export SQX_AUTH_SECRET=${{ secrets.SQX_AUTH_SECRET }}
-            export SQX_AUTH_TOKEN_EXPIRES_IN_MS=${{ secrets.SQX_AUTH_TOKEN_EXPIRES_IN_MS }}
-            export SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS=${{ secrets.SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS }}
-            export SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS=${{ secrets.SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS }}
-            export SQX_COOKIE_DOMAIN=${{ secrets.SQX_COOKIE_DOMAIN }}
-            export SQX_PAYMENT_EXPIRES_IN_MS=${{ secrets.SQX_PAYMENT_EXPIRES_IN_MS }}
-            export SQX_NON_PREMIUM_SHORT_URLS_MAX_COUNT=${{ secrets.SQX_NON_PREMIUM_SHORT_URLS_MAX_COUNT }}
-            export SQX_PREMIUM_SHORT_URLS_MAX_COUNT=${{ secrets.SQX_PREMIUM_SHORT_URLS_MAX_COUNT }}
+            export NODE_ENV="production"
+            export PORT="3000"
+            export SQX_STAGE="production"
+            export SQX_RELEASE_VERSION="${{ needs.infer-version.outputs.version }}"
+            export SQX_DOMAIN="${{ secrets.SQX_DOMAIN }}"
+            export SQX_BASE_URL="${{ secrets.SQX_BASE_URL }}"
+            export SQX_APP_NAME="${{ secrets.SQX_APP_NAME }}"
+            export SQX_SUPPORT_EMAIL="${{ secrets.SQX_SUPPORT_EMAIL }}"
+            export SQX_POSTGRES_USER="${{ secrets.SQX_POSTGRES_USER }}"
+            export SQX_POSTGRES_PASSWORD="${{ secrets.SQX_POSTGRES_PASSWORD }}"
+            export SQX_POSTGRES_DB="${{ secrets.SQX_POSTGRES_DB }}"
+            export SQX_POSTGRES_PORT="${{ secrets.SQX_POSTGRES_PORT }}"
+            export SQX_POSTGRES_HOST="database"
+            export SQX_SMTP_HOST="${{ secrets.SQX_SMTP_HOST }}"
+            export SQX_SMTP_PORT="${{ secrets.SQX_SMTP_PORT }}"
+            export SQX_SMTP_USER="${{ secrets.SQX_SMTP_USER }}"
+            export SQX_SMTP_PASSWORD="${{ secrets.SQX_SMTP_PASSWORD }}"
+            export SQX_SMTP_FROM="${{ secrets.SQX_SMTP_FROM }}"
+            export SQX_AUTH_SECRET="${{ secrets.SQX_AUTH_SECRET }}"
+            export SQX_AUTH_TOKEN_EXPIRES_IN_MS="${{ secrets.SQX_AUTH_TOKEN_EXPIRES_IN_MS }}"
+            export SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS="${{ secrets.SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS }}"
+            export SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS="${{ secrets.SQX_SESSION_ID_COOKIE_EXPIRES_IN_MS }}"
+            export SQX_COOKIE_DOMAIN="${{ secrets.SQX_COOKIE_DOMAIN }}"
+            export SQX_PAYMENT_EXPIRES_IN_MS="${{ secrets.SQX_PAYMENT_EXPIRES_IN_MS }}"
+            export SQX_NON_PREMIUM_SHORT_URLS_MAX_COUNT="${{ secrets.SQX_NON_PREMIUM_SHORT_URLS_MAX_COUNT }}"
+            export SQX_PREMIUM_SHORT_URLS_MAX_COUNT="${{ secrets.SQX_PREMIUM_SHORT_URLS_MAX_COUNT }}"
             cd /apps/shortqix
             docker compose up -d
