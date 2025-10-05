@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/websavva/shortqix/compare/v1.1.1...v1.1.2) (2025-10-05)
+
+
+### Bug Fixes
+
+* **cd:** nginx.conf generation was fixed ([9d8c9da](https://github.com/websavva/shortqix/commit/9d8c9da2f141ab4c0d47a4700a63b71d41136d20))
+
 ## [1.1.1](https://github.com/websavva/shortqix/compare/v1.1.0...v1.1.1) (2025-10-05)
 
 
