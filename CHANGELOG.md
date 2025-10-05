@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/websavva/shortqix/compare/v1.2.1...v1.2.2) (2025-10-05)
+
+
+### Bug Fixes
+
+* **cd:** path of ssl certificates files was changed to relative ([2095241](https://github.com/websavva/shortqix/commit/2095241a0b4a51d65190f4ae366235ec813bd252))
+
 ## [1.2.1](https://github.com/websavva/shortqix/compare/v1.2.0...v1.2.1) (2025-10-05)
 
 
