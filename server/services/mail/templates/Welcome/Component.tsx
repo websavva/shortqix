@@ -30,10 +30,20 @@ export default defineComponent({
           </EmailText>
 
           <EmailCard variant="highlighted">
-            <EmailText style={{ marginTop: '0' }}>
+            <EmailText
+              style={{
+                marginTop: '0',
+                backgroundColor: 'inherit',
+              }}
+            >
               <strong>Get started:</strong>
             </EmailText>
-            <EmailText style={{ marginBottom: '0' }}>
+            <EmailText
+              style={{
+                marginBottom: '0',
+                backgroundColor: 'inherit',
+              }}
+            >
               1. Paste your long URL
               <br />
               2. Customize your short link (optional)

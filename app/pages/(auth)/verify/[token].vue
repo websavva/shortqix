@@ -254,6 +254,7 @@ import SizeTransition from '@/components/ui/SizeTransition';
 import Container from '@/components/ui/Container.vue';
 import { useToast } from '@/components/ui/toast';
 import Button from '@/components/ui/Button.vue';
+import { sleep } from '#shared/utils/sleep';
 
 definePageMeta({
   middleware: 'guest',

@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
+import { computed } from 'vue';
 
 import { PaymentStatus } from '#shared/consts/payments';
 import { cn } from '@/utils';

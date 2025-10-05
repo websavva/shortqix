@@ -1,10 +1,4 @@
 import { defineComponent, computed } from 'vue';
-import {
-  Heading,
-  Link,
-  Section,
-  Text,
-} from '@vue-email/components';
 
 import {
   PremiumPlanId,
@@ -66,16 +60,22 @@ export default defineComponent({
             to supercharge your link management.
           </EmailText>
 
-          <EmailCard variant="highlighted">
+          <EmailCard>
             <EmailText
               style={{
                 marginTop: '0',
                 fontWeight: '600',
+                backgroundColor: 'inherit',
               }}
             >
               🚀 Your Premium Features:
             </EmailText>
-            <EmailText style={{ marginBottom: '0' }}>
+            <EmailText
+              style={{
+                marginBottom: '0',
+                backgroundColor: 'inherit',
+              }}
+            >
               • Extended limits
               <br />
               • Custom slugs for links
@@ -106,49 +106,61 @@ export default defineComponent({
             <strong>Need help getting started?</strong>
           </EmailText>
           <EmailText>
-            Check out our
+            Check out our{' '}
             <EmailLink
               href={toAbsoluteUrl('/help/premium')}
             >
               Premium guide
-            </EmailLink>
-            or explore the
+            </EmailLink>{' '}
+            or explore the{' '}
             <EmailLink
               href={toAbsoluteUrl('/dashboard/analytics')}
             >
               analytics dashboard
-            </EmailLink>
+            </EmailLink>{' '}
             to see your link performance.
           </EmailText>
         </EmailSection>
 
-        <EmailCard variant="outlined">
+        <EmailCard>
           <EmailText
             style={{
               marginTop: '0',
               fontWeight: '600',
+              backgroundColor: 'inherit',
             }}
           >
             💡 Pro Tip:
           </EmailText>
-          <EmailText style={{ marginBottom: '0' }}>
+          <EmailText
+            style={{
+              marginBottom: '0',
+              backgroundColor: 'inherit',
+            }}
+          >
             Use custom short links to build your brand
-            recognition. Instead of
-            {createShortUrl('sh1a08z1')}, you can now use
+            recognition. Instead of{' '}
+            {createShortUrl('sh1a08z1')} , you can now use{' '}
             {createShortUrl('your-slug')} !
           </EmailText>
         </EmailCard>
 
-        <EmailCard variant="outlined">
+        <EmailCard>
           <EmailText
             style={{
               marginTop: '0',
               fontWeight: '600',
+              backgroundColor: 'inherit',
             }}
           >
             📋 Purchase Details:
           </EmailText>
-          <EmailText style={{ marginBottom: '0' }}>
+          <EmailText
+            style={{
+              marginBottom: '0',
+              backgroundColor: 'inherit',
+            }}
+          >
             <strong>Plan:</strong>
             {plan.value.title}
             <br />

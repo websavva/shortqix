@@ -75,6 +75,7 @@ import Pagination from '@/components/ui/pagination/Pagination.vue';
 import { PaginationParamsSchema } from '#shared/dtos/pagination';
 import TablePlaceholder from '@/components/ui/table/TablePlaceholder.vue';
 import { useToast } from '@/components/ui/toast';
+import { sleep } from '#shared/utils/sleep';
 
 import Heading from '../-components/Heading.vue';
 

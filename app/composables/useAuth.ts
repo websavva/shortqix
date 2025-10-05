@@ -8,6 +8,7 @@ import { defineStore, storeToRefs } from 'pinia';
 import type { Serialize } from 'nitropack';
 import { FetchError } from 'ofetch';
 
+import { sleep } from '#shared/utils/sleep';
 import type { User } from '#server/db/entities';
 
 export const useAuthStore = defineStore('auth', () => {

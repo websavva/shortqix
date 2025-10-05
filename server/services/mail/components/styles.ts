@@ -49,7 +49,7 @@ export const hr: CSSProperties = s(main, {
 });
 
 export const footer: CSSProperties = s(main, {
-  color: palette.muted,
+  color: palette['muted-foreground'],
   fontSize: '12px',
   marginLeft: '4px',
 });
