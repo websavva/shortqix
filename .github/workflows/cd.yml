@@ -114,7 +114,18 @@ jobs:
             cd /apps/shortqix
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.DOCKER_REGISTRY_TOKEN }}
             docker image pull ghcr.io/websavva/shortqix:${{ needs.infer-version.outputs.version }}
-            docker compose down
+
+      - name: Executing docker compose down
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: sqix.pro
+          username: ${{ secrets.DEPLOY_SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /apps/shortqix
+            docker stop $(docker ps -q --filter "label=com.docker.compose.project=shortqix")
+            docker rm $(docker ps -aq --filter "label=com.docker.compose.project=shortqix")
+            docker network rm shortqix-network
 
       - name: Generating nginx.conf
         uses: danielr1996/envsubst-action@1.0.0
