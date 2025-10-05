@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/websavva/shortqix/compare/v1.1.2...v1.2.0) (2025-10-05)
+
+
+### Features
+
+* **cd:** nginx config is generated properly ([e1dc081](https://github.com/websavva/shortqix/commit/e1dc0815c72ff543bc9d8dcc30c88ce0c0d523b7))
+
 ## [1.1.2](https://github.com/websavva/shortqix/compare/v1.1.1...v1.1.2) (2025-10-05)
 
 
