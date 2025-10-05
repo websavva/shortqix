@@ -64,7 +64,7 @@ services:
         target: /etc/nginx/nginx.conf
 
       - type: bind
-        source: /ssl-certificates
+        source: ./ssl-certificates
         target: /ssl-certificates
     depends_on:
       - app
