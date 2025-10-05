@@ -151,7 +151,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /apps/shortqix
-            export PORT="${{ secrets.PORT }}"
+            export PORT=3000
             export SQX_DOMAIN="${{ secrets.SQX_DOMAIN }}"
             envsubst '${PORT} ${SQX_DOMAIN}' < nginx.conf.temp > nginx.conf
             rm nginx.conf.temp

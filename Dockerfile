@@ -63,6 +63,8 @@ ARG SQX_APP_NAME=Shortqix
 ARG SQX_SUPPORT_EMAIL=support@sqix.pro
 ARG SQX_DOMAIN=sqix.pro
 
+RUN apk add --no-cache curl
+
 COPY drizzle.config.ts ./
 COPY server/db/entities/ ./server/db/entities/
 COPY server/db/migrations/ ./server/db/migrations/

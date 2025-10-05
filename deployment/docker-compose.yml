@@ -56,6 +56,7 @@ services:
       SQX_COOKIE_DOMAIN: ${SQX_COOKIE_DOMAIN}
 
   http-server:
+    container_name: http-server
     image: nginx:alpine
     volumes:
       - type: bind
