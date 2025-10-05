@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/websavva/shortqix/compare/v1.1.0...v1.1.1) (2025-10-05)
+
+
+### Bug Fixes
+
+* **cd:** Containers are stopped more robustly ([7d489e2](https://github.com/websavva/shortqix/commit/7d489e2e44e040a9faccd41725d6bc21c1d62eee))
+
 ## [1.1.0](https://github.com/websavva/shortqix/compare/v1.0.3...v1.1.0) (2025-10-05)
 
 
