@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/websavva/shortqix/compare/v1.0.3...v1.1.0) (2025-10-05)
+
+
+### Features
+
+* **cd:** Docker compose down was replaced with custom commands as env are not accessible at that stage ([53b49a0](https://github.com/websavva/shortqix/commit/53b49a0864cbe0c52b793b03887e3da5c3aab724))
+
 ## [1.0.3](https://github.com/websavva/shortqix/compare/v1.0.2...v1.0.3) (2025-10-04)
 
 
