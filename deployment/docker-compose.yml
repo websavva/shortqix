@@ -31,9 +31,9 @@ services:
       - shortqix-network
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:${PORT}/api/health || exit 1"]
-      interval: 5s
+      interval: 10s
       timeout: 5s
-      retries: 10
+      retries: 20
     environment:
       PORT: ${PORT}
       SQX_POSTGRES_DB: ${SQX_POSTGRES_DB}

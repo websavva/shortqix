@@ -132,24 +132,29 @@ jobs:
           source: 'deployment/docker-compose.yml'
           target: /apps/shortqix
           strip_components: 1
-          
-      - name: Generating nginx.conf
-        shell: bash
-        env:
-          PORT: 3000
-          SQX_DOMAIN: ${{ secrets.SQX_DOMAIN }}
-        run: |
-          sed -e "s/{{PORT}}/${PORT}/g" -e "s/{{SQX_DOMAIN}}/${SQX_DOMAIN}/g" deployment/nginx.conf.temp > deployment/nginx.conf
 
-      - name: Copy nginx.conf
+      - name: Copy nginx.conf.temp
         uses: appleboy/scp-action@v0.1.7
         with:
           host: sqix.pro
           username: ${{ secrets.DEPLOY_SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: 'deployment/nginx.conf'
+          source: 'deployment/nginx.conf.temp'
           target: /apps/shortqix
           strip_components: 1
+          
+      - name: Generating nginx.conf
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: sqix.pro
+          username: ${{ secrets.DEPLOY_SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /apps/shortqix
+            export PORT="${{ secrets.PORT }}"
+            export SQX_DOMAIN="${{ secrets.SQX_DOMAIN }}"
+            envsubst '${PORT} ${SQX_DOMAIN}' < nginx.conf.temp > nginx.conf
+            rm nginx.conf.temp
 
       - name: Deploy
         uses: appleboy/ssh-action@v1.1.0
