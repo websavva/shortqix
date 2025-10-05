@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.3](https://github.com/websavva/shortqix/compare/v1.2.2...v1.2.3) (2025-10-05)
+
+
+### Bug Fixes
+
+* App is built for Safari13 at least to support breaking features ([9446e5d](https://github.com/websavva/shortqix/commit/9446e5d809d65b879fbb065fa7b36cdb41c426fc))
+* App is built for Safari13 at least to support breaking features ([744e78a](https://github.com/websavva/shortqix/commit/744e78a00a2e3b2561e61ea076ab84a8042c61d7))
+
 ## [1.2.2](https://github.com/websavva/shortqix/compare/v1.2.1...v1.2.2) (2025-10-05)
 
 
