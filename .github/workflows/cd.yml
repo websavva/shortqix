@@ -94,16 +94,6 @@ jobs:
         with:
           ref: v${{ needs.infer-version.outputs.version }}
 
-      - name: Copy docker-compose.yml
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: sqix.pro
-          username: ${{ secrets.DEPLOY_SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: 'deployment/docker-compose.yml'
-          target: /apps/shortqix
-          strip_components: 1    
-
       - name: Pulling image
         uses: appleboy/ssh-action@v1.1.0
         with:
@@ -123,10 +113,26 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /apps/shortqix
-            docker stop $(docker ps -q --filter "label=com.docker.compose.project=shortqix")
-            docker rm $(docker ps -aq --filter "label=com.docker.compose.project=shortqix")
-            docker network rm shortqix-network
-
+            docker ps -q \
+            --filter "label=com.docker.compose.project=shortqix" \
+            | \
+            xargs -r docker stop
+            docker ps -aq \
+            --filter "label=com.docker.compose.project=shortqix" \
+            | \
+            xargs -r docker rm
+            docker network ls --filter "name=shortqix" --format "{{.Name}}" | xargs -r docker network rm
+            
+      - name: Copy docker-compose.yml
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: sqix.pro
+          username: ${{ secrets.DEPLOY_SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: 'deployment/docker-compose.yml'
+          target: /apps/shortqix
+          strip_components: 1
+          
       - name: Generating nginx.conf
         uses: danielr1996/envsubst-action@1.0.0
         env:
