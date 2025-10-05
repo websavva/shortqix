@@ -155,7 +155,7 @@
       >
         <Button
           size="lg"
-          class="flex-1 sm:flex-none sm:min-w-[160px]"
+          class="sm:flex-1 sm:flex-none sm:min-w-[160px]"
           @click="handleRetry"
         >
           <template #icon>

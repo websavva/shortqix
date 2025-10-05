@@ -30,6 +30,10 @@ export default defineNuxtConfig({
       : []),
   ],
 
+  experimental: {
+    entryImportMap: false,
+  },
+
   buildDir: '.nuxt',
 
   fonts: {
@@ -44,12 +48,11 @@ export default defineNuxtConfig({
     ],
   },
 
-  // imports: {
-  //   autoImport: true,
-  // },
-
   vite: {
     define: publicDefine,
+    build: {
+      target: 'safari13',
+    },
   },
 
   alias: {

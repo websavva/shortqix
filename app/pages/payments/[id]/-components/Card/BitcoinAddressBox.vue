@@ -88,13 +88,13 @@
 import type { HTMLAttributes } from 'vue';
 import { Bitcoin, Copy } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
-import { useCssVar } from '@vueuse/core';
 import { toString as renderQRCode } from 'qrcode';
 
 import { hslToHex } from '#shared/utils/hsl-to-hex';
 import { cn } from '@/utils';
 import { useToast } from '@/components/ui/toast';
 import Button from '@/components/ui/Button.vue';
+import palette from '#shared/consts/palette.json';
 
 const props = defineProps<{
   class?: HTMLAttributes['class'];
@@ -106,8 +106,6 @@ const $toast = useToast();
 
 // Reactive state
 const qrCode = ref('');
-const qrCodeBgColor = useCssVar('--background');
-const qrCodeFgColor = useCssVar('--primary');
 
 async function generateQRCode(newBitcoinAddress?: string) {
   if (!newBitcoinAddress) return;
@@ -116,8 +114,8 @@ async function generateQRCode(newBitcoinAddress?: string) {
     type: 'svg',
     margin: 0,
     color: {
-      light: hslToHex(qrCodeBgColor.value!),
-      dark: hslToHex(qrCodeFgColor.value!),
+      light: hslToHex(palette.background),
+      dark: hslToHex(palette.primary),
     },
   });
 }
