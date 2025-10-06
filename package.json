@@ -34,6 +34,7 @@
     "@vueuse/integrations": "^13.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "defu": "^6.1.4",
     "drizzle-orm": "^0.44.2",
     "hsl-to-hex": "^1.0.0",
     "jsonwebtoken": "^9.0.2",

@@ -1,6 +1,6 @@
 <template>
   <ToastDescription
-    :class="cn('opacity-90', props.class)"
+    :class="cn('opacity-90 max-sm:text-sm', props.class)"
     v-bind="delegatedProps"
   >
     <slot />

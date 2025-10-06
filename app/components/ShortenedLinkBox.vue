@@ -39,24 +39,33 @@
           </div>
         </div>
 
+        <!-- QR Code -->
+        <div class="flex justify-center py-3">
+          <div
+            class="p-3 rounded-lg shadow-sm border bg-background"
+          >
+            <div
+              class="size-40 flex items-center justify-center"
+            >
+              <div
+                v-if="!qrCodeDataUrl"
+                class="size-full bg-muted rounded-lg animate-pulse"
+              />
+
+              <img
+                v-else
+                :src="qrCodeDataUrl"
+                alt="QR Code"
+                class="size-full"
+              />
+            </div>
+          </div>
+        </div>
+
         <!-- Action Buttons -->
         <div
-          class="flex justify-center gap-2 max-xs:flex-col"
+          class="flex justify-center gap-2 flex-col xs:w-xs mx-auto"
         >
-          <!-- Share Button (Web Share API) -->
-          <Button
-            v-if="canShare"
-            variant="secondary"
-            :pending="isSharing"
-            type="button"
-            @click="shareUrl"
-          >
-            <template #icon>
-              <ShareIcon />
-            </template>
-            Share
-          </Button>
-
           <!-- Copy Button -->
           <Button
             type="button"
@@ -68,6 +77,40 @@
 
             Copy Link
           </Button>
+
+          <!-- Download QR Code Button -->
+          <SizeTransition
+            singular
+            concurrent
+            :fade-config="{ duration: 250 }"
+            :size-config="{ duration: 250 }"
+          >
+            <Button
+              v-if="qrCodeDataUrl"
+              variant="secondary"
+              type="button"
+              @click="downloadQRCode"
+            >
+              <template #icon>
+                <DownloadIcon />
+              </template>
+              Download QR
+            </Button>
+          </SizeTransition>
+
+          <!-- Share Button (Web Share API) -->
+          <Button
+            v-if="canShare"
+            variant="outline"
+            :pending="isSharing"
+            type="button"
+            @click="shareUrl"
+          >
+            <template #icon>
+              <ShareIcon />
+            </template>
+            Share
+          </Button>
         </div>
       </div>
     </div>
@@ -75,18 +118,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import QRCode from 'qrcode';
 import {
   CopyIcon,
   CheckIcon,
   ShareIcon,
+  DownloadIcon,
 } from 'lucide-vue-next';
 
 import Button from '@/components/ui/Button.vue';
 import { useToast } from '@/components/ui/toast';
+import palette from '#shared/consts/palette.json';
+import SizeTransition from '@/components/ui/SizeTransition';
+import { hslToHex } from '#shared/utils/hsl-to-hex';
 
 const props = defineProps<{
   url: string;
+  code?: string;
   title?: string;
   text?: string;
 }>();
@@ -97,10 +146,41 @@ const $toast = useToast();
 const isSharing = ref(false);
 const canShare = ref(false);
 
-// Check if Web Share API is available
-onMounted(() => {
+const qrCodeDataUrl = ref<string>('');
+
+// Check if Web Share API is available and generate QR code
+onMounted(async () => {
   canShare.value = 'share' in navigator;
+  await generateQRCode();
 });
+
+watch(
+  () => props.url,
+  async () => {
+    await generateQRCode();
+  },
+);
+
+// Generate QR code
+async function generateQRCode() {
+  try {
+    const qrDataUrl = await QRCode.toDataURL(props.url, {
+      width: 320,
+      margin: 2,
+      color: {
+        dark: hslToHex(palette.primary),
+        light: hslToHex(palette.background),
+      },
+    });
+
+    qrCodeDataUrl.value = qrDataUrl;
+  } catch (error) {
+    $toast.toast({
+      title: 'Failed to generate QR code',
+      description: 'Please try again.',
+    });
+  }
+}
 
 // Share using Web Share API
 async function shareUrl() {
@@ -132,7 +212,6 @@ async function shareUrl() {
         title: 'Share failed',
         description:
           'Unable to share the link. Please try copying it instead.',
-        variant: 'destructive',
       });
     }
   } finally {
@@ -152,6 +231,34 @@ async function copyToClipboard() {
     $toast.toast({
       title: 'Failed to copy',
       description: 'Please copy the URL manually.',
+    });
+  }
+}
+
+// Download QR code
+function downloadQRCode() {
+  if (!qrCodeDataUrl.value) return;
+
+  try {
+    const link = document.createElement('a');
+    link.download = `${process.env.SQX_APP_NAME!.toLowerCase()}-qr-code${props.code ? `-${props.code}` : ''}.png`;
+    link.href = qrCodeDataUrl.value;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    $toast.toast({
+      title: 'QR code downloaded!',
+      description:
+        'The QR code has been saved to your downloads.',
+      duration: 10e6,
+    });
+  } catch (error) {
+    console.error('Failed to download QR code:', error);
+    $toast.toast({
+      title: 'Download failed',
+      description: 'Unable to download the QR code.',
+      variant: 'destructive',
     });
   }
 }
