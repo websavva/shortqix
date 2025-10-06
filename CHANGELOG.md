@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/websavva/shortqix/compare/v1.2.3...v1.3.0) (2025-10-06)
+
+
+### Features
+
+* QR code is rendered in ShortenedUrlBox ([a43142c](https://github.com/websavva/shortqix/commit/a43142cff8fe498eb044951853da6af767c9d34c))
+* QR code is rendered in ShortenedUrlBox ([0cb3cbb](https://github.com/websavva/shortqix/commit/0cb3cbb2f7d278a4a732c6b81f69f458f3bb2069))
+
 ## [1.2.3](https://github.com/websavva/shortqix/compare/v1.2.2...v1.2.3) (2025-10-05)
 
 
