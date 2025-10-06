@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/websavva/shortqix/compare/v1.3.0...v1.3.1) (2025-10-06)
+
+
+### Bug Fixes
+
+* **ym:** SQX_YM_ID was added to Dockerfile ([e694148](https://github.com/websavva/shortqix/commit/e69414866464ae2664c1a5df32dfe9f11d50e639))
+
 ## [1.3.0](https://github.com/websavva/shortqix/compare/v1.2.3...v1.3.0) (2025-10-06)
 
 
