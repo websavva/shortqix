@@ -251,7 +251,6 @@ function downloadQRCode() {
       title: 'QR code downloaded!',
       description:
         'The QR code has been saved to your downloads.',
-      duration: 10e6,
     });
   } catch (error) {
     console.error('Failed to download QR code:', error);
