@@ -75,6 +75,7 @@ jobs:
             SQX_APP_NAME=${{ secrets.SQX_APP_NAME }}
             SQX_SUPPORT_EMAIL=${{ secrets.SQX_SUPPORT_EMAIL }}
             SQX_DOMAIN=${{ secrets.SQX_DOMAIN }}
+            SQX_YM_ID=${{ secrets.SQX_YM_ID }}
 
       - name: Inspect
         run: |
@@ -142,7 +143,7 @@ jobs:
           source: 'deployment/nginx.conf.temp'
           target: /apps/shortqix
           strip_components: 1
-          
+
       - name: Generating nginx.conf
         uses: appleboy/ssh-action@v1.1.0
         with:

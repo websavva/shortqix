@@ -4,8 +4,8 @@ import { defu } from 'defu';
 import { getYmHeadTags } from './config';
 
 export interface ModuleOptions {
-  id: string | number;
-  enabled: boolean;
+  id?: string | number;
+  enabled?: boolean;
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -15,7 +15,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
 
   setup({ enabled, id }, nuxt) {
-    if (!enabled) return;
+    if (!enabled || !id) return;
 
     nuxt.options.app.head = defu(
       nuxt.options.app.head || {},

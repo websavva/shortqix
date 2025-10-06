@@ -30,10 +30,12 @@ export const PUBLIC_ENV_NAMES = [
 
 export const formatDefine = (envNames: string[]) => {
   return Object.fromEntries(
-    envNames.map((name) => [
-      `process.env.${name}`,
-      JSON.stringify(process.env[name]),
-    ]),
+    envNames
+      .map((name) => [
+        `process.env.${name}`,
+        JSON.stringify(process.env[name]),
+      ])
+      .filter((_, value) => typeof value !== 'undefined'),
   );
 };
 
