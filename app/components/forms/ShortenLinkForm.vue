@@ -125,7 +125,8 @@
     >
       <div v-if="shortenedUrl">
         <ShortenedLinkBox
-          :url="shortenedUrl"
+          :url="shortenedUrl.shortUrl"
+          :code="shortenedUrl.code"
           class="mt-6"
         />
       </div>
@@ -144,6 +145,7 @@ import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import { Slot } from 'reka-ui';
 import { useAuth } from '#imports';
+import type { InternalApi } from 'nitropack/types';
 
 import { CreateShortenedUrlDtoSchema } from '#shared/dtos';
 import {
@@ -176,7 +178,9 @@ const form = useForm({
 });
 
 const pending = ref(false);
-const shortenedUrl = ref('');
+const shortenedUrl = ref<
+  InternalApi['/api/shorten']['post'] | null
+>(null);
 const isCodeVisible = ref(false);
 
 const onSubmit = form.handleSubmit(
@@ -194,7 +198,7 @@ const onSubmit = form.handleSubmit(
         credentials: 'include',
       });
 
-      shortenedUrl.value = response.shortUrl;
+      shortenedUrl.value = response;
     } catch (error: any) {
       $toast.toast({
         title: 'Failed to shorten link',
@@ -209,7 +213,7 @@ const onSubmit = form.handleSubmit(
 );
 
 const onReset = () => {
-  shortenedUrl.value = '';
+  shortenedUrl.value = null;
   isCodeVisible.value = false;
   form.resetForm();
 };

@@ -25,6 +25,7 @@ export const PUBLIC_ENV_NAMES = [
   'SQX_SUPPORT_EMAIL',
   'SQX_DOMAIN',
   'SQX_STAGE',
+  'SQX_YM_ID',
 ];
 
 export const formatDefine = (envNames: string[]) => {

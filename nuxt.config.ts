@@ -48,6 +48,11 @@ export default defineNuxtConfig({
     ],
   },
 
+  ym: {
+    id: process.env.SQX_YM_ID,
+    enabled: process.env.SQX_STAGE === 'production',
+  },
+
   vite: {
     define: publicDefine,
     build: {
