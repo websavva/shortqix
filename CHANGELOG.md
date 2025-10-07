@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://github.com/websavva/shortqix/compare/v1.4.0...v1.5.0) (2025-10-07)
+
+
+### Features
+
+* **modules:** Bug tracker module was implemented ([3730873](https://github.com/websavva/shortqix/commit/37308732f7b9edf5bb939d6f356899d55a69483d))
+
+
+### Bug Fixes
+
+* **robots:** All pages should be ignored by crawlers ([4441043](https://github.com/websavva/shortqix/commit/444104390eecba630868c5bd177377c62034302a))
+
 ## [1.4.0](https://github.com/websavva/shortqix/compare/v1.3.1...v1.4.0) (2025-10-07)
 
 
