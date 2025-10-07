@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.4.0](https://github.com/websavva/shortqix/compare/v1.3.1...v1.4.0) (2025-10-07)
+
+
+### Features
+
+* **cd:** Database Web client was added to docker compose file ([917e9b1](https://github.com/websavva/shortqix/commit/917e9b197be45428d31ef1afe2241c2bf9753c9e))
+* **cd:** Database Web client was added to docker compose file ([c5bd0e1](https://github.com/websavva/shortqix/commit/c5bd0e14027bad36c74c714a29ff34434d6b218e))
+
+
+### Bug Fixes
+
+* duration of toast's display is set to default on QR code download ([7c2a471](https://github.com/websavva/shortqix/commit/7c2a471d476daf343c85d13f99a075a408c64bf7))
+* duration of toast's display is set to default on QR code download ([c921f23](https://github.com/websavva/shortqix/commit/c921f238be890ddebbf2ba7ce856016338a437a2))
+
 ## [1.3.1](https://github.com/websavva/shortqix/compare/v1.3.0...v1.3.1) (2025-10-06)
 
 
