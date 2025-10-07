@@ -4,6 +4,7 @@ export * from './enums';
 // Export base entities (no dependencies)
 export * from './users';
 export * from './magic-links';
+export * from './error-logs';
 
 // Export entities with dependencies
 export * from './shortened-urls';
