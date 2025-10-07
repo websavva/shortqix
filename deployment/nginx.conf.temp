@@ -7,6 +7,11 @@ http {
         server app:${PORT};
     }
 
+    upstream database-client {
+        server database-client:8081;
+    }
+
+    # Master domain
     server {
        listen 443 ssl;
         server_name ${SQX_DOMAIN};
@@ -30,10 +35,40 @@ http {
         }
     }
 
-    # Redirect HTTP to HTTPS
+    # Redirect HTTP to HTTPS on master domain
     server {
         listen 80;
         server_name ${SQX_DOMAIN};
+
+        location / {
+            return 301 https://$host$request_uri;
+        }
+    }
+
+    # Database client domain
+    server {
+       listen 443 ssl;
+        server_name ${SQX_DATABASE_CLIENT_DOMAIN};
+
+        ssl_certificate /ssl-certificates/fullchain.pem;
+        ssl_certificate_key /ssl-certificates/privkey.pem;
+
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+
+        location / {
+            proxy_pass http://database-client;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+
+    # Redirect HTTP to HTTPS on master domain
+    server {
+        listen 80;
+        server_name ${SQX_DATABASE_CLIENT_DOMAIN};
 
         location / {
             return 301 https://$host$request_uri;

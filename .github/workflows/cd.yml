@@ -154,7 +154,8 @@ jobs:
             cd /apps/shortqix
             export PORT=3000
             export SQX_DOMAIN="${{ secrets.SQX_DOMAIN }}"
-            envsubst '${PORT} ${SQX_DOMAIN}' < nginx.conf.temp > nginx.conf
+            export SQX_DATABASE_CLIENT_DOMAIN="${{ secrets.SQX_DATABASE_CLIENT_DOMAIN }}"
+            envsubst '${PORT} ${SQX_DOMAIN} ${SQX_DATABASE_CLIENT_DOMAIN}' < nginx.conf.temp > nginx.conf
             rm nginx.conf.temp
 
       - name: Deploy
@@ -169,6 +170,9 @@ jobs:
             export SQX_STAGE="production"
             export SQX_RELEASE_VERSION="${{ needs.infer-version.outputs.version }}"
             export SQX_DOMAIN="${{ secrets.SQX_DOMAIN }}"
+            export SQX_DATABASE_CLIENT_DOMAIN="${{ secrets.SQX_DATABASE_CLIENT_DOMAIN }}"
+            export SQX_DATABASE_CLIENT_USER="${{ secrets.SQX_DATABASE_CLIENT_USER }}"
+            export SQX_DATABASE_CLIENT_PASSWORD="${{ secrets.SQX_DATABASE_CLIENT_PASSWORD }}"
             export SQX_BASE_URL="${{ secrets.SQX_BASE_URL }}"
             export SQX_APP_NAME="${{ secrets.SQX_APP_NAME }}"
             export SQX_SUPPORT_EMAIL="${{ secrets.SQX_SUPPORT_EMAIL }}"

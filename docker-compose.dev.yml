@@ -18,7 +18,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
+      
   smtp-server:
     image: 'datydock/mailslurper'
 
@@ -26,3 +26,28 @@ services:
       - 8080:8080
       - 8085:8085
       - 2500:2500
+      
+  database-client:
+    container_name: database-client
+    restart: always
+    image: sosedoff/pgweb:0.16.2
+    ports:
+      - '8081:8081'
+    environment:
+      - PGWEB_DATABASE_URL=postgresql://${SQX_POSTGRES_USER}:${SQX_POSTGRES_PASSWORD}@host.docker.internal:${SQX_POSTGRES_PORT}/${SQX_POSTGRES_DB}?sslmode=disable
+      - PGWEB_AUTH_USER=${SQX_POSTGRES_USER}
+      - PGWEB_AUTH_PASS=${SQX_POSTGRES_PASSWORD}
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'curl',
+          '-f',
+          '-u',
+          '${SQX_POSTGRES_USER}:${SQX_POSTGRES_PASSWORD}',
+          'http://localhost:8081/api/info',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

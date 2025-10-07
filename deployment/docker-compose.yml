@@ -1,7 +1,6 @@
 version: '3.8'
 name: shortqix
 
-
 services:
   database:
     container_name: database
@@ -15,7 +14,11 @@ services:
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${SQX_POSTGRES_USER} -d ${SQX_POSTGRES_DB}"]
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${SQX_POSTGRES_USER} -d ${SQX_POSTGRES_DB}',
+        ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -26,11 +29,15 @@ services:
     depends_on:
       - database
     ports:
-      - "${PORT}:${PORT}"
+      - '${PORT}:${PORT}'
     networks:
       - shortqix-network
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:${PORT}/api/health || exit 1"]
+      test:
+        [
+          'CMD-SHELL',
+          'curl -f http://localhost:${PORT}/api/health || exit 1',
+        ]
       interval: 10s
       timeout: 5s
       retries: 20
@@ -55,6 +62,34 @@ services:
       SQX_PREMIUM_SHORT_URLS_MAX_COUNT: ${SQX_PREMIUM_SHORT_URLS_MAX_COUNT}
       SQX_COOKIE_DOMAIN: ${SQX_COOKIE_DOMAIN}
 
+  database-client:
+    container_name: database-client
+    restart: always
+    image: sosedoff/pgweb:0.16.2
+    environment:
+      - PGWEB_DATABASE_URL=postgresql://${SQX_POSTGRES_USER}:${SQX_POSTGRES_PASSWORD}@database:${SQX_POSTGRES_PORT}/${SQX_POSTGRES_DB}?sslmode=disable
+      - PGWEB_AUTH_USER=${SQX_DATABASE_CLIENT_USER}
+      - PGWEB_AUTH_PASS=${SQX_DATABASE_CLIENT_PASSWORD}
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - shortqix-network
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'curl',
+          '-f',
+          '-u',
+          '${SQX_DATABASE_CLIENT_USER}:${SQX_DATABASE_CLIENT_PASSWORD}',
+          'http://localhost:8081/api/info',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
   http-server:
     container_name: http-server
     image: nginx:alpine
@@ -74,7 +109,6 @@ services:
       - '80:80'
       - '443:443'
     restart: unless-stopped
-
 
 networks:
   shortqix-network:
