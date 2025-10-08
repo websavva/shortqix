@@ -9,7 +9,7 @@ try {
 }
 
 export default {
-  schema: './server/db/schema.ts',
+  schema: './server/db/entities/index.ts',
   out: './server/db/migrations',
   dialect: 'postgresql',
   dbCredentials: {

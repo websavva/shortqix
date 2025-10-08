@@ -1,19 +1,25 @@
 import { defineEventHandler, createError } from 'h3';
+import { useLogger } from '#imports';
 
 import { getPremiumPlan } from '#shared/consts/premium-plans';
 import { BuyPremiumDtSchema } from '#shared/dtos';
-import { assertAuth } from '#server/utils/validation';
+import {
+  assertAuth,
+  defineSafeEventHandler,
+  readValidatedBody,
+} from '#server/utils';
+import { db } from '#server/db/database';
+import {
+  bitcoinAddresses,
+  payments,
+} from '#server/db/entities';
+import { BitcoinService } from '#server/services/bitcoin';
+import { PaymentStatus } from '#shared/consts/payments';
 
-import { db } from '../db/database';
-import { bitcoinAddresses, payments } from '../db/entities';
-import { BitcoinService } from '../services/bitcoin';
-import { PaymentStatus } from '../../shared/consts/payments';
-import { readValidatedBody } from '../utils/validation';
+export default defineSafeEventHandler(
+  async (event) => {
+    assertAuth(event);
 
-export default defineEventHandler(async (event) => {
-  assertAuth(event);
-
-  try {
     const { planId } = await readValidatedBody(
       BuyPremiumDtSchema,
       event,
@@ -72,14 +78,8 @@ export default defineEventHandler(async (event) => {
       message: 'Premium upgrade initiated',
       payment,
     };
-  } catch (error: any) {
-    if (error.statusCode) throw error;
-
-    console.error('Premium upgrade error:', error);
-
-    throw createError({
-      statusCode: 500,
-      message: 'Failed to initiate premium upgrade',
-    });
-  }
-});
+  },
+  {
+    errorText: 'Failed to initiate premium upgrade',
+  },
+);

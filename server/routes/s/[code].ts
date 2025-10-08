@@ -1,25 +1,24 @@
 import {
-  defineEventHandler,
   getRouterParam,
   createError,
   sendRedirect,
 } from 'h3';
 import { eq, sql } from 'drizzle-orm';
 
-import { db } from '../../db';
-import { shortenedUrls } from '../../db/schema';
+import { db, shortenedUrls } from '#server/db';
+import { defineSafeEventHandler } from '#server/utils';
 
-export default defineEventHandler(async (event) => {
-  const code = getRouterParam(event, 'code');
+export default defineSafeEventHandler(
+  async (event) => {
+    const code = getRouterParam(event, 'code');
 
-  if (!code) {
-    throw createError({
-      statusCode: 400,
-      message: 'Code parameter is required',
-    });
-  }
+    if (!code) {
+      throw createError({
+        statusCode: 400,
+        message: 'Code parameter is required',
+      });
+    }
 
-  try {
     // Find URL
     const [shortenedUrl] = await db
       .select()
@@ -42,13 +41,8 @@ export default defineEventHandler(async (event) => {
       .returning();
 
     return sendRedirect(event, shortenedUrl.longUrl);
-  } catch (error: any) {
-    if (error.statusCode === 404) throw error;
-
-    console.error('Failed to process redirect:', error);
-    throw createError({
-      statusCode: 500,
-      message: 'Failed to process redirect',
-    });
-  }
-});
+  },
+  {
+    errorText: 'Failed to process redirect',
+  },
+);

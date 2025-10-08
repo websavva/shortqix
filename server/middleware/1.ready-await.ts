@@ -1,22 +1,26 @@
 import { defineEventHandler, createError } from 'h3';
 import { useNitroApp } from 'nitropack/runtime';
+import { useLogger } from '#imports';
 
 const TIMEOUT = 30000;
 
 export default defineEventHandler(async () => {
+  const logger = useLogger();
+
   const nitroApp = useNitroApp();
 
   if (!nitroApp.isReady) {
-    console.log('⏳ Server not ready, waiting...');
+    logger.log('⏳ Server not ready, waiting...');
 
     try {
       await waitForServerReadyWithBackoff(
         nitroApp,
         TIMEOUT,
       );
-      console.log('✅ Server is now ready');
+
+      logger.log('✅ Server await has ended successfully');
     } catch (error) {
-      console.error(
+      logger.error(
         '❌ Server readiness timeout exceeded',
         error,
       );

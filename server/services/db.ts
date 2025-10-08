@@ -1,16 +1,19 @@
-import { db } from '../db';
-import { shortenedUrls } from '../db/schema';
+import { useLogger } from '#imports';
+
+import { db, shortenedUrls } from '#server/db';
 
 export class DatabaseService {
   static db = db;
+
+  static logger = useLogger().withTag('database');
 
   static async setup() {
     try {
       // Test the connection
       await this.db.select().from(shortenedUrls).limit(1);
-      console.log('✅ Database connection established');
+      this.logger.log('✅ Database connection established');
     } catch (error) {
-      console.error(
+      this.logger.error(
         '❌ Database connection failed:',
         error,
       );
@@ -21,9 +24,9 @@ export class DatabaseService {
   static async cleanup() {
     try {
       await this.db.$client.end();
-      console.log('🔌 Database connection closed');
+      this.logger.log('🔌 Database connection closed');
     } catch (error) {
-      console.error(
+      this.logger.error(
         '❌ Error closing database connection:',
         error,
       );

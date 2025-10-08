@@ -1,20 +1,21 @@
-import { defineEventHandler, createError } from 'h3';
 import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 
-import { db } from '../../db/database';
-import { users, magicLinks } from '../../db/schema';
-import { MailService } from '../../services/mail';
-import { readValidatedBody } from '../../utils/validation';
-import { CreateMagicLinkDtoSchema } from '../../../shared/dtos';
+import { db, users, magicLinks } from '#server/db';
+import { MailService } from '#server/services/mail';
+import {
+  readValidatedBody,
+  defineSafeEventHandler,
+} from '#server/utils';
+import { CreateMagicLinkDtoSchema } from '#shared/dtos';
 
-export default defineEventHandler(async (event) => {
-  const { email } = await readValidatedBody(
-    CreateMagicLinkDtoSchema,
-    event,
-  );
+export default defineSafeEventHandler(
+  async (event) => {
+    const { email } = await readValidatedBody(
+      CreateMagicLinkDtoSchema,
+      event,
+    );
 
-  try {
     let isNewUser = false;
 
     // Use transaction to ensure both operations succeed or fail together
@@ -83,14 +84,8 @@ export default defineEventHandler(async (event) => {
           ? undefined
           : token,
     };
-  } catch (error: any) {
-    if (error.statusCode) throw error;
-
-    console.error('Magic link error:', error);
-
-    throw createError({
-      statusCode: 500,
-      message: 'Failed to send magic link',
-    });
-  }
-});
+  },
+  {
+    errorText: 'Failed to send magic link',
+  },
+);

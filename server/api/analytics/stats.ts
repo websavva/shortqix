@@ -1,22 +1,21 @@
-import { defineEventHandler, createError } from 'h3';
 import { eq, sql } from 'drizzle-orm';
 
 import {
   assertAuth,
   assertPremium,
-} from '#server/utils/validation';
+  defineSafeEventHandler,
+} from '#server/utils';
+import { db, shortenedUrls } from '#server/db';
 
-import { db } from '../../db/database';
-import { shortenedUrls } from '../../db/schema';
+export default defineSafeEventHandler(
+  async (event) => {
+    assertAuth(event);
 
-export default defineEventHandler(async (event) => {
-  assertAuth(event);
-  assertPremium(
-    event,
-    'Analytics require active premium subscription',
-  );
+    assertPremium(
+      event,
+      'Analytics require active premium subscription',
+    );
 
-  try {
     // Get aggregated stats using SQL aggregation
     const [
       {
@@ -44,13 +43,8 @@ export default defineEventHandler(async (event) => {
       totalClicks: number;
       averageClicks: number;
     };
-  } catch (error: any) {
-    if (error.statusCode) throw error;
-
-    console.error('Stats fetch failed:', error);
-    throw createError({
-      statusCode: 500,
-      message: 'Failed to fetch stats',
-    });
-  }
-});
+  },
+  {
+    errorText: 'Failed to fetch stats',
+  },
+);

@@ -1,8 +1,11 @@
-import { defineEventHandler, deleteCookie } from 'h3';
+import { deleteCookie } from 'h3';
 
-import { assertAuth } from '#server/utils/validation';
+import {
+  assertAuth,
+  defineSafeEventHandler,
+} from '#server/utils';
 
-export default defineEventHandler(async (event) => {
+export default defineSafeEventHandler(async (event) => {
   assertAuth(event);
 
   // Clear the auth cookie

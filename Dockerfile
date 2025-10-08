@@ -68,7 +68,6 @@ RUN apk add --no-cache curl
 COPY drizzle.config.ts ./
 COPY server/db/entities/ ./server/db/entities/
 COPY server/db/migrations/ ./server/db/migrations/
-COPY server/db/schema.ts ./server/db
 
 COPY --from=build /app-build/.output/ ./.output
 

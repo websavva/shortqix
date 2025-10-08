@@ -1,4 +1,4 @@
-import type { Payment, User } from '#server/db/schema';
+import type { Payment, User } from '#server/db';
 
 import type { PremiumPlanId } from './premium-plans';
 
