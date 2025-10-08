@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.7.0](https://github.com/websavva/shortqix/compare/v1.6.0...v1.7.0) (2025-10-08)
+
+
+### Features
+
+* **logger:** Logging was enabled optionally on client ([7f23f12](https://github.com/websavva/shortqix/commit/7f23f12fe88d56f818e24d7c1560fbd6893440fb))
+* **logger:** Logging was enabled optionally on client ([22b0c62](https://github.com/websavva/shortqix/commit/22b0c624b87132253a6f246df7a080c2f7abedd2))
+
+
+### Bug Fixes
+
+* **mail:** From property was extend for MailService ([7bd51ca](https://github.com/websavva/shortqix/commit/7bd51caa6e3609f26039a60e36bd39c84ae51a1c))
+* **mail:** From property was extend for MailService ([d0be57e](https://github.com/websavva/shortqix/commit/d0be57eca4186a7a9a17c84c3378747c6ddc2b31))
+* **nginx:** www is stripped by nginx ([64f209a](https://github.com/websavva/shortqix/commit/64f209adeee678e46f478053852a7cb4b7705a5e))
+* **nginx:** www is stripped by nginx ([f029680](https://github.com/websavva/shortqix/commit/f0296808892f5161af64c4b8cae6e12f37e23523))
+
 ## [1.6.0](https://github.com/websavva/shortqix/compare/v1.5.0...v1.6.0) (2025-10-08)
 
 
