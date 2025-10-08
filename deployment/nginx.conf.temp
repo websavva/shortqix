@@ -45,6 +45,22 @@ http {
         }
     }
 
+    # Redirect www to non-www URL on master domain
+    server {
+        listen 443 ssl;
+        server_name www.${SQX_DOMAIN};
+
+        ssl_certificate /ssl-certificates/fullchain.pem;
+        ssl_certificate_key /ssl-certificates/privkey.pem;
+
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+
+        location / {
+            return 301 https://${SQX_DOMAIN}$request_uri;
+        }
+    }
+
     # Database client domain
     server {
        listen 443 ssl;
@@ -72,6 +88,22 @@ http {
 
         location / {
             return 301 https://$host$request_uri;
+        }
+    }
+
+    # Redirect www to non-www URL on client database domain
+    server {
+        listen 443 ssl;
+        server_name www.${SQX_DATABASE_CLIENT_DOMAIN};
+
+        ssl_certificate /ssl-certificates/fullchain.pem;
+        ssl_certificate_key /ssl-certificates/privkey.pem;
+
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+
+        location / {
+            return 301 https://${SQX_DATABASE_CLIENT_DOMAIN}$request_uri;
         }
     }
 }
