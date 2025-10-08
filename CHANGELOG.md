@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/websavva/shortqix/compare/v1.7.0...v1.8.0) (2025-10-08)
+
+
+### Features
+
+* **components:** Components directory is scanned properly with no path prefix ([419ec4f](https://github.com/websavva/shortqix/commit/419ec4f1df97c56605163062597a6bed43d17095))
+
 ## [1.7.0](https://github.com/websavva/shortqix/compare/v1.6.0...v1.7.0) (2025-10-08)
 
 
