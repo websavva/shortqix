@@ -1,4 +1,5 @@
 import { io, type Socket } from 'socket.io-client';
+import type { NuxtApp } from 'nuxt/app';
 
 import type { WsEvents } from '#shared/consts/ws-event-types';
 
@@ -16,7 +17,10 @@ export class WsService {
   public listenersMap: WsServerEventListenersMap =
     new Map();
 
-  constructor(public userId: number) {}
+  constructor(
+    public userId: number,
+    public nuxtApp: NuxtApp,
+  ) {}
 
   private createSocket() {
     this.socket = io(`/users/${this.userId}`, {
@@ -26,11 +30,13 @@ export class WsService {
     });
 
     this.socket.on('connect', () => {
-      console.log('connected to websocket');
+      this.nuxtApp.$logger.log('connected to websocket');
     });
 
     this.socket.on('disconnect', () => {
-      console.log('disconnected from websocket');
+      this.nuxtApp.$logger.log(
+        'disconnected from websocket',
+      );
     });
   }
 
@@ -90,15 +96,16 @@ export class WsService {
     this.disconnectSocket();
   }
 
-  static create(userId: number) {
-    return new WsService(userId);
+  static create(userId: number, nuxtApp: NuxtApp) {
+    return new WsService(userId, nuxtApp);
   }
 
   static from(
     userId: number,
     listenersMap: WsServerEventListenersMap,
+    nuxtApp: NuxtApp,
   ) {
-    const wsService = new WsService(userId);
+    const wsService = new WsService(userId, nuxtApp);
 
     const copiedListenersMap = new Map(
       Object.entries(listenersMap).map(

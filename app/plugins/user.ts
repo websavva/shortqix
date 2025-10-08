@@ -36,12 +36,15 @@ export default defineNuxtPlugin(async () => {
 
         if (newUserId) {
           if (!$nuxtApp.$wsService.value) {
-            $nuxtApp.$wsService.value =
-              WsService.create(newUserId);
+            $nuxtApp.$wsService.value = WsService.create(
+              newUserId,
+              $nuxtApp,
+            );
           } else {
             const newWsService = WsService.from(
               newUserId,
               $nuxtApp.$wsService.value.listenersMap,
+              $nuxtApp,
             );
 
             $nuxtApp.$wsService.value.destroy();
@@ -63,6 +66,7 @@ export default defineNuxtPlugin(async () => {
       if (user.value && !$nuxtApp.$wsService.value) {
         $nuxtApp.$wsService.value = WsService.create(
           user.value.id,
+          $nuxtApp,
         );
       }
 

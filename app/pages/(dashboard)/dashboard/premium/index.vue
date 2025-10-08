@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSeoMeta } from '#imports';
+import { useSeoMeta, useLogger } from '#imports';
 
 import { PremiumPlanId } from '#shared/consts/premium-plans';
 import { useToast } from '@/components/ui/toast';
@@ -48,6 +48,7 @@ import PremiumPlanCard from './-components/PremiumPlanCard.vue';
 // State
 const pending = ref(false);
 const $toast = useToast();
+const $logger = useLogger();
 
 useSeoMeta({
   title: 'Premium Management',
@@ -70,7 +71,7 @@ async function onPlanSelect(planId: PremiumPlanId) {
       await navigateTo(`/payments/${response.payment.id}`);
     }
   } catch (error: any) {
-    console.error('Failed to select plan:', error);
+    $logger.error('Failed to select plan:', error);
     $toast.toast({
       title: 'Failed to select plan',
       description:
