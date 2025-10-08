@@ -155,6 +155,7 @@
 import { Zap, Copy, X, Eye } from 'lucide-vue-next';
 import type { InternalApi } from 'nitropack/types';
 import { NuxtTime } from '#components';
+import { useLogger } from '#imports';
 
 import { useToast } from '@/components/ui/toast';
 import PaymentStatusBadge from '@/components/PaymentStatusBadge.vue';
@@ -189,6 +190,7 @@ const emit = defineEmits<{
 
 // State
 const $toast = useToast();
+const $logger = useLogger();
 
 async function copyToClipboard(text: string) {
   try {
@@ -198,7 +200,7 @@ async function copyToClipboard(text: string) {
       description: 'Bitcoin address copied to clipboard.',
     });
   } catch (error) {
-    console.error('Failed to copy:', error);
+    $logger.error('Failed to copy:', error);
     $toast.toast({
       title: 'Copy failed',
       description: 'Please copy the address manually.',

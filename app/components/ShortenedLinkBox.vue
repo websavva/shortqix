@@ -126,6 +126,7 @@ import {
   ShareIcon,
   DownloadIcon,
 } from 'lucide-vue-next';
+import { useLogger } from '#imports';
 
 import Button from '@/components/ui/Button.vue';
 import { useToast } from '@/components/ui/toast';
@@ -141,6 +142,7 @@ const props = defineProps<{
 }>();
 
 const $toast = useToast();
+const $logger = useLogger();
 
 // State
 const isSharing = ref(false);
@@ -253,7 +255,7 @@ function downloadQRCode() {
         'The QR code has been saved to your downloads.',
     });
   } catch (error) {
-    console.error('Failed to download QR code:', error);
+    $logger.error('Failed to download QR code:', error);
     $toast.toast({
       title: 'Download failed',
       description: 'Unable to download the QR code.',
