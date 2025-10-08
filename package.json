@@ -71,6 +71,7 @@
     "bcryptjs": "^3.0.2",
     "bitcoinjs-lib": "^6.1.7",
     "bowser": "^2.12.1",
+    "consola": "^3.4.2",
     "cron": "^4.3.3",
     "dotenv": "^17.2.0",
     "drizzle-kit": "^0.31.4",

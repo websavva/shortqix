@@ -17,6 +17,9 @@ export default async function start() {
     port,
     dev: false,
     server: true,
+    nuxtConfig: {
+      logLevel: 'silent',
+    },
   });
 
   await hooks.beforeAll();

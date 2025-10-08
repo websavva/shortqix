@@ -9,9 +9,8 @@ import {
 } from 'h3';
 import { eq } from 'drizzle-orm';
 
-import { AuthJwtService } from '../services/jwt';
-import { users, type User } from '../db/schema';
-import { db } from '../db/database';
+import { AuthJwtService } from '#server/services/jwt';
+import { users, type User, db } from '#server/db';
 
 declare module 'h3' {
   interface H3EventContext {
@@ -54,8 +53,6 @@ export const CurrentUserNodeMiddleware: NodeMiddleware =
 
       next();
     } catch (error) {
-      console.error('Error getting current user:', error);
-
       if (AuthJwtService.isAuthTokenError(error)) {
         deleteCookie(event, 'auth-token');
 

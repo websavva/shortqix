@@ -5,7 +5,7 @@ import {
   getRequestHeader,
 } from 'h3';
 import bowser from 'bowser';
-import { useRuntimeConfig } from '#imports';
+import { useRuntimeConfig, useLogger } from '#imports';
 
 import { errorLogs } from '#server/db/entities/error-logs';
 import { readValidatedBody } from '#server/utils/validation';
@@ -14,6 +14,8 @@ import { db } from '#server/db/database';
 import { ErrorLogDtoSchema } from './imports/dto';
 
 export default defineEventHandler(async (event) => {
+  const logger = useLogger();
+
   const { type, message, stack, url, env } =
     await readValidatedBody(ErrorLogDtoSchema, event);
 
@@ -41,7 +43,7 @@ export default defineEventHandler(async (event) => {
     },
   }).then((res) => {
     if (!res.ok) {
-      console.error(
+      logger.error(
         'Failed to fetch IP info:',
         res.statusText,
       );
@@ -71,7 +73,7 @@ export default defineEventHandler(async (event) => {
 
     return { success: true, id: errorLog!.id };
   } catch (error) {
-    console.error('Failed to store error log:', error);
+    logger.error('Failed to store error log:', error);
 
     throw createError({
       statusCode: 500,

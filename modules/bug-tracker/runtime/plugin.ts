@@ -2,7 +2,6 @@ import {
   defineNuxtPlugin,
   useRequestFetch,
   useRequestURL,
-  useRuntimeConfig,
 } from 'nuxt/app';
 
 import type { ErrorLogDto, ErrorTrack } from './imports';
@@ -18,13 +17,12 @@ function getStack() {
 
 export default defineNuxtPlugin((nuxtApp) => {
   const localFetch = useRequestFetch();
-  const config = useRuntimeConfig();
 
   const trackError: ErrorTrack = async (
     error: Error,
     { type = 'global' }: Partial<ErrorLogDto> = {},
   ) => {
-    if (!config.public.bugTracker.enabled) return;
+    if (!nuxtApp.$config.public.bugTracker.enabled) return;
 
     const url = useRequestURL({
       xForwardedHost: true,
@@ -43,7 +41,8 @@ export default defineNuxtPlugin((nuxtApp) => {
       method: 'POST',
       body: reqBody,
     }).catch((err) => {
-      console.error('Failed to track error:', err);
+      // @ts-expect-error - logger is not typed here in modules
+      nuxtApp.$logger?.error('Failed to track error:', err);
     });
   };
 

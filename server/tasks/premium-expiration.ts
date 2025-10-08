@@ -1,15 +1,20 @@
 import { lt, sql } from 'drizzle-orm';
+import { useLogger } from '#imports';
 
 import { WsEventTypes } from '#shared/consts/ws-event-types';
-
-import type { Task } from '../types/task';
-import { db } from '../db';
-import { users } from '../db/schema';
-import { WebSocketService } from '../services/ws';
+import type { Task } from '#server/types/task';
+import { db, users } from '#server/db';
+import { WebSocketService } from '#server/services/ws';
 
 export class PremiumExpirationTask implements Task {
+  static logger = useLogger()
+    .withTag('tasks')
+    .withTag('premium-expiration');
+
   static async updateExpiredPremium() {
-    console.log('🔄 Starting premium expiration check...');
+    this.logger.log(
+      '🔄 Starting premium expiration check...',
+    );
 
     const updatedFields = {
       isPremium: false as const,
@@ -23,18 +28,20 @@ export class PremiumExpirationTask implements Task {
         .from(users)
         .where(lt(users.premiumExpiresAt, new Date()));
 
-      console.log(
+      this.logger.log(
         `📊 Found ${expiredUsersCount} users with expired premium`,
       );
 
       if (expiredUsersCount === 0) {
-        console.log(
+        this.logger.log(
           '✅ No users with expired premium found',
         );
         return;
       }
 
-      console.log('⏰ Updating expired premium users...');
+      this.logger.log(
+        '⏰ Updating expired premium users...',
+      );
 
       const usersWithExpiredPremium = await db
         .update(users)
@@ -46,10 +53,10 @@ export class PremiumExpirationTask implements Task {
           premiumExpiresAt: users.premiumExpiresAt,
         });
 
-      console.log(
+      this.logger.log(
         `✅ Successfully updated ${usersWithExpiredPremium.length} users`,
       );
-      console.log(
+      this.logger.log(
         '📋 Updated users:',
         usersWithExpiredPremium.map((u) => ({
           id: u.id,
@@ -59,7 +66,9 @@ export class PremiumExpirationTask implements Task {
       );
 
       // Send WebSocket notifications
-      console.log('📡 Sending WebSocket notifications...');
+      this.logger.log(
+        '📡 Sending WebSocket notifications...',
+      );
       let notificationsSent = 0;
       let notificationsFailed = 0;
 
@@ -74,26 +83,26 @@ export class PremiumExpirationTask implements Task {
             updatedFields,
           );
           notificationsSent++;
-          console.log(
+          this.logger.log(
             `📤 Notification sent to user ${userId} (${email})`,
           );
         } catch (error) {
           notificationsFailed++;
-          console.error(
+          this.logger.error(
             `❌ Failed to send notification to user ${userId} (${email}):`,
             error,
           );
         }
       }
 
-      console.log(
+      this.logger.log(
         `📊 Notifications summary: ${notificationsSent} sent, ${notificationsFailed} failed`,
       );
-      console.log(
+      this.logger.log(
         '✅ Premium expiration check completed successfully',
       );
     } catch (error) {
-      console.error(
+      this.logger.error(
         '❌ Error during premium expiration check:',
         error,
       );
@@ -106,14 +115,14 @@ export class PremiumExpirationTask implements Task {
   static waitForCompletion = true;
 
   static async run() {
-    console.log('🚀 Starting PremiumExpirationTask...');
+    this.logger.log('🚀 Starting PremiumExpirationTask...');
     try {
       await this.updateExpiredPremium();
-      console.log(
+      this.logger.log(
         '✅ PremiumExpirationTask completed successfully',
       );
     } catch (error) {
-      console.error(
+      this.logger.error(
         '❌ PremiumExpirationTask failed:',
         error,
       );

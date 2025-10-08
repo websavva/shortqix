@@ -3,6 +3,7 @@ import {
   type Transporter,
   type SendMailOptions,
 } from 'nodemailer';
+import { useLogger } from '#imports';
 
 import {
   mailTemplates,
@@ -11,9 +12,10 @@ import {
 
 export class MailService {
   static transport: Transporter;
+  static logger = useLogger().withTag('mail');
 
   static async setup() {
-    console.log('📧 Setting up SMTP transport...');
+    this.logger.log('📧 Setting up SMTP transport...');
 
     const isDev = process.env.SQX_STAGE !== 'production';
 
@@ -33,7 +35,7 @@ export class MailService {
 
     await this.verify();
 
-    console.log(
+    this.logger.log(
       `✅ SMTP transport configured for ${
         isDev ? 'development' : 'production'
       } mode`,
@@ -42,32 +44,35 @@ export class MailService {
 
   static async verify() {
     try {
-      console.log('🔍 Verifying SMTP connection...');
+      this.logger.log('🔍 Verifying SMTP connection...');
       await this.transport.verify();
-      console.log(
+      this.logger.log(
         '✅ SMTP connection verified successfully',
       );
     } catch (error) {
-      console.error('❌ SMTP verification failed:', error);
+      this.logger.error(
+        '❌ SMTP verification failed:',
+        error,
+      );
       throw error;
     }
   }
 
   static async sendMail(options: SendMailOptions) {
     try {
-      console.log(`📤 Sending email to: ${options.to}`);
+      this.logger.log(`📤 Sending email to: ${options.to}`);
 
       const result = await this.transport.sendMail({
         from: process.env.SQX_SMTP_FROM,
         ...options,
       });
 
-      console.log(
+      this.logger.log(
         `✅ Email sent successfully to ${options.to}`,
       );
       return result;
     } catch (error) {
-      console.error(
+      this.logger.error(
         `❌ Failed to send email to ${options.to}:`,
         error,
       );
@@ -98,11 +103,13 @@ export class MailService {
 
   static async cleanup() {
     try {
-      console.log('🔄 Closing SMTP transport...');
+      this.logger.log('🔄 Closing SMTP transport...');
       this.transport.close();
-      console.log('✅ SMTP transport closed successfully');
+      this.logger.log(
+        '✅ SMTP transport closed successfully',
+      );
     } catch (error) {
-      console.error(
+      this.logger.error(
         '❌ Error closing SMTP transport:',
         error,
       );

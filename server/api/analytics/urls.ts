@@ -1,28 +1,27 @@
-import { defineEventHandler, createError } from 'h3';
 import { eq, sql, desc } from 'drizzle-orm';
 
 import { PaginationParamsSchema } from '#shared/dtos';
 import {
   assertAuth,
   getValidatedQuery,
-} from '#server/utils/validation';
-import { createPaginationMetadata } from '#server/utils/pagination';
-
-import { db } from '../../db/database';
+  defineSafeEventHandler,
+  createPaginationMetadata,
+} from '#server/utils';
 import {
+  db,
   shortenedUrls,
   type ShortenedUrl,
-} from '../../db/schema';
+} from '#server/db';
 
-export default defineEventHandler(async (event) => {
-  const { page, limit } = await getValidatedQuery(
-    PaginationParamsSchema,
-    event,
-  );
+export default defineSafeEventHandler(
+  async (event) => {
+    const { page, limit } = await getValidatedQuery(
+      PaginationParamsSchema,
+      event,
+    );
 
-  assertAuth(event);
+    assertAuth(event);
 
-  try {
     // Parse pagination parameters
     const offset = (page - 1) * limit;
 
@@ -73,13 +72,8 @@ export default defineEventHandler(async (event) => {
       urls,
       pagination,
     };
-  } catch (error: any) {
-    if (error.statusCode) throw error;
-
-    console.error('URLs fetch failed:', error);
-    throw createError({
-      statusCode: 500,
-      message: 'Failed to fetch URLs',
-    });
-  }
-});
+  },
+  {
+    errorText: 'Failed to fetch URLs',
+  },
+);

@@ -1,4 +1,5 @@
 import { CronJob } from 'cron';
+import { useLogger } from '#imports';
 
 import { PaymentProcessorTask } from './payment-processor';
 import { PremiumExpirationTask } from './premium-expiration';
@@ -9,13 +10,15 @@ export class TasksManager {
     PremiumExpirationTask,
   ];
 
+  static logger = useLogger().withTag('tasks');
+
   static jobs: CronJob[] = [];
 
   static setup() {
-    console.log('🚀 Setting up scheduled tasks...');
+    this.logger.log('🚀 Setting up scheduled tasks...');
 
     for (const task of this.tasks) {
-      console.log(`📅 Setting up task: ${task.name}`);
+      this.logger.log(`📅 Setting up task: ${task.name}`);
 
       const job = CronJob.from({
         cronTime: task.cronExpression,
@@ -25,28 +28,28 @@ export class TasksManager {
       });
 
       this.jobs.push(job);
-      console.log(
+      this.logger.log(
         `✅ Task ${task.name} scheduled with cron: ${task.cronExpression}`,
       );
     }
 
-    console.log(
+    this.logger.log(
       `✅ All ${this.jobs.length} tasks scheduled successfully`,
     );
   }
 
   static cleanup() {
-    console.log('🔄 Stopping all scheduled tasks...');
+    this.logger.log('🔄 Stopping all scheduled tasks...');
 
     return Promise.all(
       this.jobs.map((job) => {
-        console.log(
+        this.logger.log(
           `⏹️ Stopping task: ${job.name || 'unnamed'}`,
         );
         return Promise.resolve(job.stop());
       }),
     ).then(() => {
-      console.log('✅ All tasks stopped successfully');
+      this.logger.log('✅ All tasks stopped successfully');
       this.jobs = [];
     });
   }

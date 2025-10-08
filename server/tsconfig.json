@@ -8,6 +8,5 @@
     "verbatimModuleSyntax": true,
     "jsx": "preserve",
     "jsxImportSource": "vue"
-  },
-  "include": ["./types/**/*", "./**/*"]
+  }
 }

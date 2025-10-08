@@ -1,5 +1,6 @@
 import type { ServerResponse } from 'node:http';
 
+import { useLogger } from '#imports';
 import type { NitroApp } from 'nitropack';
 import { Server as Engine } from 'engine.io';
 import { Server, type Socket } from 'socket.io';
@@ -16,6 +17,7 @@ import { CurrentUserNodeMiddleware } from '#server/middleware/2.current-user';
 export class WebSocketService {
   static wsServer: Server;
   static pool: pg.Pool;
+  static logger = useLogger().withTag('websocket');
 
   static setup(nitroApp: NitroApp) {
     const engine = new Engine();
@@ -26,7 +28,7 @@ export class WebSocketService {
     this.setupMiddleware();
     this.setupRoute(nitroApp);
 
-    console.log('✅ WebSocket server is ready');
+    this.logger.log('✅ WebSocket server is ready');
   }
 
   private static setupDatabase() {
@@ -49,20 +51,20 @@ export class WebSocketService {
     this.wsServer.adapter(createAdapter(this.pool));
 
     this.pool.on('error', (err) => {
-      console.error('Postgres error', err);
+      this.logger.error('Postgres error', err);
     });
   }
 
   private static setupMiddleware() {
     this.wsServer.on('connection', (socket) => {
-      console.log('a user connected');
+      this.logger.log('a user connected');
       setTimeout(() => {
         socket.emit('hello', 'Hello from the server');
       }, 3000);
     });
 
     this.wsServer.on('disconnect', (_) => {
-      console.log('a user disconnected');
+      this.logger.log('a user disconnected');
     });
 
     this.wsServer
@@ -183,9 +185,12 @@ export class WebSocketService {
       if (this.pool) {
         await this.pool.end();
       }
-      console.log('✅ WebSocket cleanup completed');
+      this.logger.log('✅ WebSocket cleanup completed');
     } catch (error) {
-      console.error('❌ WebSocket cleanup error:', error);
+      this.logger.error(
+        '❌ WebSocket cleanup error:',
+        error,
+      );
     }
   }
 

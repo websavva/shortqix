@@ -1,39 +1,44 @@
-import { defineEventHandler, createError } from 'h3';
+import { createError } from 'h3';
 import { eq, and } from 'drizzle-orm';
 
 import { paymentId as paymentIdSchema } from '#shared/dtos/common';
-import { payments } from '#server/db/entities';
-import { db } from '#server/db/database';
+import { payments, db } from '#server/db';
 import {
   assertAuth,
   getValidatedRouterParam,
-} from '#server/utils/validation';
+  defineSafeEventHandler,
+} from '#server/utils';
 
-export default defineEventHandler(async (event) => {
-  const id = await getValidatedRouterParam(
-    paymentIdSchema(),
-    event,
-    'id',
-  );
-
-  assertAuth(event);
-
-  const [payment] = await db
-    .select()
-    .from(payments)
-    .where(
-      and(
-        eq(payments.id, id),
-        eq(payments.userId, event.context.user!.id),
-      ),
+export default defineSafeEventHandler(
+  async (event) => {
+    const id = await getValidatedRouterParam(
+      paymentIdSchema(),
+      event,
+      'id',
     );
 
-  if (!payment) {
-    throw createError({
-      statusCode: 404,
-      message: 'Payment not found',
-    });
-  }
+    assertAuth(event);
 
-  return payment;
-});
+    const [payment] = await db
+      .select()
+      .from(payments)
+      .where(
+        and(
+          eq(payments.id, id),
+          eq(payments.userId, event.context.user!.id),
+        ),
+      );
+
+    if (!payment) {
+      throw createError({
+        statusCode: 404,
+        message: 'Payment not found',
+      });
+    }
+
+    return payment;
+  },
+  {
+    errorText: 'Failed to fetch payment',
+  },
+);

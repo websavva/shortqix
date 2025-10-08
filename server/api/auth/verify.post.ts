@@ -1,36 +1,34 @@
-import {
-  defineEventHandler,
-  createError,
-  setCookie,
-} from 'h3';
+import { createError, setCookie } from 'h3';
 import { eq, and, gt, isNull } from 'drizzle-orm';
 
 import type { AuthTokenPayload } from '#server/types';
-
-import { db } from '../../db/database';
 import {
   users,
   magicLinks,
   shortenedUrls,
-} from '../../db/schema';
-import { readValidatedBody } from '../../utils/validation';
-import { VerifyMagicLinkDtSchema } from '../../../shared/dtos';
-import { AuthJwtService } from '../../services/jwt';
+  db,
+} from '#server/db';
+import {
+  readValidatedBody,
+  defineSafeEventHandler,
+} from '#server/utils';
+import { VerifyMagicLinkDtSchema } from '#shared/dtos';
+import { AuthJwtService } from '#server/services/jwt';
 
-export default defineEventHandler(async (event) => {
-  const { token } = await readValidatedBody(
-    VerifyMagicLinkDtSchema,
-    event,
-  );
+export default defineSafeEventHandler(
+  async (event) => {
+    const { token } = await readValidatedBody(
+      VerifyMagicLinkDtSchema,
+      event,
+    );
 
-  if (!token || typeof token !== 'string') {
-    throw createError({
-      statusCode: 400,
-      message: 'Invalid token',
-    });
-  }
+    if (!token || typeof token !== 'string') {
+      throw createError({
+        statusCode: 400,
+        message: 'Invalid token',
+      });
+    }
 
-  try {
     // Find and validate magic link
     const [magicLink] = await db
       .select()
@@ -119,13 +117,8 @@ export default defineEventHandler(async (event) => {
 
     // Redirect to home page
     return true;
-  } catch (error: any) {
-    if (error.statusCode) throw error;
-
-    console.error('Verification error:', error);
-    throw createError({
-      statusCode: 500,
-      message: 'Verification failed',
-    });
-  }
-});
+  },
+  {
+    errorText: 'Failed to verify magic link',
+  },
+);

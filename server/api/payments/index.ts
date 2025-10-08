@@ -1,24 +1,23 @@
-import { defineEventHandler, createError } from 'h3';
 import { eq, desc, sql } from 'drizzle-orm';
 
 import { PaginationParamsSchema } from '#shared/dtos';
-import { payments } from '#server/db/entities';
-import { createPaginationMetadata } from '#server/utils/pagination';
-import { db } from '#server/db/database';
+import { payments, db } from '#server/db';
 import {
-  assertAuth,
+  createPaginationMetadata,
+  defineSafeEventHandler,
   getValidatedQuery,
-} from '#server/utils/validation';
+  assertAuth,
+} from '#server/utils';
 
-export default defineEventHandler(async (event) => {
-  assertAuth(event);
+export default defineSafeEventHandler(
+  async (event) => {
+    assertAuth(event);
 
-  const { page, limit } = await getValidatedQuery(
-    PaginationParamsSchema,
-    event,
-  );
+    const { page, limit } = await getValidatedQuery(
+      PaginationParamsSchema,
+      event,
+    );
 
-  try {
     // Parse pagination parameters
     const offset = (page - 1) * limit;
 
@@ -48,12 +47,8 @@ export default defineEventHandler(async (event) => {
         limit,
       }),
     };
-  } catch (error: any) {
-    console.error('Payments fetch error:', error);
-
-    throw createError({
-      statusCode: 500,
-      message: 'Failed to fetch payments',
-    });
-  }
-});
+  },
+  {
+    errorText: 'Failed to fetch payments',
+  },
+);

@@ -1,17 +1,21 @@
 import { defineNitroPlugin } from 'nitropack/runtime';
+import { useLogger } from '#imports';
 
-import { DatabaseService } from '../services/db';
-import { TasksManager } from '../tasks';
-import { WebSocketService } from '../services/ws';
-import { MailService } from '../services/mail';
+import { DatabaseService } from '#server/services/db';
+import { TasksManager } from '#server/tasks';
+import { WebSocketService } from '#server/services/ws';
+import { MailService } from '#server/services/mail';
 
 export default defineNitroPlugin((nitroApp) => {
+  const logger = useLogger().withTag('setup');
+  const errorLogger = logger.withTag('error');
+
   nitroApp.hooks.hook('error', (error) => {
-    console.error('❌ Server error:', error);
+    errorLogger.debug('❌ Server error:', error);
   });
 
   const setup = async () => {
-    console.log('⏳ Server not ready, waiting...');
+    logger.log('⏳ Server not ready, waiting...');
 
     await DatabaseService.setup();
 
@@ -23,7 +27,7 @@ export default defineNitroPlugin((nitroApp) => {
 
     nitroApp.isReady = true;
 
-    console.log('✅ Server is now ready');
+    logger.log('✅ Server is now ready');
   };
 
   const teardown = async () => {

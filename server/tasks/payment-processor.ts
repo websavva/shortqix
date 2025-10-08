@@ -1,4 +1,5 @@
 import { eq, and, sql, inArray } from 'drizzle-orm';
+import { useLogger } from '#imports';
 
 import { PaymentStatus } from '#shared/consts/payments';
 import { getPremiumPlan } from '#shared/consts/premium-plans';
@@ -6,29 +7,30 @@ import { sleep } from '#shared/utils/sleep';
 import { WsEventTypes } from '#shared/consts/ws-event-types';
 import type { Task } from '#server/types/task';
 import type { WsEvent } from '#server/types/ws';
-
-import { BitcoinService } from '../services/bitcoin';
-import { WebSocketService } from '../services/ws';
+import { BitcoinService } from '#server/services/bitcoin';
+import { WebSocketService } from '#server/services/ws';
 import {
   payments as paymentsTable,
   users as usersTable,
   type User,
   type Payment,
-} from '../db/entities';
-import {
-  db,
   type DbOrTransactionInstance,
-} from '../db/database';
-import { MailService } from '../services/mail';
+  db,
+} from '#server/db';
+import { MailService } from '#server/services/mail';
 
 export class PaymentProcessorTask implements Task {
+  static logger = useLogger()
+    .withTag('tasks')
+    .withTag('payment-processor');
+
   static async processAllPayments() {
-    console.log('🔄 Processing payments...');
+    this.logger.log('🔄 Processing payments...');
 
     try {
       const activePaymentInfos =
         await this.getActivePayments();
-      console.log(
+      this.logger.log(
         `📊 Found ${activePaymentInfos.length} active payments`,
       );
 
@@ -37,15 +39,18 @@ export class PaymentProcessorTask implements Task {
         await sleep(1e3); // Rate limiting
       }
 
-      console.log('✅ Payment processing completed');
+      this.logger.log('✅ Payment processing completed');
     } catch (error) {
-      console.error('❌ Payment processing failed:', error);
+      this.logger.error(
+        '❌ Payment processing failed:',
+        error,
+      );
       throw error;
     }
   }
 
   private static async updateExpiredPayments() {
-    console.log('⏰ Checking for expired payments...');
+    this.logger.log('⏰ Checking for expired payments...');
 
     const updatedFields = {
       status: PaymentStatus.EXPIRED,
@@ -72,7 +77,7 @@ export class PaymentProcessorTask implements Task {
         });
 
       if (expiredPayments.length > 0) {
-        console.log(
+        this.logger.log(
           `⏰ Marked ${expiredPayments.length} expired payments:`,
           expiredPayments.map((p) => p.id),
         );
@@ -91,12 +96,12 @@ export class PaymentProcessorTask implements Task {
           );
         }
       } else {
-        console.log('⏰ No expired payments found');
+        this.logger.log('⏰ No expired payments found');
       }
 
       return expiredPayments;
     } catch (error) {
-      console.error(
+      this.logger.error(
         '❌ Error updating expired payments:',
         error,
       );
@@ -130,14 +135,16 @@ export class PaymentProcessorTask implements Task {
     user: User,
   ) {
     try {
-      console.log(`💰 Checking payment ${payment.id}...`);
+      this.logger.log(
+        `💰 Checking payment ${payment.id}...`,
+      );
 
       const { pendingBalance, confirmedBalance } =
         await BitcoinService.checkBalance(
           payment.bitcoinAddress,
         );
 
-      console.log(
+      this.logger.log(
         `📊 Address ${payment.bitcoinAddress}: Mempool ${pendingBalance} BTC, Chain ${confirmedBalance} BTC, Required ${payment.amountBtc} BTC`,
       );
 
@@ -151,12 +158,12 @@ export class PaymentProcessorTask implements Task {
       ) {
         await this.handlePendingPayment(payment);
       } else {
-        console.log(
+        this.logger.log(
           `❌ Payment ${payment.id} has no funds`,
         );
       }
     } catch (error) {
-      console.error(
+      this.logger.error(
         `❌ Error processing payment ${payment.id}:`,
         error,
       );
@@ -193,7 +200,7 @@ export class PaymentProcessorTask implements Task {
           },
         },
       ).catch((err) => {
-        console.error(
+        this.logger.error(
           `❌ Error sending premium purchase email:`,
           err,
         );
@@ -219,7 +226,7 @@ export class PaymentProcessorTask implements Task {
       await this.sendWsEvents(events);
     });
 
-    console.log(
+    this.logger.log(
       `🎉 Payment ${payment.id} confirmed! Premium granted to user ${payment.userId}`,
     );
   }
@@ -249,7 +256,7 @@ export class PaymentProcessorTask implements Task {
       updatedPayment,
     );
 
-    console.log(
+    this.logger.log(
       `⏳ Payment ${payment.id} in mempool, waiting for confirmation`,
     );
   }

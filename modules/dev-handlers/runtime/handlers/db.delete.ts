@@ -7,8 +7,9 @@ import {
   bitcoinAddresses,
   payments,
   magicLinks,
-} from '#server/db/schema';
-import { db } from '#server/db/database';
+  db,
+  errorLogs,
+} from '#server/db';
 
 const tables = [
   shortenedUrls,
@@ -16,6 +17,7 @@ const tables = [
   bitcoinAddresses,
   payments,
   magicLinks,
+  errorLogs,
 ];
 
 export default defineEventHandler(async () => {

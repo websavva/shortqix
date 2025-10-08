@@ -1,28 +1,25 @@
 import { nanoid } from 'nanoid';
-import {
-  defineEventHandler,
-  createError,
-  getRequestIP,
-} from 'h3';
+import { createError, getRequestIP } from 'h3';
 import { eq, and, sql, gte, lte } from 'drizzle-orm';
 
-import { db } from '../db/database';
-import { shortenedUrls } from '../db/schema';
+import { shortenedUrls, db } from '#server/db';
 import {
   assertAuth,
   assertPremium,
+  defineSafeEventHandler,
   readValidatedBody,
-} from '../utils/validation';
-import { createShortUrl } from '../../shared/utils/create-short-url';
-import { CreateShortenedUrlDtoSchema } from '../../shared/dtos';
+} from '#server/utils';
+import { createShortUrl } from '#shared/utils/create-short-url';
+import { CreateShortenedUrlDtoSchema } from '#shared/dtos';
 
-export default defineEventHandler(async (event) => {
-  const { url, code: customCode } = await readValidatedBody(
-    CreateShortenedUrlDtoSchema,
-    event,
-  );
+export default defineSafeEventHandler(
+  async (event) => {
+    const { url, code: customCode } =
+      await readValidatedBody(
+        CreateShortenedUrlDtoSchema,
+        event,
+      );
 
-  try {
     let code: string;
 
     if (customCode) {
@@ -109,13 +106,8 @@ export default defineEventHandler(async (event) => {
       shortUrl: createShortUrl(code),
       code,
     };
-  } catch (error: any) {
-    if (error.statusCode) throw error;
-
-    console.error('Failed to create shortened URL:', error);
-    throw createError({
-      statusCode: 500,
-      message: 'Failed to create shortened URL',
-    });
-  }
-});
+  },
+  {
+    errorText: 'Failed to create shortened URL',
+  },
+);

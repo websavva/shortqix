@@ -4,6 +4,7 @@ import {
   addServerHandler,
   addPlugin,
   addImportsDir,
+  updateRuntimeConfig,
 } from '@nuxt/kit';
 
 import type { ModuleOptions } from './types';
@@ -17,10 +18,14 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'bugTracker',
   },
 
-  setup(options, nuxt) {
+  async setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url);
 
-    nuxt.options.runtimeConfig.public.bugTracker = options;
+    await updateRuntimeConfig({
+      public: {
+        bugTracker: options,
+      },
+    });
 
     addServerHandler({
       route: '/api/error-logs',
