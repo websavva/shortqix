@@ -63,7 +63,7 @@ export class MailService {
       this.logger.log(`📤 Sending email to: ${options.to}`);
 
       const result = await this.transport.sendMail({
-        from: process.env.SQX_SMTP_FROM,
+        from: `"${process.env.SQX_APP_NAME}" <${process.env.SQX_SUPPORT_EMAIL}>`,
         ...options,
       });
 

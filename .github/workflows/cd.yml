@@ -185,7 +185,6 @@ jobs:
             export SQX_SMTP_PORT="${{ secrets.SQX_SMTP_PORT }}"
             export SQX_SMTP_USER="${{ secrets.SQX_SMTP_USER }}"
             export SQX_SMTP_PASSWORD="${{ secrets.SQX_SMTP_PASSWORD }}"
-            export SQX_SMTP_FROM="${{ secrets.SQX_SMTP_FROM }}"
             export SQX_AUTH_SECRET="${{ secrets.SQX_AUTH_SECRET }}"
             export SQX_AUTH_TOKEN_EXPIRES_IN_MS="${{ secrets.SQX_AUTH_TOKEN_EXPIRES_IN_MS }}"
             export SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS="${{ secrets.SQX_AUTH_MAGIC_LINK_TOKEN_EXPIRES_IN_MS }}"
