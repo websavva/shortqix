@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAuth } from '#imports';
+import { useAuth, useLogger } from '#imports';
 import { NuxtTime } from '#components';
 import { CopyIcon } from 'lucide-vue-next';
 import type { InternalApi } from 'nitropack/types';
@@ -92,6 +92,7 @@ defineProps<{
 }>();
 
 const $toast = useToast();
+const $logger = useLogger();
 
 const { isPremium } = useAuth();
 
@@ -105,7 +106,7 @@ async function onCopy(code: string) {
       description: 'The shortened URL has been copied.',
     });
   } catch (error) {
-    console.error(error);
+    $logger.error(error);
     $toast.toast({
       title: 'Failed to copy',
       description: 'Please copy the URL manually.',

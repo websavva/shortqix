@@ -53,6 +53,10 @@ export default defineNuxtConfig({
     enabled: isProdBuild,
   },
 
+  logger: {
+    logLevel: isProdBuild ? 'info' : 'verbose',
+  },
+
   bugTracker: {
     enabled: isProdBuild,
   },
