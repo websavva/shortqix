@@ -16,6 +16,7 @@ export default defineNuxtModule({
   setup(options, nuxt) {
     if (!options.enabled) return;
 
+    // @ts-expect-error - wrong type of @vue/compiler-core
     nuxt.options.vite.vue = defu(
       nuxt.options.vite.vue || {},
       {
