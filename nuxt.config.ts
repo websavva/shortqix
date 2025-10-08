@@ -32,6 +32,8 @@ export default defineNuxtConfig({
 
   experimental: {
     entryImportMap: false,
+
+    componentIslands: true,
   },
 
   buildDir: '.nuxt',
@@ -58,6 +60,10 @@ export default defineNuxtConfig({
   },
 
   bugTracker: {
+    enabled: isProdBuild,
+  },
+
+  testAttributeRemoval: {
     enabled: isProdBuild,
   },
 

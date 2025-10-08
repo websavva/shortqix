@@ -64,9 +64,7 @@ import {
   TrendingUp,
 } from 'lucide-vue-next';
 import { useAuth, useLazyFetch } from '#imports';
-
-import SizeTransition from '@/components/ui/SizeTransition';
-import ErrorPane from '@/components/ErrorPane.vue';
+import { SizeTransition, ErrorPane } from '#components';
 
 import StatCard from './StatCard.vue';
 import StatCardPlaceholder from './StatCardPlaceholder.vue';

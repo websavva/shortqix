@@ -30,8 +30,7 @@ import {
   ExternalLink,
   Bitcoin,
 } from 'lucide-vue-next';
-
-import Container from '~/components/ui/Container.vue';
+import { Container } from '#components';
 
 const ADVANTAGES = [
   {

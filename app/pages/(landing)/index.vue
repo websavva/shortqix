@@ -44,13 +44,14 @@
 
 <script setup lang="ts">
 import { useSeoMeta } from '#imports';
+import {
+  Container,
+  ShortenLinkForm,
+  PremiumPlanShowcase,
+  Advantages,
+} from '#components';
 
 import LogoBox from '#shared/components/LogoBox';
-import Container from '@/components/ui/Container.vue';
-import ShortenLinkForm from '@/components/forms/ShortenLinkForm.vue';
-import PremiumPlanShowcase from '@/components/PremiumPlanShowcase.vue';
-
-import Advantages from './-index/advantages/index.vue';
 
 const appName = process.env.SQX_APP_NAME;
 

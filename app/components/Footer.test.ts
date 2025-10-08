@@ -7,7 +7,7 @@ import {
 } from 'vitest';
 import { mount } from '@vue/test-utils';
 
-import Footer from './Footer.vue';
+import Footer from './Footer.server.vue';
 
 describe('Footer', () => {
   const mockAppName = 'Shortqix';

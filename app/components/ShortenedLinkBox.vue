@@ -1,6 +1,11 @@
 <template>
   <div
-    class="p-6 bg-gradient-to-br from-primary/5 via-background to-primary/5 rounded-xl border border-primary/20 shadow-lg backdrop-blur-sm"
+    :class="
+      cn(
+        'p-6 bg-gradient-to-br from-primary/5 via-background to-primary/5 rounded-xl border border-primary/20 shadow-lg backdrop-blur-sm',
+        props.class ?? '',
+      )
+    "
   >
     <div class="text-center space-y-4">
       <!-- Success Icon -->
@@ -118,6 +123,7 @@
 </template>
 
 <script setup lang="ts">
+import type { HTMLAttributes } from 'vue';
 import { ref, onMounted, watch } from 'vue';
 import QRCode from 'qrcode';
 import {
@@ -126,12 +132,10 @@ import {
   ShareIcon,
   DownloadIcon,
 } from 'lucide-vue-next';
-import { useLogger } from '#imports';
+import { useLogger, useToast, cn } from '#imports';
+import { Button, SizeTransition } from '#components';
 
-import Button from '@/components/ui/Button.vue';
-import { useToast } from '@/components/ui/toast';
 import palette from '#shared/consts/palette.json';
-import SizeTransition from '@/components/ui/SizeTransition';
 import { hslToHex } from '#shared/utils/hsl-to-hex';
 
 const props = defineProps<{
@@ -139,6 +143,7 @@ const props = defineProps<{
   code?: string;
   title?: string;
   text?: string;
+  class?: HTMLAttributes['class'];
 }>();
 
 const $toast = useToast();

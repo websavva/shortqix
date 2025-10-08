@@ -184,15 +184,16 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { NuxtLink } from '#components';
+import {
+  NuxtLink,
+  RollTransition,
+  SizeTransition,
+  Button,
+} from '#components';
 import { useAuth } from '#imports';
 import { LogOut, Zap, Menu, X } from 'lucide-vue-next';
 
 import LogoBox from '#shared/components/LogoBox';
-
-import RollTransition from './ui/RollTransition';
-import SizeTransition from './ui/SizeTransition';
-import Button from './ui/Button.vue';
 
 const appName = process.env.SQX_APP_NAME;
 

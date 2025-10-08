@@ -158,21 +158,20 @@
 import { ArrowRight, CheckCircle } from 'lucide-vue-next';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
-import { ref } from '#imports';
+import { ref, useToast } from '#imports';
 import type { HTMLAttributes } from 'vue';
-
-import { CreateMagicLinkDtoSchema } from '#shared/dtos/magic-link';
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import SizeTransition from '@/components/ui/SizeTransition';
-import Input from '@/components/ui/Input.vue';
-import Button from '@/components/ui/Button.vue';
-import Logo from '@/components/Logo.vue';
-import { useToast } from '@/components/ui/toast';
+  Logo,
+  Button,
+  Input,
+  SizeTransition,
+} from '#components';
+
+import { CreateMagicLinkDtoSchema } from '#shared/dtos/magic-link';
 import { cn } from '@/utils/cn';
 
 const props = defineProps<{

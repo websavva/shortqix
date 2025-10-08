@@ -59,13 +59,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { Serialize } from 'nitropack';
+import { SizeTransition } from '#components';
 
 import type { Payment } from '#server/db/entities';
 import {
   isPaymentWaitingForConfirmation,
   PaymentStatus,
 } from '#shared/consts/payments';
-import SizeTransition from '@/components/ui/SizeTransition';
 
 import Head from './Head.vue';
 import Info from './Info.vue';

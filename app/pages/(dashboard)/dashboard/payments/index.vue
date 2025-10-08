@@ -67,14 +67,16 @@ import {
   useRouter,
   useRoute,
   useSeoMeta,
+  useToast,
 } from '#imports';
+import {
+  SizeTransition,
+  ErrorPane,
+  Pagination,
+  TablePlaceholder,
+} from '#components';
 
-import ErrorPane from '@/components/ErrorPane.vue';
-import SizeTransition from '@/components/ui/SizeTransition';
-import Pagination from '@/components/ui/pagination/Pagination.vue';
 import { PaginationParamsSchema } from '#shared/dtos/pagination';
-import TablePlaceholder from '@/components/ui/table/TablePlaceholder.vue';
-import { useToast } from '@/components/ui/toast';
 import { sleep } from '#shared/utils/sleep';
 
 import Heading from '../-components/Heading.vue';

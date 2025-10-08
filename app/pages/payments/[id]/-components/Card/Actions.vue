@@ -103,14 +103,16 @@ import {
   CopyX,
 } from 'lucide-vue-next';
 import { computed } from 'vue';
+import {
+  FadeTransition,
+  SizeTransition,
+  Button,
+} from '#components';
 
 import {
   PaymentStatus,
   isPaymentWaitingForConfirmation as isPaymentWaitingForConfirmationFn,
 } from '#shared/consts/payments';
-import Button from '@/components/ui/Button.vue';
-import FadeTransition from '@/components/ui/FadeTransition';
-import SizeTransition from '@/components/ui/SizeTransition';
 
 const props = defineProps<{
   status: PaymentStatus;

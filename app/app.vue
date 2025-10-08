@@ -5,5 +5,5 @@
 </template>
 
 <script lang="ts" setup>
-import TheApp from '@/components/TheApp.vue';
+import { TheApp } from '#components';
 </script>
