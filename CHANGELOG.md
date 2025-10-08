@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.0](https://github.com/websavva/shortqix/compare/v1.5.0...v1.6.0) (2025-10-08)
+
+
+### Features
+
+* **modules:** Logger module was developed ([1afe12d](https://github.com/websavva/shortqix/commit/1afe12d0e856e985cae09140fd6a19af310bd3e1))
+* **modules:** Logger module was developed ([50a4f17](https://github.com/websavva/shortqix/commit/50a4f175736d74cef94755b6bc1143cb0a470f20))
+
 ## [1.5.0](https://github.com/websavva/shortqix/compare/v1.4.0...v1.5.0) (2025-10-07)
 
 
