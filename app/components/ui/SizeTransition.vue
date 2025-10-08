@@ -1,3 +1,4 @@
+<script lang="ts">
 import {
   type PropType,
   computed,
@@ -62,3 +63,4 @@ export default defineComponent({
       );
   },
 });
+</script>

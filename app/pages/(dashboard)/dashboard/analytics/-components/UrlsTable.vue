@@ -69,11 +69,9 @@
 </template>
 
 <script setup lang="ts">
-import { useAuth, useLogger } from '#imports';
-import { NuxtTime } from '#components';
+import { useAuth, useLogger, useToast } from '#imports';
 import { CopyIcon } from 'lucide-vue-next';
 import type { InternalApi } from 'nitropack/types';
-
 import {
   Table,
   TableBody,
@@ -81,10 +79,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+  Button,
+  NuxtTime,
+} from '#components';
+
 import { createShortUrl } from '#shared/utils/create-short-url';
-import Button from '@/components/ui/Button.vue';
-import { useToast } from '@/components/ui/toast';
 import { spaceNumber } from '#shared/utils/space-number';
 
 defineProps<{

@@ -106,8 +106,8 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
 import { LineChart, Zap, Coins } from 'lucide-vue-next';
+import { Button } from '#components';
 
-import Button from '@/components/ui/Button.vue';
 import { cn } from '@/utils';
 
 const props = defineProps<{

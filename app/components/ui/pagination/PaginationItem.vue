@@ -22,8 +22,10 @@ import type { HTMLAttributes } from 'vue';
 import { PaginationListItem } from 'reka-ui';
 import { reactiveOmit } from '@vueuse/core';
 
-import type { ButtonVariants } from '@/components/ui/Button.vue';
-import { buttonVariants } from '@/components/ui/Button.vue';
+import {
+  type ButtonVariants,
+  buttonVariants,
+} from '@/components/ui/Button.vue';
 import { cn } from '@/utils';
 
 const props = withDefaults(

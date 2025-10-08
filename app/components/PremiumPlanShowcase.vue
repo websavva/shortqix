@@ -72,25 +72,29 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
-import { ClientOnly } from '#components';
-import { ref, useAuth, useRouter } from '#imports';
-
 import {
-  PREMIUM_PLANS,
-  PremiumPlanId,
-} from '#shared/consts/premium-plans';
-import PremiumPlanCard from '@/components/PremiumPlanCard.vue';
-import { cn } from '@/utils';
-import {
+  ClientOnly,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import Button from '@/components/ui/Button.vue';
-import { useToast } from '@/components/ui/toast';
+  Button,
+  PremiumPlanCard,
+} from '#components';
+import {
+  ref,
+  useAuth,
+  useRouter,
+  useToast,
+  cn,
+} from '#imports';
+
+import {
+  PREMIUM_PLANS,
+  PremiumPlanId,
+} from '#shared/consts/premium-plans';
 
 const props = defineProps<{
   class?: HTMLAttributes['class'];

@@ -210,10 +210,7 @@ import {
   computed,
   useSeoMeta,
 } from '#imports';
-import { NuxtTime } from '#components';
-
-import Button from '@/components/ui/Button.vue';
-import TheApp from '@/components/TheApp.vue';
+import { NuxtTime, TheApp, Button } from '#components';
 
 // Props from Nuxt error handling
 interface Props {

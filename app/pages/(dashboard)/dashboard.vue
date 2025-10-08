@@ -39,9 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { NuxtPage } from '#components';
-
-import Container from '@/components/ui/Container.vue';
+import { NuxtPage, Container } from '#components';
 
 import NavSideBar from './-components/NavSideBar/index.vue';
 

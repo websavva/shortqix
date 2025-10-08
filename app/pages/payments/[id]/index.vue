@@ -75,13 +75,16 @@
 </template>
 
 <script setup lang="ts">
-import { onWsEvent, ref, useHead } from '#imports';
+import {
+  onWsEvent,
+  ref,
+  useHead,
+  useToast,
+} from '#imports';
 import { XCircle, ArrowLeft } from 'lucide-vue-next';
+import { Container, Button } from '#components';
 
 import { WsEventTypes } from '#shared/consts/ws-event-types';
-import Button from '@/components/ui/Button.vue';
-import Container from '@/components/ui/Container.vue';
-import { useToast } from '@/components/ui/toast';
 
 import PaymentCard from './-components/Card/index.vue';
 

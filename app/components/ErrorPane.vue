@@ -44,8 +44,7 @@
 
 <script setup lang="ts">
 import { AlertCircle } from 'lucide-vue-next';
-
-import Button from '@/components/ui/Button.vue';
+import { Button } from '#components';
 
 interface Props {
   title: string;

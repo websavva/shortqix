@@ -35,10 +35,9 @@
 </template>
 
 <script setup lang="ts">
-import { useSeoMeta, useLogger } from '#imports';
+import { useSeoMeta, useLogger, useToast } from '#imports';
 
 import { PremiumPlanId } from '#shared/consts/premium-plans';
-import { useToast } from '@/components/ui/toast';
 
 import Heading from '../-components/Heading.vue';
 

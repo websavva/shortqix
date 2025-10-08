@@ -38,8 +38,8 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
+import { Button } from '#components';
 
-import Button from '@/components/ui/Button.vue';
 import {
   PREMIUM_PLANS,
   type PremiumPlanId,

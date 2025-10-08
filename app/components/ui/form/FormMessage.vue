@@ -23,9 +23,9 @@
 import type { HTMLAttributes } from 'vue';
 import { ErrorMessage } from 'vee-validate';
 import { toValue } from 'vue';
+import { SizeTransition } from '#components';
 
 import { cn } from '@/utils';
-import SizeTransition from '@/components/ui/SizeTransition';
 
 import { useFormField } from './useFormField';
 

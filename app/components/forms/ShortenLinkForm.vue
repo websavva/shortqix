@@ -144,21 +144,20 @@ import {
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import { Slot } from 'reka-ui';
-import { useAuth } from '#imports';
+import { useAuth, useToast } from '#imports';
 import type { InternalApi } from 'nitropack/types';
-
-import { CreateShortenedUrlDtoSchema } from '#shared/dtos';
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import Input from '@/components/ui/Input.vue';
-import Button from '@/components/ui/Button.vue';
-import ShortenedLinkBox from '@/components/ShortenedLinkBox.vue';
-import SizeTransition from '@/components/ui/SizeTransition';
-import { useToast } from '@/components/ui/toast';
+  Button,
+  Input,
+  SizeTransition,
+  ShortenedLinkBox,
+} from '#components';
+
+import { CreateShortenedUrlDtoSchema } from '#shared/dtos';
 
 const { isPremium } = useAuth();
 

@@ -10,9 +10,7 @@
 
 <script setup lang="ts">
 import { useSeoMeta } from '#imports';
-
-import Container from '@/components/ui/Container.vue';
-import LoginForm from '@/components/forms/LoginForm.vue';
+import { LoginForm, Container } from '#components';
 
 definePageMeta({
   middleware: 'guest',

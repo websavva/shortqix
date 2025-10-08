@@ -22,11 +22,13 @@
 
 <script lang="ts" setup>
 import { useHead } from '#imports';
-
-import NavBar from '@/components/NavBar.vue';
-import Container from '@/components/ui/Container.vue';
-import Footer from '@/components/Footer.vue';
-import { Toaster } from '@/components/ui/toast';
+import {
+  NavBar,
+  Container,
+  Footer,
+  Toaster,
+  ClientOnly,
+} from '#components';
 
 useHead({
   htmlAttrs: {

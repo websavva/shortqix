@@ -60,10 +60,12 @@ import {
   Loader2,
 } from 'lucide-vue-next';
 import type { HTMLAttributes } from 'vue';
+import {
+  SizeTransition,
+  FadeTransition,
+  PaymentStatusBadge,
+} from '#components';
 
-import SizeTransition from '@/components/ui/SizeTransition';
-import FadeTransition from '@/components/ui/FadeTransition';
-import PaymentStatusBadge from '@/components/PaymentStatusBadge.vue';
 import { PaymentStatus } from '#shared/consts/payments';
 import { cn } from '@/utils';
 

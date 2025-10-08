@@ -154,11 +154,7 @@
 <script setup lang="ts">
 import { Zap, Copy, X, Eye } from 'lucide-vue-next';
 import type { InternalApi } from 'nitropack/types';
-import { NuxtTime } from '#components';
-import { useLogger } from '#imports';
-
-import { useToast } from '@/components/ui/toast';
-import PaymentStatusBadge from '@/components/PaymentStatusBadge.vue';
+import { useLogger, useToast } from '#imports';
 import {
   Table,
   TableBody,
@@ -166,14 +162,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import Button from '@/components/ui/Button.vue';
+  Button,
+  NuxtTime,
+  SizeTransition,
+  PaymentStatusBadge,
+} from '#components';
+
 import { getPremiumPlan } from '#shared/consts/premium-plans';
 import {
   PaymentStatus,
   isPaymentWaitingForConfirmation,
 } from '#shared/consts/payments';
-import SizeTransition from '@/components/ui/SizeTransition';
 
 type SerializedPayment =
   InternalApi['/api/payments']['default']['payments'][number];

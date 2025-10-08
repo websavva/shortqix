@@ -1,3 +1,4 @@
+<script lang="ts">
 import { defineComponent, Transition } from 'vue';
 
 export default defineComponent({
@@ -13,14 +14,14 @@ export default defineComponent({
       h(
         Transition,
         {
-          enterActiveClass:
-            'transition-all duration-[var(--transition-duration)]',
-          enterFromClass: 'opacity-0 -translate-y-[100%]',
-          enterToClass: 'opacity-100 translate-y-0',
+          mode: 'out-in',
+          enterActiveClass: `transition-opacity duration-[var(--transition-duration)]`,
+          enterFromClass: 'opacity-0',
+          enterToClass: 'opacity-100',
           leaveActiveClass:
-            'transition-opacity duration-[var(--transition-duration)]',
-          leaveFromClass: 'opacity-100 translate-y-0',
-          leaveToClass: 'opacity-0 translate-y-[100%]',
+            'transition-opacity duration-200',
+          leaveFromClass: 'opacity-100',
+          leaveToClass: 'opacity-0',
           style: {
             transitionDuration: `${props.duration}ms`,
           },
@@ -29,3 +30,4 @@ export default defineComponent({
       );
   },
 });
+</script>

@@ -107,13 +107,13 @@
 import type { HTMLAttributes } from 'vue';
 import { computed } from '#imports';
 import { CheckIcon, ZapIcon } from 'lucide-vue-next';
+import { Button } from '#components';
 
 import {
   PremiumPlanId,
   PREMIUM_PLANS,
 } from '#shared/consts/premium-plans';
 import { cn } from '@/utils';
-import Button from '@/components/ui/Button.vue';
 
 interface Props {
   planId: PremiumPlanId;

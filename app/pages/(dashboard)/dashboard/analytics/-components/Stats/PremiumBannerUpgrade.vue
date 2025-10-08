@@ -48,12 +48,12 @@
 
 <script setup lang="ts">
 import { BarChart3, ArrowRight } from 'lucide-vue-next';
+import { Button } from '#components';
 
 import {
   PremiumPlanId,
   PREMIUM_PLANS,
 } from '#shared/consts/premium-plans';
-import Button from '@/components/ui/Button.vue';
 
 const startingPrice =
   PREMIUM_PLANS[PremiumPlanId.ONE_MONTH].priceUSD;

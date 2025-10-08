@@ -6,9 +6,10 @@
 
 <script setup lang="ts">
 import { useSeoMeta } from '#imports';
-
-import Container from '@/components/ui/Container.vue';
-import PremiumPlanShowcase from '@/components/PremiumPlanShowcase.vue';
+import {
+  Container,
+  PremiumPlanShowcase,
+} from '#components';
 
 useSeoMeta({
   title: 'Premium',

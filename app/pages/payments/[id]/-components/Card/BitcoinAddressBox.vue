@@ -89,11 +89,11 @@ import type { HTMLAttributes } from 'vue';
 import { Bitcoin, Copy } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
 import { toString as renderQRCode } from 'qrcode';
+import { useToast } from '#imports';
+import { Button } from '#components';
 
 import { hslToHex } from '#shared/utils/hsl-to-hex';
 import { cn } from '@/utils';
-import { useToast } from '@/components/ui/toast';
-import Button from '@/components/ui/Button.vue';
 import palette from '#shared/consts/palette.json';
 
 const props = defineProps<{
