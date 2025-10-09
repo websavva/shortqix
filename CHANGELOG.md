@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.1](https://github.com/websavva/shortqix/compare/v1.9.0...v1.9.1) (2025-10-09)
+
+
+### Bug Fixes
+
+* **readme:** Typo was fixed ([5b24989](https://github.com/websavva/shortqix/commit/5b249899ca2db6436db89d5fe33b3acd3decb135))
+
 ## [1.9.0](https://github.com/websavva/shortqix/compare/v1.8.0...v1.9.0) (2025-10-09)
 
 
