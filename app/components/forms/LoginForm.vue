@@ -24,6 +24,7 @@
         <div
           v-if="activeEmail"
           class="text-center space-y-6 max-sm:space-y-4"
+          data-testid="success-login-form"
         >
           <div
             class="mx-auto size-20 max-sm:size-16 bg-gradient-to-br from-primart/15 via-primart/10 to-primary/5 rounded-2xl flex items-center justify-center shadow-lg border border-green-500/10"
@@ -40,7 +41,10 @@
             class="text-xl max-lg:text-base text-muted-foreground max-w-md mx-auto leading-relaxed"
           >
             We've sent a secure sign-in link to
-            <span class="font-semibold text-foreground">
+            <span
+              class="font-semibold text-foreground"
+              data-testid="success-login-form-email"
+            >
               {{ activeEmail }}
             </span>
           </p>
@@ -57,7 +61,10 @@
         </div>
 
         <!-- Login Form -->
-        <div v-else>
+        <div
+          v-else
+          data-testid="login-form"
+        >
           <!-- Header -->
           <div class="text-center space-y-6">
             <div
@@ -83,6 +90,7 @@
           <!-- Form -->
           <form
             class="relative"
+            data-testid="login-form"
             @submit.prevent="onSubmit"
           >
             <FormField
@@ -100,6 +108,7 @@
                       class="w-full"
                       placeholder="Enter your email address"
                       autocomplete="email"
+                      data-testid="login-form-email-input"
                     />
                   </FormControl>
                 </FormItem>
@@ -114,6 +123,7 @@
               type="submit"
               :pending
               icon-position="right"
+              data-testid="login-form-submit-button"
             >
               <template #icon>
                 <ArrowRight />

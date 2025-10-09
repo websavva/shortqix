@@ -23,6 +23,7 @@
         <NuxtLink
           v-if="isGuest"
           to="/login"
+          data-testid="nav-bar-login-link"
         >
           Login
         </NuxtLink>
@@ -30,6 +31,7 @@
         <NuxtLink
           v-else
           to="/dashboard"
+          data-testid="nav-bar-dashboard-link"
         >
           Dashboard
         </NuxtLink>
@@ -79,6 +81,7 @@
           variant="ghost"
           class="text-xl"
           :pending
+          data-testid="nav-bar-logout-button"
           @click="onLogout"
         >
           <template #icon>
