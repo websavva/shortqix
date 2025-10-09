@@ -86,6 +86,7 @@ export default defineNuxtConfig({
         'configs/**/*.ts',
         'vitest.config.ts',
         'modules/**/*.ts',
+        'e2e/**/*.ts',
       );
     },
   },

@@ -34,7 +34,7 @@ export default defineSafeEventHandler(
     }
 
     // Update click count
-    await await db
+    await db
       .update(shortenedUrls)
       .set({ clicks: sql`${shortenedUrls.clicks} + 1` })
       .where(eq(shortenedUrls.id, shortenedUrl.id))

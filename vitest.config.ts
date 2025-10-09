@@ -46,19 +46,21 @@ export default defineConfig(async () => {
             include: ['e2e/**/*.test.ts'],
 
             globalSetup: [
-              'e2e/global-setup/start.ts',
-              'e2e/global-setup/check.ts',
+              'e2e/setup/global/start.ts',
+              'e2e/setup/global/check.ts',
             ],
 
-            setupFiles: ['e2e/setup/clear-database.ts'],
+            setupFiles: ['e2e/setup/cleanup.ts'],
 
             environment: 'node',
 
             testTimeout: 10e3,
 
-            threads: false,
+            pool: 'threads',
 
-            retry: 2,
+            bail: 1,
+
+            retry: 0,
           },
         },
       ],

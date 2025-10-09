@@ -1,17 +1,10 @@
 import { defineComponent, computed } from 'vue';
-import {
-  Heading,
-  Link,
-  Section,
-  Text,
-} from '@vue-email/components';
 
 import { toAbsoluteUrl } from '#shared/utils/to-absolute-url';
 
 import {
   EmailLayout,
   EmailHeading,
-  EmailBody,
   EmailSection,
   EmailText,
   EmailLink,

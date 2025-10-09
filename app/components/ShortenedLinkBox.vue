@@ -6,6 +6,7 @@
         props.class ?? '',
       )
     "
+    data-testid="shortened-link-box"
   >
     <div class="text-center space-y-4">
       <!-- Success Icon -->
@@ -38,6 +39,7 @@
             ></div>
             <code
               class="text-sm font-mono text-foreground flex-1 break-all"
+              data-testid="shortened-link-box-url"
             >
               {{ url }}
             </code>
@@ -62,6 +64,7 @@
                 :src="qrCodeDataUrl"
                 alt="QR Code"
                 class="size-full"
+                data-testid="shortened-link-box-qr-code"
               />
             </div>
           </div>
@@ -74,6 +77,7 @@
           <!-- Copy Button -->
           <Button
             type="button"
+            data-testid="shortened-link-box-copy-link-button"
             @click="copyToClipboard"
           >
             <template #icon>
@@ -94,6 +98,7 @@
               v-if="qrCodeDataUrl"
               variant="secondary"
               type="button"
+              data-testid="shortened-link-box-download-qr-code-button"
               @click="downloadQRCode"
             >
               <template #icon>
@@ -109,6 +114,7 @@
             variant="outline"
             :pending="isSharing"
             type="button"
+            data-testid="shortened-link-box-share-button"
             @click="shareUrl"
           >
             <template #icon>

@@ -92,6 +92,10 @@ jobs:
         run: pnpm exec playwright-core install --with-deps chromium
         shell: bash
 
+      - name: Preparing E2E tets
+        run: pnpm prepare:e2e
+        shell: bash
+
       - name: Running E2E tets
         run: pnpm test:e2e
         shell: bash

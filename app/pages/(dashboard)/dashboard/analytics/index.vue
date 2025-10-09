@@ -1,5 +1,8 @@
 <template>
-  <div class="space-y-8">
+  <div
+    class="space-y-8"
+    data-testid="dashboard-analytics-page"
+  >
     <!-- Page Header -->
     <Heading>
       <template #title>Analytics</template>

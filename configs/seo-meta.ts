@@ -1,12 +1,12 @@
 import type { NuxtConfig } from 'nuxt/config';
 
-const description = `${process.env.SQX_APP_NAME || 'Shortqix'} is a URL shortening service that allows you to shorten long URLs into short, easy-to-remember links.`;
+const description = `${process.env.SQX_APP_NAME!} is a URL shortening service that allows you to shorten long URLs into short, easy-to-remember links.`;
 
 export const staticSeoMeta: Required<NuxtConfig>['app']['head'] =
   {
     title: 'Home',
 
-    titleTemplate: `%s | ${process.env.SQX_APP_NAME || 'Shortqix'} - Fast, reliable URL shortening service`,
+    titleTemplate: `%s | ${process.env.SQX_APP_NAME!} - Fast, reliable URL shortening service`,
 
     meta: [
       {

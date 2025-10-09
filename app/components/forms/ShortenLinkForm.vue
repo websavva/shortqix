@@ -24,6 +24,7 @@
                 "
                 placeholder="Enter your long URL here"
                 class="border-0 rounded-none focus-visible:ring-0 bg-transparent min-h-full"
+                data-testid="shorten-link-form-url-input"
               />
             </FormControl>
           </FormItem>
@@ -34,6 +35,7 @@
             <Button
               v-if="!shortenedUrl"
               :pending
+              data-testid="shorten-link-form-submit-button"
               type="submit"
             >
               <template #icon>

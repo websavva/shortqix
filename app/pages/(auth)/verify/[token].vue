@@ -88,7 +88,10 @@
               </div>
 
               <!-- Success Content -->
-              <div class="space-y-6">
+              <div
+                class="space-y-6"
+                data-testid="success-verify-page"
+              >
                 <div class="space-y-3">
                   <h1
                     class="text-3xl max-lg:text-2xl max-sm:text-xl font-bold text-foreground"

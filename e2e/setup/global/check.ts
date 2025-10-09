@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 
-import { sleep } from '../../shared/utils/sleep';
+import { sleep } from '../../../shared/utils/sleep';
 
 function sendRequest(path: string) {
   const url = new URL(
