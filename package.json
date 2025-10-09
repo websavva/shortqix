@@ -23,6 +23,7 @@
     "typecheck:app": "vue-tsc --noEmit",
     "typecheck": "pnpm typecheck:server && pnpm typecheck:app",
     "test:unit": "vitest run --project pure-unit --project nuxt-unit",
+    "prepare:e2e": "jiti e2e/scripts/build.ts",
     "test:e2e": "vitest run --project e2e"
   },
   "pnpm": {
@@ -77,6 +78,7 @@
     "dotenv": "^17.2.0",
     "drizzle-kit": "^0.31.4",
     "engine.io": "^6.6.4",
+    "jiti": "^2.6.1",
     "nanoid": "^5.1.5",
     "nodemailer": "^7.0.5",
     "nuxt": "^4.1.1",

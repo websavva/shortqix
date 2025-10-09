@@ -9,8 +9,8 @@ describe('Premium Page', async () => {
   it('should render the premium page', async () => {
     const page = await createPage('/premium');
 
-    expect(
-      page.locator('h2').textContent(),
-    ).resolves.toContain('Premium Subscription');
+    const h2Text = await page.locator('h2').textContent();
+
+    expect(h2Text).toContain('Premium Subscription');
   });
 });

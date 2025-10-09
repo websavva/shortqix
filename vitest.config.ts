@@ -46,8 +46,8 @@ export default defineConfig(async () => {
             include: ['e2e/**/*.test.ts'],
 
             globalSetup: [
-              'e2e/global-setup/start.ts',
-              'e2e/global-setup/check.ts',
+              'e2e/setup/global/start.ts',
+              'e2e/setup/global/check.ts',
             ],
 
             setupFiles: ['e2e/setup/clear-database.ts'],
