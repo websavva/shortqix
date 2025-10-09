@@ -195,3 +195,32 @@ jobs:
             export SQX_PREMIUM_SHORT_URLS_MAX_COUNT="${{ secrets.SQX_PREMIUM_SHORT_URLS_MAX_COUNT }}"
             cd /apps/shortqix
             docker compose up -d
+
+      - name: Cleanup old Docker images
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: sqix.pro
+          username: ${{ secrets.DEPLOY_SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "Cleaning up old Docker images..."
+            IMAGE_NAME="ghcr.io/websavva/shortqix"
+            KEEP_COUNT=3
+            
+            IMAGE_IDS=$(docker images "$IMAGE_NAME" --format "{{.ID}}" | uniq)
+            TOTAL=$(echo "$IMAGE_IDS" | wc -l | tr -d ' ')
+            
+            echo "Found $TOTAL images"
+            
+            if [ "$TOTAL" -le "$KEEP_COUNT" ]; then
+              echo "Only $TOTAL images exist. Nothing to delete."
+              exit 0
+            fi
+            
+            KEEP=$(echo "$IMAGE_IDS" | head -n $KEEP_COUNT)
+            TO_DELETE=$(echo "$IMAGE_IDS" | grep -v -F "$KEEP")
+            
+            echo "Deleting old images..."
+            echo "$TO_DELETE" | xargs -r docker rmi -f
+            
+            echo "Cleanup complete!"
