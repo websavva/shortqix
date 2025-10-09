@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.9.0](https://github.com/websavva/shortqix/compare/v1.8.0...v1.9.0) (2025-10-09)
+
+
+### Features
+
+* **cd:** Stale and unused images are removed at the end of deployment ([bfb16f3](https://github.com/websavva/shortqix/commit/bfb16f3bd48b5c0bc02eb2b0c7c320b1141be19c))
+* **cd:** Stale and unused images are removed at the end of deployment ([715e27e](https://github.com/websavva/shortqix/commit/715e27e3d455f67aa4198751dca08043c9ebc4d9))
+* **e2e:** Authentication tests were written ([6767838](https://github.com/websavva/shortqix/commit/67678388304dd23752479c8a1997b97163cd265a))
+* **e2e:** Build is run separately for e2e tests so that logs remain clean ([b16e94c](https://github.com/websavva/shortqix/commit/b16e94cdda3e4aebc42f96a35d6d60ed32a1c063))
+* **e2e:** Url shortening was tested too ([eaae12e](https://github.com/websavva/shortqix/commit/eaae12eadfb91909368150707025d0b93e18c98f))
+* README.md was prettified and given more details about the project ([7edd9c3](https://github.com/websavva/shortqix/commit/7edd9c30b56d8e08138b6e3ea236e629a848be5e))
+* README.md was prettified and given more details about the project ([6778198](https://github.com/websavva/shortqix/commit/67781981c170d526b9853c25472199367f6b4d63))
+
 ## [1.8.0](https://github.com/websavva/shortqix/compare/v1.7.0...v1.8.0) (2025-10-08)
 
 
