@@ -34,7 +34,7 @@ export const formatDefine = (envNames: string[]) => {
         `process.env.${name}`,
         JSON.stringify(process.env[name]),
       ])
-      .filter((_, value) => typeof value !== 'undefined'),
+      .filter(([_, value]) => typeof value !== 'undefined'),
   );
 };
 
