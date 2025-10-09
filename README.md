@@ -2,7 +2,7 @@
 
 ![Shortqix Banner](./public/og.png)
 
-**Fast, reliable URL shortening service built with Nuxt 3**
+**Fast, reliable URL shortening service built with Nuxt 4**
 
 Transform long URLs into short, shareable links with advanced analytics and premium features.
 
