@@ -93,7 +93,7 @@ jobs:
         shell: bash
 
       - name: Preparing E2E tets
-        run: pnpm preparing:e2e
+        run: pnpm prepare:e2e
         shell: bash
 
       - name: Running E2E tets
