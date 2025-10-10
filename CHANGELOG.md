@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.10.0](https://github.com/websavva/shortqix/compare/v1.9.0...v1.10.0) (2025-10-10)
+
+
+### Features
+
+* **middleware:** Page views are registered now ([70324be](https://github.com/websavva/shortqix/commit/70324be16b38a32661fc8508ded8da84f50e3ec3))
+* **middleware:** Page views are registered now ([1eab871](https://github.com/websavva/shortqix/commit/1eab871b8823b0ad76a120d7dce7947b3e71a3fe))
+* **modules:** Modals module was implemented to enable lazy opening o… ([38db70c](https://github.com/websavva/shortqix/commit/38db70c3c0b0a59af433f537673443d8e8bdb645))
+* **modules:** Modals module was implemented to enable lazy opening of modals on demand ([deaa4bc](https://github.com/websavva/shortqix/commit/deaa4bca1ab53074d921b59d59cbc46dee0071f0))
+
+
+### Bug Fixes
+
+* **readme:** Typo was fixed ([5b24989](https://github.com/websavva/shortqix/commit/5b249899ca2db6436db89d5fe33b3acd3decb135))
+
 ## [1.9.0](https://github.com/websavva/shortqix/compare/v1.8.0...v1.9.0) (2025-10-09)
 
 
