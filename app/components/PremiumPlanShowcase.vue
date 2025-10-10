@@ -30,65 +30,20 @@
           @select="onSelect"
         />
       </li>
-
-      <ClientOnly>
-        <Dialog
-          :open="isModalOpened"
-          @update:open="onModalOpenedUpdate"
-        >
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle
-                >Premium Plan Purchase</DialogTitle
-              >
-
-              <DialogDescription class="mt-5">
-                Do you want to purchase a premium plan?
-              </DialogDescription>
-            </DialogHeader>
-
-            <DialogFooter class="mt-5">
-              <Button
-                :pending
-                @click="onPurchase"
-              >
-                Purchase
-              </Button>
-
-              <Button
-                variant="outline"
-                :disabled="pending"
-                @click="onCancel"
-              >
-                Cancel
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </ClientOnly>
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
-import {
-  ClientOnly,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  Button,
-  PremiumPlanCard,
-} from '#components';
+import { PremiumPlanCard } from '#components';
 import {
   ref,
   useAuth,
   useRouter,
   useToast,
   cn,
+  usePremiumPurchaseConfirmModal,
 } from '#imports';
 
 import {
@@ -104,33 +59,44 @@ const $router = useRouter();
 const $toast = useToast();
 
 const { isAuthenticated } = useAuth();
+const { open: openPremiumPurchaseConfirmModal } =
+  usePremiumPurchaseConfirmModal();
 
-const isModalOpened = ref(false);
 const pending = ref(false);
-const selectedPlanId = ref<PremiumPlanId | null>(null);
 
-const onSelect = (planId: PremiumPlanId) => {
+const onSelect = async (planId: PremiumPlanId) => {
   if (!isAuthenticated.value) {
     $router.push('/login');
-  } else {
-    isModalOpened.value = true;
-    selectedPlanId.value = planId;
+  } else if (!pending.value) {
+    openPremiumPurchaseConfirmModal({
+      planId,
+      pending,
+      onConfirm: (onSuccess) => {
+        onPurchase(planId, onSuccess);
+      },
+    });
   }
 };
 
-const onPurchase = async () => {
+const onPurchase = async (
+  planId: PremiumPlanId,
+  onSuccess: () => void,
+) => {
   if (pending.value) return;
 
   pending.value = true;
+
   try {
     const { payment } = await $fetch('/api/premium', {
       method: 'POST',
       body: {
-        planId: selectedPlanId.value!,
+        planId,
       },
 
       credentials: 'include',
     });
+
+    onSuccess();
 
     $router.push(`/payments/${payment!.id}`);
   } catch (err: any) {
@@ -141,17 +107,5 @@ const onPurchase = async () => {
   } finally {
     pending.value = false;
   }
-};
-
-const onModalOpenedUpdate = (isOpened: boolean) => {
-  if (!isOpened) {
-    if (!pending.value) isModalOpened.value = false;
-  } else {
-    isModalOpened.value = true;
-  }
-};
-
-const onCancel = () => {
-  isModalOpened.value = false;
 };
 </script>

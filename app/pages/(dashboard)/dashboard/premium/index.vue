@@ -26,7 +26,6 @@
           v-for="planId in Object.values(PremiumPlanId)"
           :key="planId"
           :plan-id="planId"
-          :pending
           @select="onPlanSelect"
         />
       </div>
@@ -35,7 +34,12 @@
 </template>
 
 <script setup lang="ts">
-import { useSeoMeta, useLogger, useToast } from '#imports';
+import {
+  useSeoMeta,
+  useLogger,
+  useToast,
+  usePremiumPurchaseConfirmModal,
+} from '#imports';
 
 import { PremiumPlanId } from '#shared/consts/premium-plans';
 
@@ -49,13 +53,29 @@ const pending = ref(false);
 const $toast = useToast();
 const $logger = useLogger();
 
+const { open: openPremiumPurchaseConfirmModal } =
+  usePremiumPurchaseConfirmModal();
+
 useSeoMeta({
   title: 'Premium Management',
   description:
     'Manage your premium subscription and billing',
 });
 
-async function onPlanSelect(planId: PremiumPlanId) {
+function onPlanSelect(planId: PremiumPlanId) {
+  openPremiumPurchaseConfirmModal({
+    planId,
+    pending,
+    onConfirm: (onSuccess) => {
+      onPurchase(planId, onSuccess);
+    },
+  });
+}
+
+async function onPurchase(
+  planId: PremiumPlanId,
+  onSuccess: () => void,
+) {
   pending.value = true;
 
   try {
@@ -64,6 +84,8 @@ async function onPlanSelect(planId: PremiumPlanId) {
       body: { planId },
       credentials: 'include',
     });
+
+    onSuccess();
 
     // Redirect to payment page
     if (response.payment) {

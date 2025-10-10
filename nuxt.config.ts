@@ -85,7 +85,6 @@ export default defineNuxtConfig({
       tsConfig.include.push(
         'configs/**/*.ts',
         'vitest.config.ts',
-        'modules/**/*.ts',
         'e2e/**/*.ts',
       );
     },
