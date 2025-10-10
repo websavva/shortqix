@@ -16,6 +16,8 @@
 
     <ClientOnly>
       <Toaster />
+
+      <ModalsContainer />
     </ClientOnly>
   </div>
 </template>
@@ -28,6 +30,7 @@ import {
   Footer,
   Toaster,
   ClientOnly,
+  ModalsContainer,
 } from '#components';
 
 useHead({

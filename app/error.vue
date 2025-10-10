@@ -289,9 +289,7 @@ function getErrorType(statusCode?: number): string {
 }
 
 function handleRetry() {
-  const route = useRoute();
-
-  clearError({ redirect: route.fullPath });
+  window.location.reload();
 }
 
 function reportIssue() {

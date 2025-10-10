@@ -28,7 +28,6 @@
 
     <Button
       class="w-full"
-      :pending="pending"
       @click="onPlanSelect(plan.id)"
     >
       Choose {{ plan.title }}
@@ -47,7 +46,6 @@ import {
 
 const props = defineProps<{
   planId: PremiumPlanId;
-  pending: boolean;
   class?: HTMLAttributes['class'];
 }>();
 
