@@ -10,3 +10,4 @@ export * from './error-logs';
 export * from './shortened-urls';
 export * from './bitcoin-addresses';
 export * from './payments';
+export * from './page-visits';
