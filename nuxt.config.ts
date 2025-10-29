@@ -88,6 +88,10 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    compressPublicAssets: {
+      brotli: isProdBuild,
+    },
+
     imports: {
       autoImport: false,
     },
