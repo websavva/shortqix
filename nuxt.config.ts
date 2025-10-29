@@ -22,7 +22,6 @@ const isProdBuild = process.env.SQX_STAGE === 'production';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
-    '@nuxt/fonts',
     '@pinia/nuxt',
 
     ...(!isProdBuild
@@ -37,18 +36,6 @@ export default defineNuxtConfig({
   },
 
   buildDir: '.nuxt',
-
-  fonts: {
-    families: [
-      {
-        name: 'Inter',
-        global: true,
-        preload: true,
-        weights: [400, 500, 600, 700],
-        provider: 'google',
-      },
-    ],
-  },
 
   ym: {
     id: process.env.SQX_YM_ID,

@@ -49,5 +49,19 @@ export const staticSeoMeta: Required<NuxtConfig>['app']['head'] =
         type: 'image/png',
         href: `${process.env.SQX_BASE_URL}/logo-box.png`,
       },
+
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: '',
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap',
+      },
     ],
   };
