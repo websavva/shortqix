@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.0](https://github.com/websavva/shortqix/compare/v1.10.0...v2.0.0) (2025-10-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* **cd:** Max header size and content encoding were configured
+
+### Features
+
+* **cd:** Max header size and content encoding were configured ([86ead4f](https://github.com/websavva/shortqix/commit/86ead4fa0024ad7eb5d38a6c7bd5ac4a611fd2cf))
+* **fonts:** Google fonts is used instead of @nuxt/fonts module ([b4d1691](https://github.com/websavva/shortqix/commit/b4d1691fa918904e0d3c64fbb51afe65a6bc10b8))
+
 ## [1.10.0](https://github.com/websavva/shortqix/compare/v1.9.0...v1.10.0) (2025-10-10)
 
 
