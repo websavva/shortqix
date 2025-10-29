@@ -11,8 +11,13 @@ http {
     keepalive_timeout 65;
 
     # Increase header size limits to handle large headers (e.g., long URLs, cookies)
-    client_header_buffer_size 16k;
-    large_client_header_buffers 4 32k;
+    client_header_buffer_size 64k;
+    large_client_header_buffers 8 64k;
+
+    # Increase proxy buffer size for large upstream response headers
+    proxy_buffer_size 128k;
+    proxy_buffers 8 128k;
+    proxy_busy_buffers_size 256k;
 
     # Gzip compression for dynamic content
     gzip on;
