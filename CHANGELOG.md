@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/websavva/shortqix/compare/v3.0.0...v3.0.1) (2025-12-06)
+
+
+### Bug Fixes
+
+* **vitis:** Missing url is handled ([f19894a](https://github.com/websavva/shortqix/commit/f19894ae30739f5dd88c176f5ee41bb56744f107))
+
 ## [3.0.0](https://github.com/websavva/shortqix/compare/v2.0.0...v3.0.0) (2025-10-29)
 
 
