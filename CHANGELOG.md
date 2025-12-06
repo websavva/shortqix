@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/websavva/shortqix/compare/v2.0.0...v3.0.0) (2025-10-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* **cd:** Limits for response headers were increased too
+
+### Bug Fixes
+
+* **cd:** Limits for response headers were increased too ([fd8a118](https://github.com/websavva/shortqix/commit/fd8a1186929472dfc8dde16f6a766547a13acfe1))
+
 ## [2.0.0](https://github.com/websavva/shortqix/compare/v1.10.0...v2.0.0) (2025-10-29)
 
 
