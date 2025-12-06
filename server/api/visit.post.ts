@@ -13,7 +13,7 @@ export default defineSafeEventHandler(async (event) => {
   });
 
   await db.insert(pageVisits).values({
-    url,
+    url: url || 'unknown',
     userId: user?.id,
     ipAddress,
     sessionId,
